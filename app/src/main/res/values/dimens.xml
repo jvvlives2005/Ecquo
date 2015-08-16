@@ -7,6 +7,6 @@
     <dimen name="preview_offset_distance">50dp</dimen>
     <dimen name="offset_distance">48dp</dimen>
 
-    <dimen name="card_margin">16dp</dimen>
+    <dimen name="card_margin">42dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 </resources>

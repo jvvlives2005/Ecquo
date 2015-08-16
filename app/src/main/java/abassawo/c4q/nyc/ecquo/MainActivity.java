@@ -1,6 +1,10 @@
 package abassawo.c4q.nyc.ecquo;
 
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -14,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -23,6 +28,7 @@ import com.wunderlist.slidinglayer.transformer.AlphaTransformer;
 import com.wunderlist.slidinglayer.transformer.RotationTransformer;
 import com.wunderlist.slidinglayer.transformer.SlideJoyTransformer;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -30,6 +36,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+//    @Bind(R.id.imageindicator)
+//    ImageView image;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.viewpager) ViewPager viewPager;
@@ -39,16 +47,24 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     @Bind(R.id.fab)
     FloatingActionButton fab;
+    AlarmManager alarmMan;
 
 
 
     private FragmentAdapter adapter;
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initState();
+        alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+
+        //if (viewPager.getCurrentItem() == 1){
+           // image.setVisibility(View.GONE);     //Hide pull out layer in calendar view.
+        //}
+
 
         setupActionBar();
     }
@@ -64,12 +80,16 @@ public class MainActivity extends AppCompatActivity {
         return testList;
     }
 
+    private void getAlarmIntent(){
+
+    }
+
     private void initState() {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         setupSlidingLayerPosition(prefs.getString("layer_location", "right"));
-        setupSlidingLayerTransform(prefs.getString("layer_transform", "slide"));
+        setupSlidingLayerTransform(prefs.getString("layer_transform", "alpha"));
         setupShadow(prefs.getBoolean("layer_has_shadow", true));
         setupLayerOffset(prefs.getBoolean("layer_has_offset", true));
         setupPreviewMode(prefs.getBoolean("preview_mode_enabled", true));
@@ -77,21 +97,23 @@ public class MainActivity extends AppCompatActivity {
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
+
         tabLayout.setupWithViewPager(this.viewPager);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
+    private void setupViewPager(ViewPager viewPager) {     //Populate view pager tabs
         adapter = new FragmentAdapter(getSupportFragmentManager());
+        String date = new SimpleDateFormat("EEE, MM-dd-yyyy").format(new Date());
         adapter.addFragment(new DayFragment(), "Today");
         adapter.addFragment(new CalendarFragment(), "Calendar");
         viewPager.setAdapter(adapter);
     }
 
     public void setupActionBar(){
-        Date date;
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setSubtitle();
+        String date = new SimpleDateFormat("EEE, MM-dd-yyyy").format(new Date());
+        getSupportActionBar().setSubtitle(date);
     }
 
     private void setupSlidingLayerPosition(String layerPosition) {

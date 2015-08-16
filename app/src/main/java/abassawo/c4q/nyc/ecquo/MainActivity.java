@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
     SlidingLayer mSlidingLayer;
     @Bind(R.id.tabs)
     TabLayout tabLayout;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
+
     AlarmManager alarmMan;
 
 

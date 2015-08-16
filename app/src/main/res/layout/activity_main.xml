@@ -23,10 +23,10 @@
 
     <com.wunderlist.slidinglayer.SlidingLayer
         android:id="@+id/slidingLayer1"
-        android:layout_width="@dimen/layer_size"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         slidingLayer:shadowDrawable="@drawable/sidebar_shadow"
-        slidingLayer:shadowSize="@dimen/shadow_size"
         slidingLayer:offsetDistance="@dimen/offset_distance"
         slidingLayer:previewOffsetDistance="@dimen/preview_offset_distance"
         slidingLayer:stickTo="bottom"

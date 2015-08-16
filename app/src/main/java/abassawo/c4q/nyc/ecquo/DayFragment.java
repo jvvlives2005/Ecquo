@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
@@ -31,6 +32,7 @@ public class DayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
+
 
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
         dayList.add("Prepare for Demo");

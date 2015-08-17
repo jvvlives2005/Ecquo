@@ -27,8 +27,8 @@ If you did not meet your goals, how will this affect the progression of the prod
     * Goals/Responsibilities This Week:
   *  Team Member #3   - Joshelyn
     * Goals/Responsibilities Last Week: Yes, givingxGM
-        * Did you meet your goals/responsibilities last week? Why or why not?
-    * Goals/Responsibilities This Week:
+        * Did you meet your goals/responsibilities last week? Why or why not? Sort of. I got the to-do list to work but when I tried to merge it, it got difficult. Also the conflicts of work messes up my time to focus on the project. 
+    * Goals/Responsibilities This Week: Set up or organize our Activity Flow and research/work on the Animation. Also searching for ways to get the todo to be on the card
 
 **Additional Discussion Topics**:
 

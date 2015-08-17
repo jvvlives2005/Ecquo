@@ -6,6 +6,7 @@
     <dimen name="layer_size">450dp</dimen>
     <dimen name="preview_offset_distance">50dp</dimen>
     <dimen name="offset_distance">48dp</dimen>
+    <dimen name="closed_offset_distance">300dp</dimen>
 
     <dimen name="card_margin">42dp</dimen>
     <dimen name="fab_margin">16dp</dimen>

@@ -35,6 +35,8 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+
 public class MainActivity extends AppCompatActivity {
 //    @Bind(R.id.imageindicator)
 //    ImageView image;
@@ -47,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
 
     AlarmManager alarmMan;
-
 
 
     private FragmentAdapter adapter;
@@ -86,12 +87,14 @@ public class MainActivity extends AppCompatActivity {
     private void initState() {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        setupSlidingLayerPosition(prefs.getString("layer_location", "right"));
-        setupSlidingLayerTransform(prefs.getString("layer_transform", "alpha"));
-        setupShadow(prefs.getBoolean("layer_has_shadow", true));
-        setupLayerOffset(prefs.getBoolean("layer_has_offset", true));
-        setupPreviewMode(prefs.getBoolean("preview_mode_enabled", true));
+        setupSlidingLayerPosition();
+        setupLayerOffset(true);
+        setupPreviewMode(false);
+        setupSlidingLayerTransform("slide");
+        setupShadow(true);
+        //setupShadow(prefs.getBoolean("layer_has_shadow", true));
+        //setupLayerOffset(prefs.getBoolean("layer_has_offset", true));
+        //setupPreviewMode(prefs.getBoolean("preview_mode_enabled", true));
 
         if (viewPager != null) {
             setupViewPager(viewPager);
@@ -111,19 +114,18 @@ public class MainActivity extends AppCompatActivity {
     public void setupActionBar(){
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
+        actionBar.isHideOnContentScrollEnabled();
+        actionBar.setLogo(R.mipmap.ic_launcher);
         String date = new SimpleDateFormat("EEE, MM-dd-yyyy").format(new Date());
         getSupportActionBar().setSubtitle(date);
     }
 
-    private void setupSlidingLayerPosition(String layerPosition) {
+    private void setupSlidingLayerPosition() {
         RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) mSlidingLayer.getLayoutParams();
         int textResource;
-
-
                 mSlidingLayer.setStickTo(SlidingLayer.STICK_TO_BOTTOM);
-                rlp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+                rlp.width = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
                 rlp.height = getResources().getDimensionPixelSize(R.dimen.layer_size);
-
 
         mSlidingLayer.setLayoutParams(rlp);
     }

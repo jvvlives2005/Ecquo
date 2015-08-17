@@ -22,8 +22,10 @@ import java.util.ArrayList;
 public class DayFragment extends Fragment {
     ArrayList dayList;
     ArrayAdapter arrayAdapter;
+    private View view;
 
     public DayFragment() {
+
         // Required empty public constructor
     }
 
@@ -31,19 +33,14 @@ public class DayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
+        initState();
         SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
-
-
-        dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
-        dayList.add("Prepare for Demo");
-        dayList.add("Do dishes");
-        dayList.add("Hit the gym");
-
-        //choose your favorite adapter
+//choose your favorite adapter
         arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item, R.id.title, dayList);
 
         //set the listener and the adapter
         flingContainer.setAdapter(arrayAdapter);
+
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
@@ -74,13 +71,36 @@ public class DayFragment extends Fragment {
             }
 
         });
-
         return view;
     }
 
 
 
+    public void initState(){
 
+        dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
+        for (int i = 0; i < 5; i++) {
+            dayList.add("Prepare for Demo");
+            dayList.add("Create sorting algorithm");
+            dayList.add("Finish reading Android API");
+            dayList.add("Find bugs");
+
+        }
+
+
+
+
+    }
+
+
+    public void setUpStacks(){
+//        ArrayList<Goal>goalStacks = new ArrayList();
+//        Goal dummyGoal = new Goal();
+//
+
+
+
+}
 
 
 }

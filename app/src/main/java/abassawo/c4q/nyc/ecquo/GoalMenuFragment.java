@@ -7,33 +7,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GoalFragment#newInstance} factory method to
+ * Use the {@link GoalMenuFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GoalFragment extends Fragment {
+
+
+public class GoalMenuFragment extends Fragment{
 //@Bind(R.id.image1)
 //ImageView image;
 
-    public static GoalFragment newInstance(String param1, String param2) {
-        GoalFragment fragment = new GoalFragment();
+    public static GoalMenuFragment newInstance(String param1, String param2) {
+        GoalMenuFragment fragment = new GoalMenuFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public GoalFragment() {
+    public GoalMenuFragment() {
         // Required empty public constructor
     }
 
@@ -53,11 +52,15 @@ public class GoalFragment extends Fragment {
         String exercise = "exercise";
         String nutrition = "nutrition";
         String brainTraining = "brain training";
+        goals.add(exercise);
+        goals.add("demo");
+        goals.add("test");
         //image.setImageResource(R.drawable.exercise_brain);
 
+        ListView lv = (ListView) view.findViewById(R.id.goal_list_view);
+        lv.setAdapter(new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, goals));
 
         return view;
     }
-
 
 }

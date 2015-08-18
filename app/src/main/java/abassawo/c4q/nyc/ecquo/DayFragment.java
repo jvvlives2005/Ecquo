@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.StackView;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 
@@ -23,6 +24,8 @@ public class DayFragment extends Fragment {
     ArrayList dayList;
     ArrayAdapter arrayAdapter;
     private View view;
+    private StackView dayStack;
+    private SwipeFlingAdapterView flingContainer;
 
     public DayFragment() {
 
@@ -33,8 +36,16 @@ public class DayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
+        dayStack = (StackView) view.findViewById(R.id.stackview);
+        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
         initState();
-        SwipeFlingAdapterView flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
+        setUpStacks();
+        setUpFlingContainer();
+        return view;
+    }
+
+    public void setUpFlingContainer(){
+
 //choose your favorite adapter
         arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item, R.id.title, dayList);
 
@@ -71,36 +82,27 @@ public class DayFragment extends Fragment {
             }
 
         });
-        return view;
     }
-
-
 
     public void initState(){
 
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
-        for (int i = 0; i < 5; i++) {
+        //for (int i = 0; i < 5; i++) {
             dayList.add("Prepare for Demo");
             dayList.add("Create sorting algorithm");
             dayList.add("Finish reading Android API");
             dayList.add("Find bugs");
 
-        }
-
-
-
+//        }
 
     }
 
 
     public void setUpStacks(){
-//        ArrayList<Goal>goalStacks = new ArrayList();
-//        Goal dummyGoal = new Goal();
-//
+        ArrayAdapter arrayAdapter2 = new ArrayAdapter<String>(getActivity(), R.layout.day_stack_item, R.id.title, dayList);
+        dayStack.setAdapter(arrayAdapter2);
 
-
-
-}
+    }
 
 
 }

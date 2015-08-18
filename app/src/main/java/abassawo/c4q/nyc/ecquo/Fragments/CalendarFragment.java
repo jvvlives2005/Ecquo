@@ -1,4 +1,4 @@
-package abassawo.c4q.nyc.ecquo;
+package abassawo.c4q.nyc.ecquo.Fragments;
 
 
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import abassawo.c4q.nyc.ecquo.R;
 
 
 /**

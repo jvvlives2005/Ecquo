@@ -1,4 +1,4 @@
-package abassawo.c4q.nyc.ecquo;
+package abassawo.c4q.nyc.ecquo.Fragments;
 
 
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import abassawo.c4q.nyc.ecquo.R;
 import butterknife.ButterKnife;
 
 

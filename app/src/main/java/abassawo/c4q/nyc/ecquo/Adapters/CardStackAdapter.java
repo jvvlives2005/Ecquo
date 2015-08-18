@@ -1,4 +1,4 @@
-package abassawo.c4q.nyc.ecquo;
+package abassawo.c4q.nyc.ecquo.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import abassawo.c4q.nyc.ecquo.R;
 
 /**
  * Created by c4q-Abass on 8/17/15.

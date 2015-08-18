@@ -8,10 +8,6 @@
 
 
 
-
-
-
-
     <com.wunderlist.slidinglayer.SlidingLayer
         android:id="@+id/slidingLayer1"
         android:layout_centerInParent="true"
@@ -27,7 +23,7 @@
 
 
       w<fragment
-          android:name="abassawo.c4q.nyc.ecquo.GoalMenuFragment"
+          android:name="abassawo.c4q.nyc.ecquo.Fragments.GoalMenuFragment"
           android:layout_gravity="end|bottom"
           android:layout_width="match_parent"
           android:layout_height="match_parent"

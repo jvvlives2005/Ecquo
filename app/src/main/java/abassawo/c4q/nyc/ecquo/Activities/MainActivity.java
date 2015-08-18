@@ -1,4 +1,4 @@
-package abassawo.c4q.nyc.ecquo;
+package abassawo.c4q.nyc.ecquo.Activities;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -16,10 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.wunderlist.slidinglayer.LayerTransformer;
@@ -32,6 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import abassawo.c4q.nyc.ecquo.Adapters.FragmentAdapter;
+import abassawo.c4q.nyc.ecquo.Fragments.CalendarFragment;
+import abassawo.c4q.nyc.ecquo.Fragments.DayFragment;
+import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -60,12 +59,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initState();
         alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-
-        //if (viewPager.getCurrentItem() == 1){
-           // image.setVisibility(View.GONE);     //Hide pull out layer in calendar view.
-        //}
-
-
         setupActionBar();
     }
 

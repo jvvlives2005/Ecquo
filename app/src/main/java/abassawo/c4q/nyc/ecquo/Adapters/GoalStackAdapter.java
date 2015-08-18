@@ -12,13 +12,13 @@ import abassawo.c4q.nyc.ecquo.R;
 /**
  * Created by c4q-Abass on 8/17/15.
  */
-public class CardStackAdapter  extends BaseAdapter {
+public class GoalStackAdapter extends BaseAdapter {
     private Context context;
     Integer[] images = {
 
     };
 
-    public CardStackAdapter (Context c) {
+    public GoalStackAdapter(Context c) {
         context = c;
     }
 

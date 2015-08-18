@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     SlidingLayer mSlidingLayer;
     @Bind(R.id.tabs)
     TabLayout tabLayout;
+    public static Date todaysDate;
 
     AlarmManager alarmMan;
 
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {     //Populate view pager tabs
         adapter = new FragmentAdapter(getSupportFragmentManager());
-        String date = new SimpleDateFormat("EEE, MM-dd-yyyy").format(new Date());
         adapter.addFragment(new DayFragment(), "Today");
         adapter.addFragment(new CalendarFragment(), "Calendar");
         viewPager.setAdapter(adapter);
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.isHideOnContentScrollEnabled();
         actionBar.setLogo(R.mipmap.ic_launcher);
-        String date = new SimpleDateFormat("EEE, MM-dd-yyyy").format(new Date());
-        getSupportActionBar().setSubtitle(date);
+        String date_str = new SimpleDateFormat("EEE, MM-dd-yyyy").format(todaysDate);
+        getSupportActionBar().setSubtitle(date_str);
     }
 
     private void setupSlidingLayerPosition() {

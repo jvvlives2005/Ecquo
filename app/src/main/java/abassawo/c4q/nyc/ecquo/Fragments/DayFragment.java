@@ -37,7 +37,7 @@ public class DayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
-        RecyclerView rv = (RecyclerView)view.findViewById(R.id.day_recycler);
+       // RecyclerView rv = (RecyclerView)view.findViewById(R.id.day_recycler);
 //        dayStack = (StackView) view.findViewById(R.id.stackview);
 //        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
 //        initState();

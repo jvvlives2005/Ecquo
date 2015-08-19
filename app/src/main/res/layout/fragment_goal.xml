@@ -1,110 +1,93 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@android:color/darker_gray"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="abassawo.c4q.nyc.ecquo.Fragments.GoalMenuFragment"
-    android:background="@color/teal_touch"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment"
-        android:gravity="center_horizontal"/>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_gravity="left"
-        android:layout_height="wrap_content"
-        android:scrollbarAlwaysDrawHorizontalTrack="true">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:gravity="left"
-            android:backgroundTintMode="src_atop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/card_margin"
-          >
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Health"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Finances"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Android"/>
-           <ImageButton
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@android:drawable/ic_menu_add"/>
-
-
-
-
-
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:id="@+id/fab"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="end|bottom"-->
-                <!--android:layout_margin="@dimen/fab_margin"-->
-                <!--android:src="@drawable/ic_action_add_to_queue" />-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:id="@+id/fab2"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="end|bottom"-->
-                <!--android:layout_margin="@dimen/fab_margin"-->
-                <!--android:src="@drawable/ic_action_add_to_queue" />-->
-
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:id="@+id/fab3"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="end|bottom"-->
-                <!--android:layout_margin="@dimen/fab_margin"-->
-                <!--android:src="@drawable/ic_action_add_to_queue" />-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:id="@+id/fab4"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="end|bottom"-->
-                <!--android:layout_margin="@dimen/fab_margin"-->
-                <!--android:src="@drawable/ic_action_add_to_queue" />-->
-
-            <!--<android.support.design.widget.FloatingActionButton-->
-                <!--android:id="@+id/fab5"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="end|bottom"-->
-                <!--android:layout_margin="@dimen/fab_margin"-->
-                <!--android:src="@drawable/ic_action_add_to_queue" />-->
-        </LinearLayout>
-
-    </HorizontalScrollView>
-
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        card_view:cardCornerRadius="4dp">
-
-    <ListView
-        android:paddingTop="0dp"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/goal_list_view"></ListView>
+            android:id="@+id/goal_panel">
 
-    </android.support.v7.widget.CardView>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/background_poly"/>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+    <TextView
+        android:id="@+id/goal_header_text"
+        android:gravity="center_horizontal"
+        android:text="@string/hello_blank_fragment"
+        android:background="@color/background_floating_material_light"
+        android:shadowColor="@color/material_blue_grey_800"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/recyclerview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"/>-->
 
 
 
-</LinearLayout>
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical|bottom"-->
+        <!--android:src="@android:drawable/ic_menu_add"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
+
+
+
+
+</android.support.design.widget.CoordinatorLayout>

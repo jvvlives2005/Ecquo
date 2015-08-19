@@ -1,16 +1,27 @@
-<android.support.design.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:id="@+id/day_recycler"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-        <!--/>-->
+    <com.lorentzos.flingswipe.SwipeFlingAdapterView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardFrame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:rotation_degrees="16"
+        app:max_visible="4"
+        app:min_adapter_stack="6" />
+
+    <StackView
+        android:layoutMode="opticalBounds"
+        android:id="@+id/stackview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true">
+    </StackView>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

@@ -6,6 +6,14 @@
     tools:context=".MainActivity">
     <include layout="@layout/include_list_viewpager"/>
 
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="45dp"-->
+        <!--android:contentDescription="not_applicable"-->
+        <!--android:src="@drawable/main_screen_rocket"/>-->
 
 
     <com.wunderlist.slidinglayer.SlidingLayer
@@ -22,7 +30,7 @@
         <!--slidingLayer:stickTo="bottom"-->
 
 
-      w<fragment
+      <fragment
           android:name="abassawo.c4q.nyc.ecquo.Fragments.GoalMenuFragment"
           android:layout_gravity="end|bottom"
           android:layout_width="match_parent"

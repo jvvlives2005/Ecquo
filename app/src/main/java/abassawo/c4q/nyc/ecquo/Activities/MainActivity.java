@@ -26,10 +26,12 @@ import com.wunderlist.slidinglayer.transformer.SlideJoyTransformer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import abassawo.c4q.nyc.ecquo.Adapters.FragmentAdapter;
 import abassawo.c4q.nyc.ecquo.Fragments.CalendarFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.DayFragment;
+import abassawo.c4q.nyc.ecquo.Model.Goal;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     public static Date todaysDate;
 
+
+
     AlarmManager alarmMan;
 
 
@@ -58,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+
+
+
         initState();
         alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         setupActionBar();
@@ -79,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initState() {
-
+        todaysDate = new Date();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         setupSlidingLayerPosition();
         setupLayerOffset(true);
@@ -99,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {     //Populate view pager tabs
         adapter = new FragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DayFragment(), "Today");
+        adapter.addFragment(new DayFragment(), "Today's Tasks");
         adapter.addFragment(new CalendarFragment(), "Calendar");
         viewPager.setAdapter(adapter);
     }

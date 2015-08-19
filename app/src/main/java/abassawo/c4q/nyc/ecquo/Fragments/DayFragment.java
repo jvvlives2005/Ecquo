@@ -15,6 +15,8 @@ import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import java.util.ArrayList;
 
 import abassawo.c4q.nyc.ecquo.R;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 /**
@@ -22,10 +24,11 @@ import abassawo.c4q.nyc.ecquo.R;
  */
 //todo move all sliding layer logic to this class.
 public class DayFragment extends Fragment {
+
     ArrayList dayList;
     ArrayAdapter arrayAdapter;
     private View view;
-    private StackView dayStack;
+    @Bind(R.id.stackview)  StackView dayStack;
     private SwipeFlingAdapterView flingContainer;
 
     public DayFragment() {
@@ -37,12 +40,13 @@ public class DayFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_day, container, false);
+        ButterKnife.bind(this, view);
        // RecyclerView rv = (RecyclerView)view.findViewById(R.id.day_recycler);
 //        dayStack = (StackView) view.findViewById(R.id.stackview);
-//        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
-//        initState();
-//        setUpStacks();
-//        setUpFlingContainer();
+        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
+        initState();
+    //    setUpStacks();
+        setUpFlingContainer();
         return view;
     }
 
@@ -89,13 +93,13 @@ public class DayFragment extends Fragment {
     public void initState(){
 
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
-        //for (int i = 0; i < 5; i++) {
+         for (int i = 0; i < 5; i++) {
             dayList.add("Prepare for Demo");
             dayList.add("Create sorting algorithm");
             dayList.add("Finish reading Android API");
             dayList.add("Find bugs");
 
-//        }
+        }
 
     }
 

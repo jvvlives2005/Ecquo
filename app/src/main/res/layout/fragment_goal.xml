@@ -6,86 +6,65 @@
     android:orientation="vertical">
 
 
-    <HorizontalScrollView
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+
+
+    <FrameLayout
+        android:background="?attr/colorPrimary"
+        android:id="@+id/goal_panel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material">
+
+
 
         <LinearLayout
             android:background="@android:color/white"
             android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:id="@+id/goal_header_text"
+                android:text="@string/hello_blank_fragment"
+                android:background="@color/teal_touch"
+                android:shadowColor="@color/material_blue_grey_800"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/abc_action_bar_default_height_material" />
+
+
+
+
+        </LinearLayout>
+    </FrameLayout>
+
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/goal_panel"
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-            android:id="@+id/goal_panel">
-
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-            <android.support.design.widget.FloatingActionButton
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@drawable/background_poly"/>
-
-        </LinearLayout>
-    </HorizontalScrollView>
-
-
-    <TextView
-        android:id="@+id/goal_header_text"
-        android:gravity="center_horizontal"
-        android:text="@string/hello_blank_fragment"
-        android:background="@color/background_floating_material_light"
-        android:shadowColor="@color/material_blue_grey_800"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
-
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/recyclerview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"/>-->
-
-
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_vertical|bottom"-->
-        <!--android:src="@android:drawable/ic_menu_add"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true" />-->
+        android:layout_gravity="center_vertical|bottom"
+        android:src="@android:drawable/ic_menu_add"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
 
 

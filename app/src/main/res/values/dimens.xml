@@ -8,6 +8,7 @@
     <dimen name="offset_distance">40dp</dimen>
     <dimen name="closed_offset_distance">300dp</dimen>
 
+    <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_margin">42dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 </resources>

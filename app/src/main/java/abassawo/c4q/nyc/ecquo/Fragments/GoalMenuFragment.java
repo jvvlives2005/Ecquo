@@ -33,6 +33,7 @@ import butterknife.ButterKnife;
 
 public class GoalMenuFragment extends Fragment{
     private static List<Goal> mGoals;
+    //@Bind(R.id.listview) ListView listview;
 //@Bind(R.id.image1)
 //ImageView image;
     //@Bind(R.id.recyclerview) RecyclerView rv;
@@ -60,12 +61,17 @@ public class GoalMenuFragment extends Fragment{
         // Inflate the layout for this fragment
         mGoals =  NotePad.get(getActivity()).getGoals();
         View view = inflater.inflate(R.layout.fragment_goal, container, false);
+        RecyclerView rv =  (RecyclerView) view.findViewById(R.id.recyclerview);
+        setupRecyclerView(rv);
         ButterKnife.bind(this, view);
 
+        for (int i = 0; i < 5 ; i++) {
+            mGoals.add(new Goal("Exercise"));
+            mGoals.add(new Goal("Reading"));
+            mGoals.add(new Goal("Code"));
+        }
 
-        mGoals.add(new Goal("Exercise"));
-        mGoals.add(new Goal("Reading"));
-        mGoals.add(new Goal("Code"));
+       // listview.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, mGoals));
 
 
         //setupRecyclerView(rv);

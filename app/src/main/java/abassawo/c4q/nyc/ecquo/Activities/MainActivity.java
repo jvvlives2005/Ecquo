@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -39,13 +40,11 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity {
-//    @Bind(R.id.imageindicator)
-//    ImageView image;
+
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.viewpager) ViewPager viewPager;
-    @Bind(R.id.slidingLayer1)
-    SlidingLayer mSlidingLayer;
+
     @Bind(R.id.tabs)
     TabLayout tabLayout;
     public static Date todaysDate;
@@ -88,16 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initState() {
         todaysDate = new Date();
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        setupSlidingLayerPosition();
-        setupLayerOffset(true);
-        setupPreviewMode(false);
-        setupSlidingLayerTransform("slide");
-        setupShadow(true);
-        //setupShadow(prefs.getBoolean("layer_has_shadow", true));
-        //setupLayerOffset(prefs.getBoolean("layer_has_offset", true));
-        //setupPreviewMode(prefs.getBoolean("preview_mode_enabled", true));
-
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
@@ -113,78 +102,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupActionBar(){
+
+        String date_str = new SimpleDateFormat("EEE, MM-dd-yyyy").format(todaysDate);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.isHideOnContentScrollEnabled();
+
         actionBar.setLogo(R.mipmap.ic_launcher);
-        String date_str = new SimpleDateFormat("EEE, MM-dd-yyyy").format(todaysDate);
-        getSupportActionBar().setSubtitle(date_str);
+        actionBar.isHideOnContentScrollEnabled();
+        actionBar.setSubtitle(date_str);
+
     }
 
-    private void setupSlidingLayerPosition() {
-        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) mSlidingLayer.getLayoutParams();
-        int textResource;
-                mSlidingLayer.setStickTo(SlidingLayer.STICK_TO_BOTTOM);
-                rlp.width = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
-                rlp.height = getResources().getDimensionPixelSize(R.dimen.layer_size);
-
-        mSlidingLayer.setLayoutParams(rlp);
-    }
-
-    private void setupSlidingLayerTransform(String layerTransform) {
-
-        LayerTransformer transformer;
-
-        switch (layerTransform) {
-            case "alpha":
-                transformer = new AlphaTransformer();
-                break;
-            case "rotation":
-                transformer = new RotationTransformer();
-                break;
-            case "slide":
-                transformer = new SlideJoyTransformer();
-                break;
-            default:
-                return;
-        }
-        mSlidingLayer.setLayerTransformer(transformer);
-    }
-
-    private void setupShadow(boolean enabled) {
-        if (enabled) {
-            mSlidingLayer.setShadowSizeRes(R.dimen.shadow_size);
-            mSlidingLayer.setShadowDrawable(R.drawable.sidebar_shadow);
-        } else {
-            mSlidingLayer.setShadowSize(0);
-            mSlidingLayer.setShadowDrawable(null);
-        }
-    }
-
-    private void setupLayerOffset(boolean enabled) {
-        int offsetDistance = enabled ? getResources().getDimensionPixelOffset(R.dimen.offset_distance) : 0;
-        mSlidingLayer.setOffsetDistance(offsetDistance);
-    }
-
-    private void setupPreviewMode(boolean enabled) {
-        int previewOffset = enabled ? getResources().getDimensionPixelOffset(R.dimen.preview_offset_distance) : -1;
-        mSlidingLayer.setPreviewOffsetDistance(previewOffset);
-    }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                if (mSlidingLayer.isOpened()) {
-                    mSlidingLayer.closeLayer(true);
-                    return true;
-                }
-
-            default:
-                return super.onKeyDown(keyCode, event);
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

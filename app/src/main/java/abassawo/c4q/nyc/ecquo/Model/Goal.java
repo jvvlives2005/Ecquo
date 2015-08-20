@@ -22,6 +22,15 @@ public class Goal extends Note {
 
 
     private UUID goal_Id;
+
+    public String getGoalTitle() {
+        return goalTitle;
+    }
+
+    public void setGoalTitle(String goalTitle) {
+        this.goalTitle = goalTitle;
+    }
+
     private String goalTitle;
     private String goalSubTitle; //caption
     private Image goalIcon;
@@ -77,6 +86,12 @@ public class Goal extends Note {
 //        json.put(JSON_DATE, mDate.getTime());
         // json.put(JSON_LABEL_TAG, label);
         return json;
+    }
+
+
+    @Override
+    public String toString(){
+        return this.getGoalTitle();
     }
 
 }

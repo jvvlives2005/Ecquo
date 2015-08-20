@@ -22,6 +22,7 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hit your goals!</string>
     <string name="quick_note">Quick Note</string>
+    <string name="motivational_text">We are what we repeatedly do. Excellence, then, is not an act, but a habit /nAristotle</string>
 
 
 </resources>

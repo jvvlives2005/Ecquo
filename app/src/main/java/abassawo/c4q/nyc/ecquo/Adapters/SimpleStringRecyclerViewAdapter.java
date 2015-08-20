@@ -30,18 +30,19 @@ public class SimpleStringRecyclerViewAdapter
     List<Goal> mGoals = new ArrayList();
 
 
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public Note mBoundString;
 
         public final View mView;
-       // public final ImageView mImageView;
+        public final ImageView mImageView;
         public final TextView mTextView;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-           // mImageView = (ImageView) view.findViewById(R.id.avatar);
-            mTextView = (TextView) view.findViewById(android.R.id.text1);
+            mImageView = (ImageView) view.findViewById(R.id.avatar);
+            mTextView = (TextView) view.findViewById(R.id.text1);
         }
 
         @Override
@@ -50,9 +51,9 @@ public class SimpleStringRecyclerViewAdapter
         }
     }
 
-    public Note getValueAt(int position) {
+    public Goal getValueAt(int position) {
 
-        return (Note) mGoals.get(position);
+        return (Goal) mGoals.get(position);
     }
 
     public SimpleStringRecyclerViewAdapter(Context context, List<Goal> items) {
@@ -71,15 +72,15 @@ public class SimpleStringRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-      //  holder.mBoundString = mGoals.get(position);
-//            holder.mTextView.setText(mNotes.get(position).toString());
+        holder.mBoundString = mGoals.get(position);
+            holder.mTextView.setText(mGoals.get(position).toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, NoteEditActivity.class);
-                //intent.putExtra(NoteDetailActivity.EXTRA_NAME, holder.mBoundString.toString());
+                // intent.putExtra(NoteEditActivity.EXTRA_NAME, holder.mBoundString.toString());
 
                 context.startActivity(intent);
             }

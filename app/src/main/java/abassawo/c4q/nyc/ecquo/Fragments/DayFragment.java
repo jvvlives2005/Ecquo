@@ -98,7 +98,7 @@ public class DayFragment extends Fragment {
     public void initState(){
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Abass");
+        collapsingToolbar.setTitle("Motivational Quote");
 
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
 
@@ -110,9 +110,6 @@ public class DayFragment extends Fragment {
 
 
     }
-
-
-
 
 
     public void setUpStacks(){

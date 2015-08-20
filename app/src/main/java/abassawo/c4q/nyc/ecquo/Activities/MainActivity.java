@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +44,10 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 //    @Bind(R.id.imageindicator)
 //    ImageView image;
+@Bind(R.id.nav_view)
+NavigationView navigationView;
+    @Bind(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.viewpager) ViewPager viewPager;
@@ -98,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
         //setupShadow(prefs.getBoolean("layer_has_shadow", true));
         //setupLayerOffset(prefs.getBoolean("layer_has_offset", true));
         //setupPreviewMode(prefs.getBoolean("preview_mode_enabled", true));
+
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
         if (viewPager != null) {
             setupViewPager(viewPager);
@@ -193,6 +203,18 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onKeyDown(keyCode, event);
         }
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 
     @Override

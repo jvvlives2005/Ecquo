@@ -7,11 +7,12 @@
     android:layout_marginBottom="@dimen/card_margin">
 
 
+
     <TextView
+        android:background="#2c2eee"
         android:id="@+id/title"
         android:textSize="40sp"
         android:textColor="@android:color/black"
-        android:background="#FF5722"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -30,8 +31,7 @@
         android:alpha="0"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_margin="10dp"
-        android:background="#A5F" />
+        android:layout_margin="10dp"/>
 
 
     <View
@@ -40,8 +40,7 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_margin="10dp"
-        android:layout_gravity="right"
-        android:background="#5AF" />
+        android:layout_gravity="right"/>
 
 
 </FrameLayout>

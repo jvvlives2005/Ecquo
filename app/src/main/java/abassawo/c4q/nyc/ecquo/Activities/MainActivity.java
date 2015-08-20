@@ -55,8 +55,6 @@ NavigationView navigationView;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.viewpager) ViewPager viewPager;
-    @Bind(R.id.slidingLayer1)
-    SlidingLayer mSlidingLayer;
     @Bind(R.id.tabs)
     TabLayout tabLayout;
     public static Date todaysDate;

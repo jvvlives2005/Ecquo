@@ -40,7 +40,8 @@ public class DayFragment extends Fragment {
 //    SlidingLayer mSlidingLayer;
 //    @Bind(R.id.fab)
 //    Button fabButton;
-    private SwipeFlingAdapterView flingContainer;
+    @Bind(R.id.cardFrame)
+    SwipeFlingAdapterView flingContainer;
 
     public DayFragment() {
 
@@ -61,16 +62,15 @@ public class DayFragment extends Fragment {
 
        // RecyclerView rv = (RecyclerView)view.findViewById(R.id.day_recycler);
 //        dayStack = (StackView) view.findViewById(R.id.stackview);
-        flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
         initState();
+        flingContainer.setAdapter(new ArrayAdapter<>(getActivity(), R.layout.day_stack_item, dayList));
+
     //    setUpStacks();
         setUpFlingContainer();
         return view;
     }
 
     public void setUpFlingContainer(){
-
-//choose your favorite adapter
         arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item, R.id.title, dayList);
 
         //set the listener and the adapter
@@ -111,11 +111,12 @@ public class DayFragment extends Fragment {
         collapsingToolbar.setTitle(getResources().getString(R.string.motivational_text));
 
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
-
             dayList.add("Prepare for Demo");
             dayList.add("Create sorting algorithm");
             dayList.add("Finish reading Android API");
             dayList.add("Find bugs");
+
+
     }
 
 

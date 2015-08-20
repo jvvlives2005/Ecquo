@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.StackView;
 
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
+import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +35,11 @@ public class DayFragment extends Fragment {
     ArrayList dayList;
     ArrayAdapter arrayAdapter;
     private View view;
-    @Bind(R.id.stackview)  StackView dayStack;
+    //@Bind(R.id.stackview)  StackView dayStack;
+//    @Bind(R.id.slidingLayer1)
+//    SlidingLayer mSlidingLayer;
+//    @Bind(R.id.fab)
+//    Button fabButton;
     private SwipeFlingAdapterView flingContainer;
 
     public DayFragment() {
@@ -46,6 +52,13 @@ public class DayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day, container, false);
         ButterKnife.bind(this, view);
+//        fabButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mSlidingLayer.openPreview(true); //fixme
+//            }
+//        });
+
        // RecyclerView rv = (RecyclerView)view.findViewById(R.id.day_recycler);
 //        dayStack = (StackView) view.findViewById(R.id.stackview);
         flingContainer = (SwipeFlingAdapterView) view.findViewById(R.id.cardFrame);
@@ -74,12 +87,10 @@ public class DayFragment extends Fragment {
 
             @Override
             public void onLeftCardExit(Object o) {
-
             }
 
             @Override
             public void onRightCardExit(Object o) {
-
             }
 
             @Override
@@ -89,7 +100,6 @@ public class DayFragment extends Fragment {
 
             @Override
             public void onScroll(float v) {
-
             }
 
         });
@@ -98,7 +108,7 @@ public class DayFragment extends Fragment {
     public void initState(){
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("Motivational Quote");
+        collapsingToolbar.setTitle(getResources().getString(R.string.motivational_text));
 
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
 
@@ -106,17 +116,9 @@ public class DayFragment extends Fragment {
             dayList.add("Create sorting algorithm");
             dayList.add("Finish reading Android API");
             dayList.add("Find bugs");
-
-
-
     }
 
 
-    public void setUpStacks(){
-        ArrayAdapter arrayAdapter2 = new ArrayAdapter<String>(getActivity(), R.layout.day_stack_item, R.id.title, dayList);
-        dayStack.setAdapter(arrayAdapter2);
-
-    }
 
 
 }

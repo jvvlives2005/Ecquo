@@ -22,8 +22,17 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hit your goals!</string>
     <string name="quick_note">Quick Note</string>
-    <string name="motivational_text">We are what we repeatedly do. Excellence, then, is not an act, but a habit /nAristotle</string>
+    <string name="motivational_text">Conquer your Day!</string>
     <string name="userName">Ecquo User</string>
+    <string name="openDrawer">Ecquo</string>
+    <string name="closeDrawer">Ecquo</string>
+
+
+    <string name="note_title_hint">Note</string>
+    <string name="note_title_label">Title</string>
+    <string name="note_details_label">Details</string>
+    <string name="note_solved_label">Completed?</string>
+    <string name="notes_title">Notes</string>
 
 
 </resources>

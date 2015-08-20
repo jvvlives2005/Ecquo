@@ -3,6 +3,7 @@ package abassawo.c4q.nyc.ecquo.Activities;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -12,13 +13,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 import com.wunderlist.slidinglayer.LayerTransformer;
 import com.wunderlist.slidinglayer.SlidingLayer;
@@ -56,6 +60,7 @@ NavigationView navigationView;
     @Bind(R.id.tabs)
     TabLayout tabLayout;
     public static Date todaysDate;
+    private ActionBarDrawerToggle mDrawerToggle;
 
 
 
@@ -69,14 +74,62 @@ NavigationView navigationView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-
-
-
         initState();
         alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         setupActionBar();
+        setupDrawerBehavior();
     }
+
+    public void setupDrawerBehavior(){
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+                // open I am not going to put anything here)
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+
+        }; // Drawer Toggle Object Made
+        mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
+
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case 1:
+                                id = R.id.nav_new_goal;
+                                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                id = R.id.nav_new_task;
+                                break;
+                        }
+                        mDrawerLayout.closeDrawers();
+
+                        return true;
+                    }
+                });
+    }
+
 
     public ArrayList makeTestList(){
         ArrayList testList = new ArrayList();
@@ -96,14 +149,6 @@ NavigationView navigationView;
     private void initState() {
         todaysDate = new Date();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        setupSlidingLayerPosition();
-        setupLayerOffset(true);
-        setupPreviewMode(false);
-        setupSlidingLayerTransform("slide");
-        setupShadow(true);
-        //setupShadow(prefs.getBoolean("layer_has_shadow", true));
-        //setupLayerOffset(prefs.getBoolean("layer_has_offset", true));
-        //setupPreviewMode(prefs.getBoolean("preview_mode_enabled", true));
 
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -135,90 +180,24 @@ NavigationView navigationView;
         actionBar.setLogo(R.mipmap.ic_launcher);
         actionBar.isHideOnContentScrollEnabled();
         getSupportActionBar().setSubtitle(date_str);
-
-
-
-    }
-
-    private void setupSlidingLayerPosition() {
-        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) mSlidingLayer.getLayoutParams();
-        int textResource;
-                mSlidingLayer.setStickTo(SlidingLayer.STICK_TO_BOTTOM);
-                rlp.width = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
-                rlp.height = getResources().getDimensionPixelSize(R.dimen.layer_size);
-
-        mSlidingLayer.setLayoutParams(rlp);
-    }
-
-    private void setupSlidingLayerTransform(String layerTransform) {
-
-        LayerTransformer transformer;
-
-        switch (layerTransform) {
-            case "alpha":
-                transformer = new AlphaTransformer();
-                break;
-            case "rotation":
-                transformer = new RotationTransformer();
-                break;
-            case "slide":
-                transformer = new SlideJoyTransformer();
-                break;
-            default:
-                return;
-        }
-        mSlidingLayer.setLayerTransformer(transformer);
-    }
-
-    private void setupShadow(boolean enabled) {
-        if (enabled) {
-            mSlidingLayer.setShadowSizeRes(R.dimen.shadow_size);
-            mSlidingLayer.setShadowDrawable(R.drawable.sidebar_shadow);
-        } else {
-            mSlidingLayer.setShadowSize(0);
-            mSlidingLayer.setShadowDrawable(null);
-        }
-    }
-
-    private void setupLayerOffset(boolean enabled) {
-        int offsetDistance = enabled ? getResources().getDimensionPixelOffset(R.dimen.offset_distance) : 0;
-        mSlidingLayer.setOffsetDistance(offsetDistance);
-    }
-
-    private void setupPreviewMode(boolean enabled) {
-        int previewOffset = enabled ? getResources().getDimensionPixelOffset(R.dimen.preview_offset_distance) : -1;
-        mSlidingLayer.setPreviewOffsetDistance(previewOffset);
     }
 
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_BACK:
-                if (mSlidingLayer.isOpened()) {
-                    mSlidingLayer.closeLayer(true);
-                    return true;
-                }
-
-            default:
-                return super.onKeyDown(keyCode, event);
-        }
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //fixme repetitive code. testing
+        item.setChecked(true);
+        int id = item.getItemId();
+        switch (id) {
+            case 1: id = R.id.nav_new_goal;
+                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                startActivity(intent);
+                break;
+            case 2: id = R.id.nav_new_task;
+                break;
+        }
+        mDrawerLayout.closeDrawers();
         finish();
         return true;
     }

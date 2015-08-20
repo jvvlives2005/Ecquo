@@ -18,31 +18,31 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_new_task"
             android:icon="@drawable/ic_arrow_down"
-            android:title="Home" />
+            android:title="New Task" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_new_goal"
             android:icon="@drawable/ic_arrow_down"
-            android:title="Messages" />
+            android:title="New Goal" />
         <item
-            android:id="@+id/nav_friends"
+            android:id="@+id/nav_collaborators"
             android:icon="@drawable/ic_arrow_down"
-            android:title="Friends" />
+            android:title="Collaborators" />
         <item
-            android:id="@+id/nav_discussion"
+            android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_arrow_down"
-            android:title="Discussion" />
+            android:title="Calendar" />
     </group>
 
-    <item android:title="Sub items">
+    <item android:title="Goals">
         <menu>
             <item
                 android:icon="@drawable/ic_arrow_down"
-                android:title="Sub item 1" />
+                android:title="Final Project" />
             <item
                 android:icon="@drawable/ic_arrow_down"
-                android:title="Sub item 2" />
+                android:title="Fitness" />
         </menu>
     </item>
 

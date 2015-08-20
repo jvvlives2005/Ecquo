@@ -1,67 +1,30 @@
-<android.support.v4.widget.DrawerLayout
+
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:slidingLayer="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<android.support.v4.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true">
-    <include layout="@layout/include_list_viewpager"/>
+    <include layout="@layout/include_edittext_bottom"/>
 
 
-
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-
-
-
-    <com.wunderlist.slidinglayer.SlidingLayer
-        android:visibility="gone"
-        android:id="@+id/slidingLayer1"
-        android:layout_centerInParent="true"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        slidingLayer:changeStateOnTap="true"
-        slidingLayer:previewOffsetDistance="@dimen/preview_offset_distance"
-        slidingLayer:shadowDrawable="@drawable/sidebar_shadow"
-        slidingLayer:offsetDistance="@dimen/offset_distance"
-        slidingLayer:stickTo="bottom">
-
-
-        <fragment
-            android:name="abassawo.c4q.nyc.ecquo.Fragments.GoalMenuFragment"
-            android:layout_gravity="end|bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/goalsFrag"/>
-    </com.wunderlist.slidinglayer.SlidingLayer>
-
-
-
-
-</RelativeLayout>
-
-
-
-    <LinearLayout android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-
-    </LinearLayout>
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_height="match_parent"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/drawer_view"/>
 
+
 </android.support.v4.widget.DrawerLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

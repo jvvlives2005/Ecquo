@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -38,6 +39,7 @@ import java.util.List;
 import abassawo.c4q.nyc.ecquo.Adapters.FragmentAdapter;
 import abassawo.c4q.nyc.ecquo.Fragments.CalendarFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.DayFragment;
+import abassawo.c4q.nyc.ecquo.Fragments.NoteEditFragment;
 import abassawo.c4q.nyc.ecquo.Model.Goal;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
@@ -52,16 +54,15 @@ public class MainActivity extends AppCompatActivity {
 NavigationView navigationView;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-    @Bind(R.id.viewpager) ViewPager viewPager;
-    @Bind(R.id.slidingLayer1)
-    SlidingLayer mSlidingLayer;
-    @Bind(R.id.tabs)
-    TabLayout tabLayout;
+//    @Bind(R.id.toolbar)
+//    Toolbar toolbar;
+//    @Bind(R.id.viewpager) ViewPager viewPager;
+//    @Bind(R.id.tabs)
+//    TabLayout tabLayout;
+    private  FragmentManager fragMan;
     public static Date todaysDate;
     private ActionBarDrawerToggle mDrawerToggle;
-
+    private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
 
 
     AlarmManager alarmMan;
@@ -75,33 +76,41 @@ NavigationView navigationView;
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initState();
+//        fragMan = getSupportFragmentManager();
+//        fragMan.beginTransaction().add(R.id.main_container, new DayFragment()).commit();
         alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        setupActionBar();
-        setupDrawerBehavior();
+
+        String date_str = new SimpleDateFormat("EEE, MM-dd-yyyy").format(new Date());
+
+        CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle(getResources().getString(R.string.motivational_text));
+      //  setupActionBar();
+        //setupDrawerBehavior();
     }
 
     public void setupDrawerBehavior(){
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
+       // mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
-                // open I am not going to put anything here)
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed
-            }
-
-
-
-        }; // Drawer Toggle Object Made
-        mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
-        mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+//                // open I am not going to put anything here)
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                // Code here will execute once drawer is closed
+//            }
+//
+//
+//
+//        }; // Drawer Toggle Object Made
+//        mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+//        mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
 
     }
 
@@ -116,8 +125,7 @@ NavigationView navigationView;
                         switch (id) {
                             case 1:
                                 id = R.id.nav_new_goal;
-                                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
-                                startActivity(intent);
+
                                 break;
                             case 2:
                                 id = R.id.nav_new_task;
@@ -154,17 +162,17 @@ NavigationView navigationView;
             setupDrawerContent(navigationView);
         }
 
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-
-        tabLayout.setupWithViewPager(this.viewPager);
+//        if (viewPager != null) {
+//            setupViewPager(viewPager);
+//        }
+//
+//        tabLayout.setupWithViewPager(this.viewPager);
     }
 
     private void setupViewPager(ViewPager viewPager) {     //Populate view pager tabs
         adapter = new FragmentAdapter(getSupportFragmentManager());
         adapter.addFragment(new DayFragment(), "Today's Tasks");
-        adapter.addFragment(new CalendarFragment(), "Calendar");
+        //adapter.addFragment(new CalendarFragment(), "Calendar");
         viewPager.setAdapter(adapter);
     }
 
@@ -191,8 +199,9 @@ NavigationView navigationView;
         int id = item.getItemId();
         switch (id) {
             case 1: id = R.id.nav_new_goal;
-                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                //fragMan.beginTransaction().replace(R.id.main_container, new NoteEditFragment()).commit();
+
                 break;
             case 2: id = R.id.nav_new_task;
                 break;

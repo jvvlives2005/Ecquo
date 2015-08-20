@@ -20,6 +20,7 @@ import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
@@ -106,10 +107,6 @@ public class DayFragment extends Fragment {
     }
 
     public void initState(){
-        CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(getResources().getString(R.string.motivational_text));
-
         dayList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for persistence
 
             dayList.add("Prepare for Demo");

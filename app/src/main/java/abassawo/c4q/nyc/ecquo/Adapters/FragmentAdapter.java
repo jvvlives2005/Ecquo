@@ -1,4 +1,4 @@
-package abassawo.c4q.nyc.ecquo;
+package abassawo.c4q.nyc.ecquo.Adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

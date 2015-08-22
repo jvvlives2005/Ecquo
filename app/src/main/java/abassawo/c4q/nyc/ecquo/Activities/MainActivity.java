@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -39,6 +40,8 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    @Bind(R.id.goal_list_btn)
+    Button goalBtn;
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.backdrop_img)
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupNavbar();
         setupActionBar();
         initState();
+        initlisteners();
         loadHabitstoForm_BackDrop();
         loadMotivationalBackDrop();
     }
@@ -96,15 +100,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dailyHabitsDone = habitList.isEmpty();
 
 
+
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+
+    }
+
+    public void initlisteners(){
         for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
             arcLayout.getChildAt(i).setOnClickListener(this);
         }
 
         fab1.setOnClickListener(this);
-
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }
+        goalBtn.setOnClickListener(this);
 
     }
 
@@ -219,6 +228,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.new_note_button:
                  startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
+                break;
+            case R.id.new_habit_button:
+                //startActivity(new Intent(MainActivity.this, HabitEditActivity.class));
+               //startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
+                break;
+            case R.id.new_voicerec_button:
+               // showvoiceDialog;
+                break;
+            case R.id.new_picture_button:
+                //showPictureDialog;
+                break;
+            case R.id.new_task_button:
+               // startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
+                break;
+            case R.id.goal_list_btn:
+                startActivity(new Intent(MainActivity.this, GoalListActivity.class));
+                break;
             default:break;
         }
 

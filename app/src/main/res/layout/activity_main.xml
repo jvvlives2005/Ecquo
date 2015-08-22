@@ -98,9 +98,16 @@
             <RelativeLayout
                 android:id="@+id/goal_prompt_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_alignParentTop="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@string/today_tasks"/>
 
                 <Button
+                    android:id="@+id/goal_list_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Manage Goals and Projects"
@@ -118,7 +125,7 @@
         android:layout_width="wrap_content"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"
-        android:src="@drawable/ic_alarm_add_black"
+        android:src="@drawable/ic_mode_edit_black_36dp"
         android:layout_margin="@dimen/fab_margin"
         android:id="@+id/fab"
         android:clickable="true"

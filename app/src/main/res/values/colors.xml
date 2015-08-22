@@ -3,6 +3,15 @@
 
     <resources>
         <color name="header_background">#ff000000</color>
+        <color name="white">#FFFFFF</color>
         <color name="text_color">#ff000000</color>
         <color name="teal_touch">#ffb6e9b5</color>
+    <color name="scrim">#42000000</color>
+
+    <color name="path_primary">#E62F17</color>
+    <color name="path_orange">#FF9500</color>
+    <color name="path_blue">#1774E6</color>
+    <color name="path_black">#403B36</color>
+    <color name="path_green">#5FB336</color>
+    <color name="path_purple">#49098A</color>
     </resources>

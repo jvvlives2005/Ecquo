@@ -51,14 +51,11 @@ public class Goal extends Note {
 
     private boolean remindUser;
 
-    public boolean isDueToday() {
-        isDueToday = this.dueDate == MainActivity.todaysDate;
-        return isDueToday;
-    }
+
 
     public void setIsDueToday(boolean isDueToday) {
 
-        this.dueDate = MainActivity.todaysDate;
+        //this.dueDate = MainActivity.todaysDate;
     }
 
     private boolean isDueToday;

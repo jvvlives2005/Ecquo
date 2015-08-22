@@ -22,6 +22,7 @@
 
             <Button
                 style="@style/Item.Path"
+                android:id='@+id/new_note_button'
                 android:text="Note"
                 android:textColor="@color/path_orange"
                 app:arc_angle="30"

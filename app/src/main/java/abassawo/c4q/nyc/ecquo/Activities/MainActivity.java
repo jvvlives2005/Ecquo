@@ -72,10 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupNavbar();
         setupActionBar();
         initState();
-
-            loadHabitstoForm_BackDrop();
-            loadMotivationalBackDrop();
-
+        loadHabitstoForm_BackDrop();
+        loadMotivationalBackDrop();
     }
 
     public void setupActionBar(){
@@ -112,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setupNavbar(){
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer) { //fixme fix the strings
 
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -126,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 super.onDrawerClosed(drawerView);
                 // Code here will execute once drawer is closed
             }
-
 
 
         }; // Drawer Toggle Object Made
@@ -213,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab:
-               // startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
                 if (v.isSelected()) {
                     hideMenu();
                 } else {
@@ -221,6 +217,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 v.setSelected(!v.isSelected());
                 break;
+            case R.id.new_note_button:
+                 startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
             default:break;
         }
 
@@ -303,6 +301,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return anim;
     }
+
+
 
 
 }

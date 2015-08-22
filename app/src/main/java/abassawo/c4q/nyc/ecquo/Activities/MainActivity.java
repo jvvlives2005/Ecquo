@@ -8,17 +8,25 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.ogaclejapan.arclayout.ArcLayout;
 
 import java.util.ArrayList;
@@ -31,7 +39,8 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+    @Bind(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
     @Bind(R.id.backdrop_img)
     ImageView backdrop;
     @Bind(R.id.toolbar)
@@ -39,25 +48,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
-    FloatingActionButton fab1;
+    View fab1;
     @Bind(R.id.arc_layout)
     ArcLayout arcLayout;
     @Bind(R.id.menu_layout)
     FrameLayout menuLayout;
+    @Bind(R.id.nav_view)
+    NavigationView navigationView;
+    @Bind(R.id.cardFrame)
+    SwipeFlingAdapterView flingContainer;
 
     boolean dailyHabitsDone;
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
+    private ActionBarDrawerToggle mDrawerToggle;
+    private ArrayList habitList;
+    ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initState();
+        setupNavbar();
         setupActionBar();
-        if(dailyHabitsDone){
-            loadBackDrop();
-        }
+        initState();
+
+            loadHabitstoForm_BackDrop();
+            loadMotivationalBackDrop();
+
     }
 
     public void setupActionBar(){
@@ -70,25 +88,125 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
-    public void loadFabAnimations(){
-
-    }
-
-
 
     public void initState(){
-        dailyHabitsDone = true;
+        habitList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for p
+        habitList.add("Meditate");
+        habitList.add("Exercise");
+        habitList.add("Read More");
+        habitList.add("Practice Gratitude");
+        dailyHabitsDone = habitList.isEmpty();
+
+
         for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
             arcLayout.getChildAt(i).setOnClickListener(this);
         }
 
         fab1.setOnClickListener(this);
+
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+
+    }
+
+    public void setupNavbar(){
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
+                // open I am not going to put anything here)
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+            }
+
+
+
+        }; // Drawer Toggle Object Made
+        mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
+        mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
-    private void loadBackDrop(){
+    private void loadMotivationalBackDrop(){
         Glide.with(MainActivity.this).load(R.drawable.background_poly).centerCrop().into(backdrop);
     }
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
+    public void loadHabitstoForm_BackDrop(){
+        //set the listener and the adapter
+
+        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.item, R.id.title, habitList);
+        flingContainer.setAdapter(arrayAdapter);
+
+
+        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+            @Override
+            public void removeFirstObjectInAdapter() {
+                // this is the simplest way to delete an object from the Adapter (/AdapterView)
+                Log.d("LIST", "removed object!");
+                habitList.remove(0);
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+
+            @Override
+            public void onLeftCardExit(Object o) {
+
+            }
+
+
+            @Override
+            public void onRightCardExit(Object o) {
+
+            }
+
+
+            @Override
+            public void onAdapterAboutToEmpty(int i) {
+                //Motivate the User.
+            }
+
+
+            @Override
+            public void onScroll(float v) {
+
+            }
+
+
+        });
+    }
+
+
+
 
 
     @Override

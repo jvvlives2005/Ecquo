@@ -7,7 +7,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -83,10 +82,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupActionBar(){
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setSubtitle("Manage Daily Habits");
-        actionBar.setIcon(R.mipmap.ic_launcher);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setTitle(R.string.app_name);
+        //actionBar.setIcon(R.mipmap.ic_launcher);
+        // actionBar.setDisplayShowHomeEnabled(true);
+       actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
+
         collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
@@ -146,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+            case android.R.id.icon:
+                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void loadMotivationalBackDrop(){
-        Glide.with(MainActivity.this).load(R.drawable.background_poly).centerCrop().into(backdrop);
+        Glide.with(MainActivity.this).load(R.drawable.do_it_now).centerCrop().into(backdrop);
     }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -170,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void loadHabitstoForm_BackDrop(){
         //set the listener and the adapter
 
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.item, R.id.title, habitList);
+        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.habit_stack_item, R.id.title, habitList);
         flingContainer.setAdapter(arrayAdapter);
 
 

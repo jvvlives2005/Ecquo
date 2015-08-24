@@ -29,25 +29,58 @@
                 android:src="@android:drawable/ic_menu_camera"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_weight="1"
             >
-            <TextView
+
+
+            <!--<EditText-->
+                <!--android:id="@+id/edit_note_title"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="@string/note_title_label"-->
+                <!--android:layout_alignParentLeft="true"-->
+                <!--android:layout_marginLeft="0dp"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_marginTop="0dp" />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/note_title_label"
+                    style="?android:listSeparatorTextViewStyle"/>
+
+
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/note_title_label"
-                style="?android:listSeparatorTextViewStyle"
-                />
-            <EditText android:id="@+id/edit_note_title"
-                android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+            <EditText android:id="@+id/edit_note_msg"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
                 android:hint="@string/note_title_hint"
-                />
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="0dp" />
+
+                <ImageButton
+                style="@style/Item.Path"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+            </RelativeLayout>
         </LinearLayout>
+
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -56,7 +89,8 @@
         style="?android:listSeparatorTextViewStyle"
         />
     <Button android:id="@+id/note_date"
-        android:layout_width="match_parent"
+        android:text="Remind Me"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
@@ -94,10 +128,6 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text = "Save"/>
 
 </LinearLayout>
 

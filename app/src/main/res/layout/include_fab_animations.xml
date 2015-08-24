@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/menu_layout"
+
+        android:background="@color/scrim"
+        android:visibility="invisible"
+        >
+
+        <com.ogaclejapan.arclayout.ArcLayout
+            android:id="@+id/arc_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="32dp"
+            app:arc_axisRadius="@dimen/layout_child_offset_path"
+            app:arc_freeAngle="true"
+            app:arc_origin="bottom"
+            app:arc_radius="@dimen/layout_radius_path"
+            >
+
+            <ImageButton
+                style="@style/Item.Path"
+                android:id="@+id/new_note_button"
+                android:text="Note"
+                android:src="@drawable/ic_note_add_black_24dp"
+                android:textColor="@color/path_orange"
+                app:arc_angle="30"
+                />
+
+
+            <ImageButton
+                style="@style/Item.Path"
+                android:text="Task"
+                android:id="@+id/new_task_button"
+                android:src="@drawable/ic_list_black_24dp"
+                android:textColor="@color/path_green"
+                app:arc_angle="90"
+                />
+
+
+
+            <ImageButton
+                style="@style/Item.Path"
+                android:text="Picture"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:id="@+id/new_picture_button"
+                android:textColor="@color/path_purple"
+                app:arc_angle="150" />
+
+        </com.ogaclejapan.arclayout.ArcLayout>
+
+
+</FrameLayout>

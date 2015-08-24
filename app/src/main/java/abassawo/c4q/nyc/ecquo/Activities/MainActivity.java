@@ -152,19 +152,10 @@ NavigationView navigationView;
             setupDrawerContent(navigationView);
         }
 
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
+      
 
-        tabLayout.setupWithViewPager(this.viewPager);
     }
 
-    private void setupViewPager(ViewPager viewPager) {     //Populate view pager tabs
-        adapter = new FragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DayFragment(), "Today's Tasks");
-        adapter.addFragment(new CalendarFragment(), "Calendar");
-        viewPager.setAdapter(adapter);
-    }
 
     public void setupActionBar(){
 

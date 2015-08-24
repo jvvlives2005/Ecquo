@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_gravity="center"
     android:layout_width="250dp"
-    android:layout_height="200dp"
-    android:layout_marginBottom="@dimen/card_margin">
+    android:layout_height="100dp">
 
 
 

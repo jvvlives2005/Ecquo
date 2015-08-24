@@ -20,11 +20,11 @@
         <item
             android:id="@+id/nav_new_task"
             android:icon="@drawable/ic_arrow_down"
-            android:title="New Task" />
+            android:title="Daily Habits" />
         <item
             android:id="@+id/nav_new_goal"
             android:icon="@drawable/ic_arrow_down"
-            android:title="New Goal" />
+            android:title="Reminders" />
         <item
             android:id="@+id/nav_collaborators"
             android:icon="@drawable/ic_arrow_down"

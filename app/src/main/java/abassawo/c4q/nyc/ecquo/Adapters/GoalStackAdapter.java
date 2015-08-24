@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 
 import abassawo.c4q.nyc.ecquo.R;
 
@@ -39,7 +38,7 @@ public class GoalStackAdapter extends BaseAdapter {
         if (view == null) {
             LayoutInflater vi = (LayoutInflater) context.getSystemService(
                             Context.LAYOUT_INFLATER_SERVICE);
-            view = vi.inflate(R.layout.item, null, false);
+            view = vi.inflate(R.layout.habit_stack_item, null, false);
         }
         return view;
     }

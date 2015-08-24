@@ -1,14 +1,20 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,18 +33,31 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.Switch;
+
 
 import com.bumptech.glide.Glide;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.ogaclejapan.arclayout.ArcLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+
+import abassawo.c4q.nyc.ecquo.Adapters.FragmentAdapter;
+import abassawo.c4q.nyc.ecquo.Fragments.CalendarFragment;
 import abassawo.c4q.nyc.ecquo.Model.AnimatorUtils;
+import abassawo.c4q.nyc.ecquo.Model.Goal;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+
+
+
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -68,39 +88,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList habitList;
     private ArrayList todaysTasks;
     ArrayAdapter arrayAdapter;
+    AlarmManager alarmMan;
 
+
+
+
+    private FragmentAdapter adapter;
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setupNavbar();
-        setupActionBar();
         initState();
-        initlisteners();
-        loadHabitstoForm_BackDrop();
+        initListeners();
+        //alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
+        setupActionBar();
+        setupDrawerBehavior();
         loadMotivationalBackDrop();
-    }
+        loadHabitstoForm_BackDrop();
 
-    public void setupActionBar(){
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-
-        actionBar.setTitle(R.string.app_name);
-        actionBar.setDisplayShowHomeEnabled(true);
-       actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);                                                                                                                                                                                                                                                                                         ;
-
-        //collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
 
-    public void initState(){
+
+    private void initState() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         habitList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for p
         habitList.add("Meditate");
         habitList.add("Exercise");
         habitList.add("Read More");
         habitList.add("Practice Gratitude");
-        dailyHabitsDone = habitList.isEmpty();
+
 
 
 
@@ -110,10 +130,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void initlisteners(){
+    public void initListeners(){
         for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
             arcLayout.getChildAt(i).setOnClickListener(this);
         }
+        dailyHabitsDone = habitList.isEmpty();
 
         fab1.setOnClickListener(this);
         goalBtn.setOnClickListener(this);
@@ -130,62 +151,80 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void setupNavbar(){
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer) { //fixme fix the strings
+
+    public void setupDrawerBehavior(){
+
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
+
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is
-                // open I am not going to put anything here)
+                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is 
+                // open I am not going to put anything here) 
             }
+
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed
+                // Code here will execute once drawer is closed 
             }
 
 
-        }; // Drawer Toggle Object Made
+        }; // Drawer Toggle Object Made 
         mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
         mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
 
+
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-            case android.R.id.icon:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
     private void loadMotivationalBackDrop(){
         Glide.with(MainActivity.this).load(R.drawable.do_it_now).centerCrop().into(backdrop);
     }
+
+
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
+
+
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
+                        int id = menuItem.getItemId();
+                        switch (id) {
+                            case 1:
+                                id = R.id.nav_new_goal;
+                                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                                startActivity(intent);
+                                break;
+                            case 2:
+                                id = R.id.nav_new_task;
+                                break;
+                        }
                         mDrawerLayout.closeDrawers();
+
+
                         return true;
                     }
                 });
     }
 
+
+    public void setupActionBar(){
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setIcon(R.mipmap.ic_ecquo);
+
+        collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
+    }
+
     public void loadHabitstoForm_BackDrop(){
         //set the listener and the adapter
 
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.habit_stack_item, R.id.title, habitList);
+        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.item, R.id.title, habitList);
         flingContainer.setAdapter(arrayAdapter);
 
 
@@ -224,10 +263,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -240,13 +275,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 v.setSelected(!v.isSelected());
                 break;
             case R.id.new_note_button:
-                 startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
+                startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
                 break;
             case R.id.new_picture_button:
                 //showPictureDialog;
                 break;
             case R.id.new_task_button:
-               // startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
+                // startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
                 break;
             case R.id.goal_list_btn:
                 startActivity(new Intent(MainActivity.this, GoalListActivity.class));
@@ -336,13 +371,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return anim;
     }
 
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //fixme repetitive code. testing 
+        item.setChecked(true);
+        int id = item.getItemId();
+        switch (id) {
+            case 1: id = R.id.nav_new_goal;
+                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                startActivity(intent);
+                break;
+            case 2: id = R.id.nav_new_task;
+                break;
+        }
+        mDrawerLayout.closeDrawers();
+        finish();
+        return true;
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present. 
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
 
-}
 
+} 

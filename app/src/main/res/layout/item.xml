@@ -6,7 +6,9 @@
     android:layout_height="100dp">
 
 
+
     <TextView
+        android:background="#2c2eee"
         android:id="@+id/title"
         android:textSize="40sp"
         android:textColor="@android:color/black"

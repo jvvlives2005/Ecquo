@@ -13,6 +13,9 @@ public class Note{
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
 
+    private Date mDateCreated;
+
+
     public Note(){
 
 

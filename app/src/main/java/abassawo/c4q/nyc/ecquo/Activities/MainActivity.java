@@ -16,10 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -57,13 +59,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FrameLayout menuLayout;
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-    @Bind(R.id.cardFrame)
+    @Bind(R.id.habitFrame)
     SwipeFlingAdapterView flingContainer;
 
     boolean dailyHabitsDone;
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList habitList;
+    private ArrayList todaysTasks;
     ArrayAdapter arrayAdapter;
 
     @Override
@@ -82,12 +85,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupActionBar(){
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.app_name);
-        //actionBar.setIcon(R.mipmap.ic_launcher);
-        // actionBar.setDisplayShowHomeEnabled(true);
-       actionBar.setHomeAsUpIndicator(R.mipmap.ic_launcher);
 
-        collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
+        actionBar.setTitle(R.string.app_name);
+        actionBar.setDisplayShowHomeEnabled(true);
+       actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);                                                                                                                                                                                                                                                                                         ;
+
+        //collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
 
@@ -114,6 +117,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fab1.setOnClickListener(this);
         goalBtn.setOnClickListener(this);
+        flingContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO:
+                Intent intent = new Intent(MainActivity.this, HabitEditActivity.class);
+                intent.putExtra("id for intent", "test"); //fixme
+                startActivity(intent);
+
+            }
+        });
 
     }
 
@@ -183,18 +196,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("LIST", "removed object!");
                 habitList.remove(0);
                 arrayAdapter.notifyDataSetChanged();
-            }
 
+            }
 
             @Override
             public void onLeftCardExit(Object o) {
-
             }
 
 
             @Override
             public void onRightCardExit(Object o) {
-
             }
 
 
@@ -231,13 +242,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.new_note_button:
                  startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
                 break;
-            case R.id.new_habit_button:
-                //startActivity(new Intent(MainActivity.this, HabitEditActivity.class));
-               //startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
-                break;
-            case R.id.new_voicerec_button:
-               // showvoiceDialog;
-                break;
             case R.id.new_picture_button:
                 //showPictureDialog;
                 break;
@@ -247,6 +251,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.goal_list_btn:
                 startActivity(new Intent(MainActivity.this, GoalListActivity.class));
                 break;
+            case R.id.habitFrame:
+                startActivity(new Intent(MainActivity.this, HabitEditActivity.class));
             default:break;
         }
 
@@ -330,6 +336,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return anim;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
 
 

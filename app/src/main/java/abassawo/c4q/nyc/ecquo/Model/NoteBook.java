@@ -4,12 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  * Created by c4q-Abass on 8/18/15.
  */
-public class NotePad {
+public class NoteBook {
     private static final String TAG = "NotePad";
     private static final String FILENAME = "notes.json";
 
@@ -20,10 +19,10 @@ public class NotePad {
     }
     private JSONSerializer mSerializer;
 
-    private static NotePad sNotePad;
+    private static NoteBook sNoteBook;
     private Context mAppContext;
 
-    private NotePad(Context appContext) {
+    private NoteBook(Context appContext) {
         mAppContext = appContext;
         mSerializer = new JSONSerializer(mAppContext, FILENAME);
 
@@ -37,11 +36,11 @@ public class NotePad {
     }
 
     //
-    public static NotePad get(Context c) {
-        if (sNotePad == null) {
-            sNotePad = new NotePad(c.getApplicationContext());
+    public static NoteBook get(Context c) {
+        if (sNoteBook == null) {
+            sNoteBook = new NoteBook(c.getApplicationContext());
         }
-        return sNotePad;
+        return sNoteBook;
     }
 }
 

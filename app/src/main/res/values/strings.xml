@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ecquo</string>
+    <string name="app_name">Ecquo Planner</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -35,6 +35,7 @@
     <string name="notes_title">Notes</string>
     <string name="today_tasks">Today\'s Tasks</string>
     <string name="title_activity_goal_list">GoalListActivity</string>
+    <string name="title_activity_habit_edit">HabitEditActivity</string>
 
 
 </resources>

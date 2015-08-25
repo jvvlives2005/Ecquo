@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    >
+    android:weightSum="1">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -125,6 +125,38 @@
             android:src="@android:drawable/ic_menu_delete"
             android:layout_gravity="right"
             android:visibility="invisible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:padding="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/darker_gray">
+
+        <CheckedTextView
+            android:padding="@dimen/activity_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today"/>
+
+        <CheckedTextView
+            android:padding="@dimen/activity_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tomorrow" />
+
+        <CheckedTextView
+        android:padding="@dimen/activity_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Week" />
+
+        <CheckedTextView
+            android:padding="@dimen/activity_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location" />
 
     </LinearLayout>
 

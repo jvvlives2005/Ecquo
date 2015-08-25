@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void loadHabitstoForm_BackDrop(){
         //set the listener and the adapter
 
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.item, R.id.title, habitList);
+        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.habit_stack_item, R.id.title, habitList);
         flingContainer.setAdapter(arrayAdapter);
 
 

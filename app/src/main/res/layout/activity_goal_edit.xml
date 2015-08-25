@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-            <EditText android:id="@+id/edit_note_msg"
+            <EditText android:id="@+id/edit_goal_title"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="16dp"
@@ -72,6 +72,7 @@
 
                 <ImageButton
                 style="@style/Item.Path"
+                android:id="@+id/btn_speak_now"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_btn_speak_now"
@@ -88,8 +89,14 @@
         android:text="@string/note_details_label"
         style="?android:listSeparatorTextViewStyle"
         />
-    <Button android:id="@+id/note_date"
-        android:text="Remind Me"
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/goal_deadline_btn"
+        android:text="Deadline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -103,7 +110,7 @@
         android:layout_marginRight="16dp"
         android:text="Add Collaborator" />
 
-
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -128,37 +135,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:padding="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/darker_gray">
-
-        <CheckedTextView
-            android:padding="@dimen/activity_vertical_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Today"/>
-
-        <CheckedTextView
-            android:padding="@dimen/activity_vertical_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tomorrow" />
-
-        <CheckedTextView
-        android:padding="@dimen/activity_vertical_margin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Week" />
-
-        <CheckedTextView
-            android:padding="@dimen/activity_vertical_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location" />
-
-    </LinearLayout>
 
 
 </LinearLayout>

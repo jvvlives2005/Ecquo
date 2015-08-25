@@ -13,6 +13,10 @@ public class Note{
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
 
+    public Date getDateCreated() {
+        return mDateCreated;
+    }
+
     private Date mDateCreated;
 
 

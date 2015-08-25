@@ -1,3 +1,4 @@
+
 package abassawo.c4q.nyc.ecquo.Activities;
 
 import android.animation.Animator;
@@ -6,15 +7,12 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,24 +30,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 
 
 import com.bumptech.glide.Glide;
 import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.ogaclejapan.arclayout.ArcLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 import abassawo.c4q.nyc.ecquo.Adapters.FragmentAdapter;
-import abassawo.c4q.nyc.ecquo.Fragments.CalendarFragment;
 import abassawo.c4q.nyc.ecquo.Model.AnimatorUtils;
 import abassawo.c4q.nyc.ecquo.Model.Goal;
+import abassawo.c4q.nyc.ecquo.Model.NoteBook;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,6 +54,7 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static List<Goal>mGoals;
     @Bind(R.id.goal_list_btn)
     Button goalBtn;
     @Bind(R.id.drawer_layout)
@@ -106,13 +100,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupActionBar();
         setupDrawerBehavior();
         loadMotivationalBackDrop();
-        loadHabitstoForm_BackDrop();
+        //loadHabitstoForm_BackDrop();
 
     }
 
 
 
     private void initState() {
+        mGoals = NoteBook.get(this).getGoals();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         habitList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for p
@@ -197,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         switch (id) {
                             case 1:
                                 id = R.id.nav_new_goal;
-                                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                                Intent intent = new Intent(MainActivity.this, EditActivity.class);
                                 startActivity(intent);
                                 break;
                             case 2:
@@ -217,6 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setIcon(R.mipmap.ic_ecquo);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDefaultDisplayHomeAsUpEnabled(false);
+        actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
 
         collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
@@ -275,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 v.setSelected(!v.isSelected());
                 break;
             case R.id.new_note_button:
-                startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
+                startActivity(new Intent(MainActivity.this, EditActivity.class));
                 break;
             case R.id.new_picture_button:
                 //showPictureDialog;
@@ -301,6 +299,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0, len = arcLayout.getChildCount(); i < len; i++) {
             animList.add(createShowItemAnimator(arcLayout.getChildAt(i)));
         }
+
+      
 
         AnimatorSet animSet = new AnimatorSet();
         animSet.setDuration(400);
@@ -380,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
         switch (id) {
             case 1: id = R.id.nav_new_goal;
-                Intent intent = new Intent(MainActivity.this, NoteEditActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(intent);
                 break;
             case 2: id = R.id.nav_new_task;

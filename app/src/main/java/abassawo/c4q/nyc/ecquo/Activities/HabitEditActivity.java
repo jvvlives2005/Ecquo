@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import abassawo.c4q.nyc.ecquo.R;
 
-public class HabitEditActivity extends AppCompatActivity {
+public class HabitEditActivity extends EditActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

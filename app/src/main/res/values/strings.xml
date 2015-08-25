@@ -28,7 +28,7 @@
     <string name="closeDrawer">Ecquo</string>
 
 
-    <string name="note_title_hint">Note</string>
+    <string name="note_title_hint">Goal</string>
     <string name="note_title_label">Title</string>
     <string name="note_details_label">Details</string>
     <string name="note_solved_label">Completed?</string>
@@ -36,6 +36,7 @@
     <string name="today_tasks">Today\'s Tasks</string>
     <string name="title_activity_goal_list">GoalListActivity</string>
     <string name="title_activity_habit_edit">HabitEditActivity</string>
+    <string name="date_picker_title">Date</string>
 
 
 </resources>

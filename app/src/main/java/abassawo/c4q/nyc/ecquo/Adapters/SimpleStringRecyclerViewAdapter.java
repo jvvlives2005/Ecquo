@@ -1,6 +1,5 @@
 package abassawo.c4q.nyc.ecquo.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import abassawo.c4q.nyc.ecquo.Activities.NoteEditActivity;
+import abassawo.c4q.nyc.ecquo.Activities.EditActivity;
 import abassawo.c4q.nyc.ecquo.Model.Goal;
 import abassawo.c4q.nyc.ecquo.Model.Note;
 import abassawo.c4q.nyc.ecquo.R;
@@ -79,7 +78,7 @@ public class SimpleStringRecyclerViewAdapter
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, NoteEditActivity.class);
+                Intent intent = new Intent(context, EditActivity.class);
                 // intent.putExtra(NoteEditActivity.EXTRA_NAME, holder.mBoundString.toString());
 
                 context.startActivity(intent);

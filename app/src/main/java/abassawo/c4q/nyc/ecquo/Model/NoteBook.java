@@ -15,8 +15,10 @@ public class NoteBook {
     private ArrayList<Goal> mGoals;
 
     public ArrayList<Goal> getGoals() {
+
         return mGoals;
     }
+
     private JSONSerializer mSerializer;
 
     private static NoteBook sNoteBook;
@@ -36,7 +38,7 @@ public class NoteBook {
     }
 
     //
-    public static NoteBook get(Context c) {
+    public static NoteBook get(Context c) { //Singleton-Formation
         if (sNoteBook == null) {
             sNoteBook = new NoteBook(c.getApplicationContext());
         }

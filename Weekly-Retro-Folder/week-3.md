@@ -18,10 +18,10 @@ If you did not meet your goals, how will this affect the progression of the prod
     * Goals/Responsibilities Last Week: No
         * Did you meet your goals/responsibilities last week? Why or why not? I think I overbudgeted, and didn't break down the components of what need to be done well enough.
     * Goals/Responsibilities This Week:
-  *  Team Member #2    
-    * Goals/Responsibilities Last Week: 
-         * Did you meet your goals/responsibilities last week? Why or why not?
-    * Goals/Responsibilities This Week:
+  *  Team Member #2 - Joshelyn   
+    * Goals/Responsibilities Last Week: Set up or organize our Activity Flow and research/work on the Animation. Also searching for ways to get the todo to be on the card
+         * Did you meet your goals/responsibilities last week? Why or why not? Not as much. I learned that the use of SQLlite is important for the todo lines to function they way we wanted to. Did a bit of research on animation.
+    * Goals/Responsibilities This Week: Work on using Quote Api and learn to parse it.
   *  Team Member #3
     * Goals/Responsibilities Last Week:
         * Did you meet your goals/responsibilities last week? Why or why not?

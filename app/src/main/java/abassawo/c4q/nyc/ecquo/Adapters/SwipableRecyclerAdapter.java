@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import abassawo.c4q.nyc.ecquo.Activities.EditActivity;
+import abassawo.c4q.nyc.ecquo.Activities.GoalListEditActivity;
 import abassawo.c4q.nyc.ecquo.Model.Goal;
 import abassawo.c4q.nyc.ecquo.Model.Note;
 import abassawo.c4q.nyc.ecquo.R;
@@ -77,7 +77,7 @@ public class SwipableRecyclerAdapter extends RecyclerView.Adapter<SwipableRecycl
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, EditActivity.class);
+                Intent intent = new Intent(context, GoalListEditActivity.class);
                 // intent.putExtra(NoteEditActivity.EXTRA_NAME, holder.mBoundString.toString());
 
                 context.startActivity(intent);

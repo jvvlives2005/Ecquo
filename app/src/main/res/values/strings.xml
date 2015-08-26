@@ -37,6 +37,7 @@
     <string name="title_activity_goal_list">GoalListActivity</string>
     <string name="title_activity_habit_edit">HabitEditActivity</string>
     <string name="date_picker_title">Date</string>
+    <string name="title_activity_goal_detail">GoalDetailActivity</string>
 
 
 </resources>

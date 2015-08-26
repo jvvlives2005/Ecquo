@@ -7,18 +7,18 @@ import android.view.MenuItem;
 
 import abassawo.c4q.nyc.ecquo.R;
 
-public class HabitEditActivity extends EditActivity {
+public class GoalDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habit_edit);
+        setContentView(R.layout.activity_goal_detail);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_habit_edit, menu);
+        getMenuInflater().inflate(R.menu.menu_goal_detail, menu);
         return true;
     }
 

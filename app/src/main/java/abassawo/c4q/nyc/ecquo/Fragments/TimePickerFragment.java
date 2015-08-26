@@ -1,4 +1,4 @@
-package abassawo.c4q.nyc.ecquo.Activities;
+package abassawo.c4q.nyc.ecquo.Fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;

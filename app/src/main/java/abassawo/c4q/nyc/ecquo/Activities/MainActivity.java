@@ -19,13 +19,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -40,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import abassawo.c4q.nyc.ecquo.Adapters.FragmentAdapter;
 import abassawo.c4q.nyc.ecquo.Model.AnimatorUtils;
 import abassawo.c4q.nyc.ecquo.Model.Goal;
 import abassawo.c4q.nyc.ecquo.Model.NoteBook;
@@ -67,14 +64,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
     View fab1;
-    @Bind(R.id.arc_layout)
-    ArcLayout arcLayout;
-    @Bind(R.id.menu_layout)
-    FrameLayout menuLayout;
+
+
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-    @Bind(R.id.habitFrame)
-    SwipeFlingAdapterView flingContainer;
+
 
     boolean dailyHabitsDone;
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
@@ -87,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private FragmentAdapter adapter;
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupActionBar();
         setupDrawerBehavior();
         loadMotivationalBackDrop();
-        //loadHabitstoForm_BackDrop();
 
     }
 
@@ -110,15 +103,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mGoals = NoteBook.get(this).getGoals();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
+
         habitList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for p
         habitList.add("Meditate");
         habitList.add("Exercise");
         habitList.add("Read More");
         habitList.add("Practice Gratitude");
 
-
-
-
+        dailyHabitsDone = habitList.isEmpty();
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -126,31 +118,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initListeners(){
-        for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
-            arcLayout.getChildAt(i).setOnClickListener(this);
-        }
-        dailyHabitsDone = habitList.isEmpty();
 
         fab1.setOnClickListener(this);
-        goalBtn.setOnClickListener(this);
-        flingContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO:
-                Intent intent = new Intent(MainActivity.this, HabitEditActivity.class);
-                intent.putExtra("id for intent", "test"); //fixme
-                startActivity(intent);
-
-            }
-        });
-
+       // goalBtn.setOnClickListener(this);
     }
 
 
 
     public void setupDrawerBehavior(){
-
-
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
 
 
@@ -160,7 +135,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is 
                 // open I am not going to put anything here) 
             }
-
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -190,14 +164,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         menuItem.setChecked(true);
                         int id = menuItem.getItemId();
                         switch (id) {
-                            case 1:
-                                id = R.id.nav_new_goal;
-                                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                            case 1: id = R.id.nav_new_goal;
+                                Intent intent = new Intent(MainActivity.this, GoalListEditActivity.class);
                                 startActivity(intent);
                                 break;
-                            case 2:
-                                id = R.id.nav_new_task;
+                            case R.id.nav_new_task:
                                 break;
+
                         }
                         mDrawerLayout.closeDrawers();
 
@@ -219,157 +192,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
-    public void loadHabitstoForm_BackDrop(){
-        //set the listener and the adapter
-
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.habit_stack_item, R.id.title, habitList);
-        flingContainer.setAdapter(arrayAdapter);
-
-
-        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-            @Override
-            public void removeFirstObjectInAdapter() {
-                // this is the simplest way to delete an object from the Adapter (/AdapterView)
-                Log.d("LIST", "removed object!");
-                habitList.remove(0);
-                arrayAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onLeftCardExit(Object o) {
-            }
-
-
-            @Override
-            public void onRightCardExit(Object o) {
-            }
-
-
-            @Override
-            public void onAdapterAboutToEmpty(int i) {
-                //Motivate the User.
-            }
-
-
-            @Override
-            public void onScroll(float v) {
-
-            }
-
-
-        });
-    }
+//    public void loadHabitstoForm_BackDrop(){
+//        //set the listener and the adapter
+//
+//        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.habit_stack_item, R.id.title, habitList);
+//        flingContainer.setAdapter(arrayAdapter);
+//
+//
+//        flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
+//            @Override
+//            public void removeFirstObjectInAdapter() {
+//                // this is the simplest way to delete an object from the Adapter (/AdapterView)
+//                Log.d("LIST", "removed object!");
+//                habitList.remove(0);
+//                arrayAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onLeftCardExit(Object o) {
+//            }
+//
+//
+//            @Override
+//            public void onRightCardExit(Object o) {
+//            }
+//
+//
+//            @Override
+//            public void onAdapterAboutToEmpty(int i) {
+//                //Motivate the User.
+//            }
+//
+//
+//            @Override
+//            public void onScroll(float v) {
+//
+//            }
+//
+//
+//        });
+//    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fab:
-                if (v.isSelected()) {
-                    hideMenu();
-                } else {
-                    showMenu();
-                }
-                v.setSelected(!v.isSelected());
-                break;
-            case R.id.new_note_button:
-                startActivity(new Intent(MainActivity.this, EditActivity.class));
+                startActivity(new Intent(MainActivity.this, GoalListEditActivity.class));
                 break;
             case R.id.new_picture_button:
                 //showPictureDialog;
                 break;
-            case R.id.new_task_button:
-                // startActivity(new Intent(MainActivity.this, NoteEditActivity.class));
-                break;
             case R.id.goal_list_btn:
-                startActivity(new Intent(MainActivity.this, GoalListActivity.class));
+                startActivity(new Intent(MainActivity.this, GoalListEditActivity.class));
                 break;
-            case R.id.habitFrame:
-                startActivity(new Intent(MainActivity.this, HabitEditActivity.class));
+
             default:break;
         }
 
     }
 
-    private void showMenu() {
-        menuLayout.setVisibility(View.VISIBLE);
 
-        List<Animator> animList = new ArrayList<>();
-
-        for (int i = 0, len = arcLayout.getChildCount(); i < len; i++) {
-            animList.add(createShowItemAnimator(arcLayout.getChildAt(i)));
-        }
-
-      
-
-        AnimatorSet animSet = new AnimatorSet();
-        animSet.setDuration(400);
-        animSet.setInterpolator(new OvershootInterpolator());
-        animSet.playTogether(animList);
-        animSet.start();
-    }
-    private void hideMenu() {
-
-        List<Animator> animList = new ArrayList<>();
-
-        for (int i = arcLayout.getChildCount() - 1; i >= 0; i--) {
-            animList.add(createHideItemAnimator(arcLayout.getChildAt(i)));
-        }
-
-        AnimatorSet animSet = new AnimatorSet();
-        animSet.setDuration(400);
-        animSet.setInterpolator(new AnticipateInterpolator());
-        animSet.playTogether(animList);
-        animSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                menuLayout.setVisibility(View.INVISIBLE);
-            }
-        });
-        animSet.start();
-
-    }
-    private Animator createHideItemAnimator(final View item) {
-        float dx = fab1.getX() - item.getX();
-        float dy = fab1.getY() - item.getY();
-
-        Animator anim = ObjectAnimator.ofPropertyValuesHolder(
-                item,
-                AnimatorUtils.rotation(720f, 0f),
-                AnimatorUtils.translationX(0f, dx),
-                AnimatorUtils.translationY(0f, dy)
-        );
-
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                item.setTranslationX(0f);
-                item.setTranslationY(0f);
-            }
-        });
-
-        return anim;
-    }
-    private Animator createShowItemAnimator(View item) {
-
-        float dx = fab1.getX() - item.getX();
-        float dy = fab1.getY() - item.getY();
-
-        item.setRotation(0f);
-        item.setTranslationX(dx);
-        item.setTranslationY(dy);
-
-        Animator anim = ObjectAnimator.ofPropertyValuesHolder(
-                item,
-                AnimatorUtils.rotation(0f, 720f),
-                AnimatorUtils.translationX(dx, 0f),
-                AnimatorUtils.translationY(dy, 0f)
-        );
-
-        return anim;
-    }
 
 
 
@@ -380,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
         switch (id) {
             case 1: id = R.id.nav_new_goal;
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                Intent intent = new Intent(MainActivity.this, GoalListEditActivity.class);
                 startActivity(intent);
                 break;
             case 2: id = R.id.nav_new_task;

@@ -47,16 +47,16 @@ public class Goal extends Note {
     private Date dueDate;
 
 
-    public List<GoalTask> getTaskList() {
+    public List<Task> getTaskList() {
         return taskList;
     }
 
-    public void addtoTaskList(GoalTask task) {
+    public void addtoTaskList(Task task) {
         this.taskList.add(task);
     }
 
 
-    private List<GoalTask> taskList;
+    private List<Task> taskList;
 
     private boolean remindUser;
 

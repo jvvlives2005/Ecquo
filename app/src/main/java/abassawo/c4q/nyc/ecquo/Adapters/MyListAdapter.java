@@ -54,7 +54,7 @@ public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, 
       mGoals = Planner.get(mContext).getGoals();
         Goal goal = new Goal("Exercise");
         Goal goal2 = new Goal("Test");
-        goal.addtoTaskList(new Task("read"));
+        goal.addtoTaskList(new Task("testing"));
         for (int i = 0; i < 100; i++){
             mGoals.add(goal);
             mGoals.add(goal2);

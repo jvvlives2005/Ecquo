@@ -21,7 +21,7 @@ public class GoalListActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_list);
-        //setupActionBar();
+        setupActionBar();
 
         StickyListHeadersListView listView = (StickyListHeadersListView) findViewById(R.id.goals_to_pick_from_lv);
         listView.setFitsSystemWindows(true);
@@ -45,7 +45,6 @@ public class GoalListActivity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
-
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.mipmap.ecquo_launcher);

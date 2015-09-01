@@ -80,12 +80,13 @@ public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, 
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        TextView view = (TextView) convertView;
+        View view = convertView;
+        //= convertView;
         if (view == null) {
-            view = (TextView) LayoutInflater.from(mContext).inflate(R.layout.list_row, parent, false);
+            view = (View) LayoutInflater.from(mContext).inflate(R.layout.list_row, parent, false);
+            TextView row_tv = (TextView) view.findViewById(R.id.list_row_draganddrop_textview);
+            row_tv.setText(mGoals.get(position).toString()); //fixme
         }
-
-        view.setText(mGoals.get(position).toString()); //fixme
 
         return view;
     }

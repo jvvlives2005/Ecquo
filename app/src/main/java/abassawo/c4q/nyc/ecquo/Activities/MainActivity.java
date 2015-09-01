@@ -53,15 +53,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
     View fab1;
-    @Bind(R.id.arc_layout)
-    ArcLayout arcLayout;
-    @Bind(R.id.menu_layout)
-    FrameLayout menuLayout;
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-    @Bind(R.id.habitFrame)
-    SwipeFlingAdapterView flingContainer;
-
     boolean dailyHabitsDone;
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
@@ -93,13 +86,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initState() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        habitList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for p
-        habitList.add("Meditate");
-        habitList.add("Exercise");
-        habitList.add("Read More");
-        habitList.add("Practice Gratitude");
-
-
 
 
         if (navigationView != null) {
@@ -109,31 +95,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initListeners(){
-        for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
-            arcLayout.getChildAt(i).setOnClickListener(this);
-        }
-        dailyHabitsDone = habitList.isEmpty();
-
-        fab1.setOnClickListener(this);
-        goalBtn.setOnClickListener(this);
-        flingContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO:
-                Intent intent = new Intent(MainActivity.this, BackburnerListActivity.class);
-                intent.putExtra("id for intent", "test"); //fixme
-                startActivity(intent);
-
-            }
-        });
 
     }
 
 
 
     public void setupDrawerBehavior(){
-
-
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
 
 

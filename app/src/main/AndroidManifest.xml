@@ -27,7 +27,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Activities.HabitEditActivity"
+            android:name=".Activities.BackburnerListActivity"
             android:label="@string/title_activity_habit_edit" >
         </activity>
     </application>

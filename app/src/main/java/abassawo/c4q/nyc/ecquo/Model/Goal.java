@@ -20,6 +20,15 @@ public class Goal extends Note {
     private static final String JSON_COMPLETED = "completed";
     private static final String JSON_DUEDATE = "duedate";
 
+    public long getId() {
+        return id;
+    }
+
+    public long id;
+
+    public UUID getGoal_Id() {
+        return goal_Id;
+    }
 
     private UUID goal_Id;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by c4q-Abass on 8/18/15.
  */
-public class NoteBook {
+public class Planner{
     private static final String TAG = "NotePad";
     private static final String FILENAME = "notes.json";
 
@@ -19,10 +19,10 @@ public class NoteBook {
     }
     private JSONSerializer mSerializer;
 
-    private static NoteBook sNoteBook;
+    private static Planner sPlanner;
     private Context mAppContext;
 
-    private NoteBook(Context appContext) {
+    private Planner(Context appContext) {
         mAppContext = appContext;
         mSerializer = new JSONSerializer(mAppContext, FILENAME);
 
@@ -36,11 +36,11 @@ public class NoteBook {
     }
 
     //
-    public static NoteBook get(Context c) {
-        if (sNoteBook == null) {
-            sNoteBook = new NoteBook(c.getApplicationContext());
+    public static Planner get(Context c) {
+        if (sPlanner == null) {
+            sPlanner = new Planner(c.getApplicationContext());
         }
-        return sNoteBook;
+        return sPlanner;
     }
 }
 

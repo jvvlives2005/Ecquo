@@ -1,12 +1,53 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="abassawo.c4q.nyc.ecquo.Activities.GoalListActivity">
+<?xml version="1.0" encoding="utf-8"?>
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:slidingLayer="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:homeAsUpIndicator="@drawable/ic_ecquo"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_collapseMode="pin" />
+
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/goals_to_pick_from_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="0dp"
+        android:paddingTop="16dp" />
+
+    <com.wunderlist.slidinglayer.SlidingLayer
+        android:visibility="gone"
+        android:id="@+id/slidingLayer1"
+        android:layout_centerInParent="true"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        slidingLayer:changeStateOnTap="true"
+        slidingLayer:previewOffsetDistance="@dimen/preview_offset_distance"
+        slidingLayer:shadowDrawable="@drawable/sidebar_shadow"
+        slidingLayer:offsetDistance="@dimen/offset_distance"
+        slidingLayer:stickTo="bottom">
+
+
+
+
+        <fragment
+            android:name="abassawo.c4q.nyc.ecquo.Fragments.ControlFragment"
+            android:layout_gravity="end|bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/goalsFrag"/>
+    </com.wunderlist.slidinglayer.SlidingLayer>
+
 
 </RelativeLayout>

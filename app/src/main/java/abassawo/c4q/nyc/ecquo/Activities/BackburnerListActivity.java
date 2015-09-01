@@ -4,16 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.nhaarman.listviewanimations.appearance.StickyListHeadersAdapterDecorator;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+import com.nhaarman.listviewanimations.util.StickyListHeadersListViewWrapper;
 
 import abassawo.c4q.nyc.ecquo.R;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class HabitEditActivity extends AppCompatActivity {
+public class BackburnerListActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_edit);
+
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

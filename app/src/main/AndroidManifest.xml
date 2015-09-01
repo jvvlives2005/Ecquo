@@ -22,12 +22,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.GoalListActivity"
+            android:name=".Activities.BackburnerPickerActivity"
             android:label="@string/title_activity_goal_list"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Activities.BackburnerListActivity"
+            android:name=".Activities.GoalListActivity"
             android:label="@string/title_activity_habit_edit" >
         </activity>
     </application>

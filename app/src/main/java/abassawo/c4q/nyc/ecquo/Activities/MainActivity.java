@@ -1,12 +1,9 @@
 
 package abassawo.c4q.nyc.ecquo.Activities;
 
-import android.annotation.TargetApi;
 import android.app.AlarmManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
@@ -19,10 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 
@@ -183,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fab: startActivity(new Intent(MainActivity.this, GoalListActivity.class));
+            case R.id.fab: startActivity(new Intent(MainActivity.this, BackburnerPickerActivity.class));
         }
 
     }

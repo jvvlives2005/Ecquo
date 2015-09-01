@@ -1,11 +1,14 @@
 package abassawo.c4q.nyc.ecquo.Model;
 
 import android.media.Image;
+import android.support.annotation.NonNull;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +17,7 @@ import abassawo.c4q.nyc.ecquo.Activities.MainActivity;
 /**
  * Created by c4q-Abass on 8/16/15.
  */
-public class Goal extends Note {
+public class Goal implements Collection<Task>{
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_COMPLETED = "completed";
@@ -54,6 +57,8 @@ public class Goal extends Note {
     public void addtoTaskList(Task task) {
         this.taskList.add(task);
     }
+
+
 
 
     private List<Task> taskList;
@@ -100,4 +105,71 @@ public class Goal extends Note {
         return this.getGoalTitle();
     }
 
+    @Override
+    public boolean add(Task object) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Task> collection) {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public boolean contains(Object object) {
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> collection) {
+        return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Task> iterator() {
+        return null;
+    }
+
+    @Override
+    public boolean remove(Object object) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> collection) {
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> collection) {
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return 0;
+    }
+
+    @NonNull
+    @Override
+    public Object[] toArray() {
+        return new Object[0];
+    }
+
+    @NonNull
+    @Override
+    public <T> T[] toArray(T[] array) {
+        return null;
+    }
 }

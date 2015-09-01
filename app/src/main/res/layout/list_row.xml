@@ -33,6 +33,7 @@
     tools:ignore="UnusedAttribute" />
 
     <CheckBox
+        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_alignRight="@+id/list_row_draganddrop_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

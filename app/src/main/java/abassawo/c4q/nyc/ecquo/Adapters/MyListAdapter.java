@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
+
 
 
 import abassawo.c4q.nyc.ecquo.Model.Goal;
@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
+
 
 
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 
-public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, StickyListHeadersAdapter {
+public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHeadersAdapter {
 
 
     private final Context mContext;
@@ -92,22 +92,22 @@ public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, 
     }
 
 
-    @NonNull
-    @Override
-    public View getUndoView(final int position, final View convertView, @NonNull final ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.undo_row, parent, false);
-        }
-        return view;
-    }
-
-
-    @NonNull
-    @Override
-    public View getUndoClickView(@NonNull final View view) {
-        return view.findViewById(R.id.undo_row_undobutton);
-    }
+//    @NonNull
+//    @Override
+//    public View getUndoView(final int position, final View convertView, @NonNull final ViewGroup parent) {
+//        View view = convertView;
+//        if (view == null) {
+//            view = LayoutInflater.from(mContext).inflate(R.layout.undo_row, parent, false);
+//        }
+//        return view;
+//    }
+//
+//
+//    @NonNull
+//    @Override
+//    public View getUndoClickView(@NonNull final View view) {
+//        return view.findViewById(R.id.undo_row_undobutton);
+//    }
 
 
     @Override

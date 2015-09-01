@@ -3,6 +3,7 @@ package abassawo.c4q.nyc.ecquo.Activities;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -26,8 +27,7 @@ import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
-import com.ogaclejapan.arclayout.ArcLayout;
+
 
 import java.util.ArrayList;
 
@@ -44,7 +44,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.goal_list_btn)
     Button goalBtn;
-    @Bind(R.id.drawer_layout)
+    @Bind(R.id.drawer_view)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.backdrop_img)
     ImageView backdrop;
@@ -54,16 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
     View fab1;
-    @Bind(R.id.arc_layout)
-    ArcLayout arcLayout;
-    @Bind(R.id.menu_layout)
-    FrameLayout menuLayout;
+
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-    @Bind(R.id.habitFrame)
-    SwipeFlingAdapterView flingContainer;
 
-    boolean dailyHabitsDone;
+
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList habitList;
@@ -79,11 +74,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initState();
+
         initListeners();
-        //alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
+       // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
         setupActionBar();
         setupDrawerBehavior();
+        initState();
         loadMotivationalBackDrop();
 
 
@@ -101,9 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initListeners(){
-        for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
-            arcLayout.getChildAt(i).setOnClickListener(this);
-        }
         fab1.setOnClickListener(this);
         goalBtn.setOnClickListener(this);
 
@@ -112,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void setupDrawerBehavior(){
-
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
 

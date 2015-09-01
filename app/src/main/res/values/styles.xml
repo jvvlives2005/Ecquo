@@ -5,7 +5,6 @@
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="SwipeFlingStyle">@style/SwipeFling</item>
         <item name="colorPrimary">#0097A7</item>
         <item name="colorPrimaryDark">#7B1FA2</item>
         <item name="colorAccent">#009688</item>

@@ -52,13 +52,13 @@ public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, 
 //            add(mContext.getString(R.string.row_number, i));
 //        }
       mGoals = Planner.get(mContext).getGoals();
-        Goal goal = new Goal("Exercise");
-        Goal goal2 = new Goal("Test");
-        goal.add(new Task("testing"));
+        Goal goal = new Goal("Work");
+        Goal goal2 = new Goal("School");
+        goal2.add(new Task("Final Project"));
         for (int i = 0; i < 100; i++){
             mGoals.add(goal);
             mGoals.add(goal2);
-            mGoals.add(new Goal("android_test"));
+            mGoals.add(new Goal("fix bugs"));
         }
         for (int i = 0; i < mGoals.size(); i++) {
             add(mGoals.get(i).toString());

@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer_layout"
-    android:fitsSystemWindows="true">
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:src="@drawable/background_poly"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header"
-            app:menu="@menu/drawer_view"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
 
-    </android.support.v4.widget.DrawerLayout>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_new_task"
+            android:icon="@drawable/ic_arrow_down"
+            android:title="New Task" />
+        <item
+            android:id="@+id/nav_new_goal"
+            android:icon="@drawable/ic_arrow_down"
+            android:title="New Goal" />
+        <item
+            android:id="@+id/nav_collaborators"
+            android:icon="@drawable/ic_arrow_down"
+            android:title="Collaborators" />
+        <item
+            android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_arrow_down"
+            android:title="Calendar" />
+    </group>
+
+
+    <item android:title="Goals">
+        <menu>
+            <item
+                android:icon="@drawable/ic_arrow_down"
+                android:title="Final Project" />
+            <item
+                android:icon="@drawable/ic_arrow_down"
+                android:title="Fitness" />
+        </menu>
+    </item>
+
+
+</menu>

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
+
 
 
 import abassawo.c4q.nyc.ecquo.Model.Goal;
@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
-import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.undo.UndoAdapter;
+
 
 
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 
-public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, StickyListHeadersAdapter {
+public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHeadersAdapter {
 
 
     private final Context mContext;
@@ -52,13 +52,13 @@ public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, 
 //            add(mContext.getString(R.string.row_number, i));
 //        }
       mGoals = Planner.get(mContext).getGoals();
-        Goal goal = new Goal("Exercise");
-        Goal goal2 = new Goal("Test");
-        goal.add(new Task("testing"));
+        Goal goal = new Goal("Work");
+        Goal goal2 = new Goal("School");
+        goal2.add(new Task("Final Project"));
         for (int i = 0; i < 100; i++){
             mGoals.add(goal);
             mGoals.add(goal2);
-            mGoals.add(new Goal("android_test"));
+            mGoals.add(new Goal("fix bugs"));
         }
         for (int i = 0; i < mGoals.size(); i++) {
             add(mGoals.get(i).toString());
@@ -80,33 +80,34 @@ public class MyListAdapter extends ArrayAdapter<String> implements UndoAdapter, 
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
-        TextView view = (TextView) convertView;
-        if (view == null) {
-            view = (TextView) LayoutInflater.from(mContext).inflate(R.layout.list_row, parent, false);
-        }
-
-        view.setText(mGoals.get(position).toString()); //fixme
-
-        return view;
-    }
-
-
-    @NonNull
-    @Override
-    public View getUndoView(final int position, final View convertView, @NonNull final ViewGroup parent) {
         View view = convertView;
+        //= convertView;
         if (view == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.undo_row, parent, false);
+            view = (View) LayoutInflater.from(mContext).inflate(R.layout.list_row, parent, false);
+            TextView row_tv = (TextView) view.findViewById(R.id.list_row_draganddrop_textview);
+            row_tv.setText(mGoals.get(position).toString()); //fixme
         }
+
         return view;
     }
 
 
-    @NonNull
-    @Override
-    public View getUndoClickView(@NonNull final View view) {
-        return view.findViewById(R.id.undo_row_undobutton);
-    }
+//    @NonNull
+//    @Override
+//    public View getUndoView(final int position, final View convertView, @NonNull final ViewGroup parent) {
+//        View view = convertView;
+//        if (view == null) {
+//            view = LayoutInflater.from(mContext).inflate(R.layout.undo_row, parent, false);
+//        }
+//        return view;
+//    }
+//
+//
+//    @NonNull
+//    @Override
+//    public View getUndoClickView(@NonNull final View view) {
+//        return view.findViewById(R.id.undo_row_undobutton);
+//    }
 
 
     @Override

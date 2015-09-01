@@ -9,29 +9,19 @@
     android:layout_width="match_parent">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:homeAsUpIndicator="@drawable/ic_ecquo"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_collapseMode="pin" />
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_below="@+id/toolbar"
         android:id="@+id/goals_to_pick_from_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:dividerHeight="0dp"
-        android:paddingTop="16dp" />
+        android:layout_marginBottom="@dimen/preview_offset_distance"/>
 
     <com.wunderlist.slidinglayer.SlidingLayer
-        android:visibility="gone"
         android:id="@+id/slidingLayer1"
         android:layout_centerInParent="true"
         android:layout_width="300dp"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         slidingLayer:changeStateOnTap="true"
         slidingLayer:previewOffsetDistance="@dimen/preview_offset_distance"
         slidingLayer:shadowDrawable="@drawable/sidebar_shadow"

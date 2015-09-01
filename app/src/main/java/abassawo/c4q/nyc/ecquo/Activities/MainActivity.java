@@ -3,6 +3,7 @@ package abassawo.c4q.nyc.ecquo.Activities;
 
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,8 +27,7 @@ import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
-import com.ogaclejapan.arclayout.ArcLayout;
+
 
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @Bind(R.id.goal_list_btn)
     Button goalBtn;
-    @Bind(R.id.drawer_layout)
+    @Bind(R.id.drawer_view)
     DrawerLayout mDrawerLayout;
     @Bind(R.id.backdrop_img)
     ImageView backdrop;
@@ -53,16 +54,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
     View fab1;
-    @Bind(R.id.arc_layout)
-    ArcLayout arcLayout;
-    @Bind(R.id.menu_layout)
-    FrameLayout menuLayout;
+
     @Bind(R.id.nav_view)
     NavigationView navigationView;
-    @Bind(R.id.habitFrame)
-    SwipeFlingAdapterView flingContainer;
 
-    boolean dailyHabitsDone;
+
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList habitList;
@@ -78,11 +74,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initState();
+
         initListeners();
-        //alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
+       // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
         setupActionBar();
         setupDrawerBehavior();
+        initState();
         loadMotivationalBackDrop();
 
 
@@ -93,15 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initState() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        habitList = new ArrayList<>(); //fixme sharedprefs, database, or json serializer for p
-        habitList.add("Meditate");
-        habitList.add("Exercise");
-        habitList.add("Read More");
-        habitList.add("Practice Gratitude");
-
-
-
-
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
@@ -109,30 +97,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initListeners(){
-        for (int i = 0, size = arcLayout.getChildCount(); i < size; i++) {
-            arcLayout.getChildAt(i).setOnClickListener(this);
-        }
-        dailyHabitsDone = habitList.isEmpty();
-
         fab1.setOnClickListener(this);
         goalBtn.setOnClickListener(this);
-        flingContainer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO:
-                Intent intent = new Intent(MainActivity.this, BackburnerListActivity.class);
-                intent.putExtra("id for intent", "test"); //fixme
-                startActivity(intent);
 
-            }
-        });
 
     }
 
 
-
     public void setupDrawerBehavior(){
-
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
 
@@ -209,5 +181,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fab: startActivity(new Intent(MainActivity.this, GoalListActivity.class));
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return true;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 }

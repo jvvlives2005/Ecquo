@@ -28,7 +28,7 @@
     <string name="closeDrawer">Ecquo</string>
 
 
-    <string name="note_title_hint">Note</string>
+    <string name="goal_title_hint">New Goal</string>
     <string name="note_title_label">Title</string>
     <string name="note_details_label">Details</string>
     <string name="note_solved_label">Completed?</string>

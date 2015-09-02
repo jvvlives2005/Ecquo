@@ -20,7 +20,7 @@
     <com.wunderlist.slidinglayer.SlidingLayer
         android:id="@+id/slidingLayer1"
         android:layout_centerInParent="true"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         slidingLayer:changeStateOnTap="true"
         slidingLayer:previewOffsetDistance="@dimen/preview_offset_distance"

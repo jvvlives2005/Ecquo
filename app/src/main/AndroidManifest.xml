@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.NoteEditActivity"
+            android:name=".Activities.GoalEditActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" />
         <activity
@@ -29,6 +29,10 @@
         <activity
             android:name=".Activities.GoalListActivity"
             android:label="@string/title_activity_habit_edit" >
+        </activity>
+        <activity android:name=".Activities.GoalDetailActivity"
+            android:label="GoalDetailActivity">
+
         </activity>
     </application>
 

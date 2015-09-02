@@ -129,6 +129,9 @@
             android:onClick="onClick"
             android:layout_gravity="right|bottom" />
 
+
+
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView

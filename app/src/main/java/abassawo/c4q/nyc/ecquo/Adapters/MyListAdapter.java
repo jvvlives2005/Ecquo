@@ -33,7 +33,7 @@ import android.widget.TextView;
 import com.nhaarman.listviewanimations.ArrayAdapter;
 
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
@@ -42,8 +42,12 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHeadersAdapter {
 
 
+
+
     private final Context mContext;
     private List<Goal> mGoals;
+
+
 
 
     public MyListAdapter(final Context context) {
@@ -51,7 +55,7 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 //        for (int i = 0; i < 100; i++) {
 //            add(mContext.getString(R.string.row_number, i));
 //        }
-      mGoals = Planner.get(mContext).getGoals();
+        mGoals = Planner.get(mContext).getGoals();
         Goal goal = new Goal("Work");
         Goal goal2 = new Goal("School");
         goal2.add(new Task("Final Project"));
@@ -60,10 +64,16 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
             mGoals.add(goal2);
             mGoals.add(new Goal("fix bugs"));
         }
-        for (int i = 0; i < mGoals.size(); i++) {
-            add(mGoals.get(i).toString());
-        }
+
+     ArrayList sampleTasks = new ArrayList();
+        sampleTasks.add("fix animations");
+        sampleTasks.add("set up navigation drawer.");
+        for (int i = 0; i < 20; i++) {
+        add(mGoals.get(i).toString());
     }
+    }
+
+
 
 
     @Override
@@ -72,10 +82,14 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
     }
 
 
+
+
     @Override
     public boolean hasStableIds() {
         return true;
     }
+
+
 
 
     @Override
@@ -88,8 +102,11 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
             row_tv.setText(mGoals.get(position).toString()); //fixme
         }
 
+
         return view;
     }
+
+
 
 
 //    @NonNull
@@ -110,6 +127,8 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 //    }
 
 
+
+
     @Override
     public View getHeaderView(final int position, final View convertView, final ViewGroup parent) {
         TextView view = (TextView) convertView;
@@ -121,7 +140,6 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 
         return view;
     }
-
 
 
 

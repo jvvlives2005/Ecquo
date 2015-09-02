@@ -3,8 +3,6 @@ package abassawo.c4q.nyc.ecquo.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
@@ -22,10 +19,10 @@ import butterknife.ButterKnife;
 /**
  * Created by c4q-Abass on 8/18/15.
  */
-public class NoteEditActivity extends AppCompatActivity implements View.OnClickListener {
+public class GoalEditActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    @Bind(R.id.edit_note_msg) EditText msgEdit;
+    @Bind(R.id.edit_goal_title) EditText goalEdit;
     @Bind(R.id.note_imageView)
     ImageView noteImage;
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.NoteEditActivity";
@@ -35,14 +32,14 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_edit);
+        setContentView(R.layout.activity_goal_edit);
         ButterKnife.bind(this);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(NoteEditActivity.this, MainActivity.class));
+        startActivity(new Intent(GoalEditActivity.this, MainActivity.class));
     }
 
     private void startVoiceRecognitionActivity() {
@@ -60,7 +57,7 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
                     RecognizerIntent.EXTRA_RESULTS);
             if (matches.size() > 0) {
                 Log.d(TAG, matches.get(0));
-                msgEdit.setText(matches.get(0));
+                goalEdit.setText(matches.get(0));
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -72,6 +69,7 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btn_speak_now:
                 startVoiceRecognitionActivity();
                 break;
+
         }
     }
 }

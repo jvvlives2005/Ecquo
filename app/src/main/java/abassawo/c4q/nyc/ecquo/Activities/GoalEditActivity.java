@@ -11,7 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import abassawo.c4q.nyc.ecquo.Model.Goal;
+import abassawo.c4q.nyc.ecquo.Model.Planner;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,13 +30,14 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
     ImageView noteImage;
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.NoteEditActivity";
     private static final int REQUEST_CODE = 1;
-
+    private List<Goal> mGoals;
     private ViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_edit);
         ButterKnife.bind(this);
+        mGoals = Planner.get(getApplicationContext()).getGoals();
     }
 
     @Override
@@ -42,13 +46,13 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
         startActivity(new Intent(GoalEditActivity.this, MainActivity.class));
     }
 
-    private void startVoiceRecognitionActivity() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Enter new Note");
-        startActivityForResult(intent, REQUEST_CODE);
-    }
+//    private void startVoiceRecognitionActivity() {
+//        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+//        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+//                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+//        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Enter new Note");
+//        startActivityForResult(intent, REQUEST_CODE);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -67,7 +71,15 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_speak_now:
-                startVoiceRecognitionActivity();
+                if(goalEdit.getText().length()>0) {
+                    String goal_str = goalEdit.getText().toString();
+                    Goal goal = new Goal(goal_str);
+                    mGoals.add(goal);
+                    Log.d(mGoals.toString(), TAG);
+                    Intent intent = new Intent(GoalEditActivity.this, GoalDetailActivity.class);
+                    intent.putExtra("Goal title", goal.getGoalTitle());
+                    startActivity(intent);
+                }
                 break;
 
         }

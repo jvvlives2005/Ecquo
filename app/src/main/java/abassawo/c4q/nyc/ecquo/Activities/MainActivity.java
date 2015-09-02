@@ -92,10 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         loadMotivationalBackDrop();
+        setupActionBar();
 
-//        if (navigationView != null) {
-//            setupDrawerContent(navigationView);
-//        }
+/
         initListeners();
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
 
@@ -112,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         userProfile,
                         hansProfile,
                         joshProfile,
-                        //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
+                        //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
 //                        new ProfileSettingDrawerItem().withName("Work").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
 //                        new ProfileSettingDrawerItem().withName("School").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
                         new ProfileSettingDrawerItem().withName("Coalition for Queens").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)
@@ -134,70 +133,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(3),
         new PrimaryDrawerItem().withName("Calendar").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(4))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                                                   @Override
-                                                   public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
-                                                       //check if the drawerItem is set.
-                                                       //there are different reasons for the drawerItem to be null
-                                                       //--> click on the header
-                                                       //--> click on the footer
-                                                       //those items don't contain a drawerItem
-                                                       Intent intent = new Intent();
-                                                       if (iDrawerItem.getIdentifier() == 1) {
-                                                           intent = new Intent(MainActivity.this, GoalEditActivity.class);
-                                                       } else if (iDrawerItem.getIdentifier() == 2) {
-                                                           intent = new Intent(MainActivity.this, GoalListActivity.class);
-                                                       } else if (iDrawerItem.getIdentifier() == 3) {
-                                                           intent = new Intent(MainActivity.this, BackburnerPickerActivity.class);
-                                                       } else if (iDrawerItem.getIdentifier() == 4) {
-                                                           intent = new Intent(MainActivity.this, GoalDetailActivity.class);
-                                                       }
-                                                       if (intent != null) {
-                                                           MainActivity.this.startActivity(intent);
-                                                       }
+                      @Override
+                      public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
+                          //check if the drawerItem is set.
+                          //there are different reasons for the drawerItem to be null
+                          //--> click on the header
+                          //--> click on the footer
+                          //those items don't contain a drawerItem
+                          Intent intent = new Intent();
+                          if (iDrawerItem.getIdentifier() == 1) {
+                              intent = new Intent(MainActivity.this, GoalEditActivity.class);
+                          } else if (iDrawerItem.getIdentifier() == 2) {
+                              intent = new Intent(MainActivity.this, GoalListActivity.class);
+                          } else if (iDrawerItem.getIdentifier() == 3) {
+                              intent = new Intent(MainActivity.this, BackburnerPickerActivity.class);
+                          } else if (iDrawerItem.getIdentifier() == 4) {
+                              intent = new Intent(MainActivity.this, GoalDetailActivity.class);
+                          }
+                          if (intent != null) {
+                              MainActivity.this.startActivity(intent);
+                          }
 
 
-                                                       return false;
-                                                   }
-                                               }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
+                          return false;
+                      }
+                }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
 
-
-
-        ArrayList dayList = new ArrayList();
-        dayList.add("Laundry");
-        dayList.add("Groceries");
-        arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.habit_stack_item, R.id.title_habit, dayList);
-//        deck1.setAdapter(arrayAdapter);
-//
-//                       deck1.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
-//                                @Override
-//                                public void removeFirstObjectInAdapter() {
-//                                        // this is the simplest way to delete an object from the Adapter (/AdapterView)
-//                                                Log.d("LIST", "removed object!");
-//
-//                                        arrayAdapter.notifyDataSetChanged();
-//                                    }
-//
-//                                        @Override
-//                                public void onLeftCardExit(Object o) {
-//
-//                                            }
-//
-//                                        @Override
-//                                public void onRightCardExit(Object o) {
-//
-//                                            }
-//
-//                                        @Override
-//                                public void onAdapterAboutToEmpty(int i) {
-//                                        //Motivate the User.
-//                                            }
-//
-//                                        @Override
-//                                public void onScroll(float v) {
-//
-//                                            }
-//
-//                            });
 
 
     }
@@ -206,8 +167,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initState() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-
 
 
     }
@@ -252,35 +211,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Glide.with(MainActivity.this).load(R.drawable.do_it_now).centerCrop().into(backdrop);
     }
 
-    private void setupDrawerModel() {
-        // Create the AccountHeader
 
-    }
-
-
-//    private void setupDrawerContent(NavigationView navigationView) {
-//        navigationView.setNavigationItemSelectedListener(
-//                new NavigationView.OnNavigationItemSelectedListener() {
-//
-//
-//                    @Override
-//                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-//
-//                        menuItem.setChecked(true);
-//                        int id = menuItem.getItemId();
-//                        switch (id) {
-//                            case R.id.nav_new_goal:
-//                                startActivity(  new Intent(MainActivity.this, GoalEditActivity.class) );
-//                                break;
-//                            case R.id.nav_new_task:
-//                                break;
-//                        }
-//
-//                        mDrawerLayout.closeDrawers();
-//                        return true;
-//                    }
-//                });
-//    }
 
 
     public void setupActionBar(){

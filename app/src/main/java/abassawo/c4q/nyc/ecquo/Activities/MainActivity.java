@@ -21,6 +21,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 
+import com.andtinder.model.CardModel;
+import com.andtinder.model.Orientations;
+import com.andtinder.view.CardContainer;
+import com.andtinder.view.SimpleCardStackAdapter;
 import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -59,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
     View fab1;
+    @Bind(R.id.deck1)
+    CardContainer cardDeck;
+    @Bind(R.id.deck2)
+    CardContainer cardDeck2;
 //    @Bind(R.id.cardFrame)
 //    SwipeFlingAdapterView deck1;
 
@@ -92,16 +100,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         loadMotivationalBackDrop();
         setupActionBar();
         setupNavDrawer(savedInstanceState);
-
-
         initListeners();
+        setupDayStacks(cardDeck);
+        setupDayStacks(cardDeck2);
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
+    }
 
-
-
-
-
-
+    public void setupDayStacks(CardContainer deck){
+        deck.setOrientation(Orientations.Orientation.Ordered);
+        SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
+        for(int i = 0; i < 5; i++) {
+            CardModel card = new CardModel("Fix bugs", "Testing", getResources().getDrawable(R.drawable.picture1));
+            CardModel card2 = new CardModel("Work on report", "More Testing", getResources().getDrawable(R.drawable.picture2));
+            adapter.add(card);
+            adapter.add(card2);
+        }
+        deck.setAdapter(adapter);
     }
 
     public void setupNavDrawer(Bundle savedInstanceState){
@@ -207,11 +221,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupActionBar(){
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
         actionBar.setIcon(R.mipmap.ic_ecquo);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(false);
         actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
-
         collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 

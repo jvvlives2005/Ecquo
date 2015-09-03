@@ -38,4 +38,5 @@ dependencies {
     compile('com.mikepenz:materialdrawer:4.0.5@aar') {
         transitive = true
     }
+    compile 'com.github.kikoso:SwipeableCards:1.1-RELEASE@aar'
 }

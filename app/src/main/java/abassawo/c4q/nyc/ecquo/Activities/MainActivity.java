@@ -13,18 +13,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 
 
 import com.bumptech.glide.Glide;
-import com.lorentzos.flingswipe.SwipeFlingAdapterView;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -62,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     CollapsingToolbarLayout collapsingToolbar;
     @Bind(R.id.fab)
     View fab1;
-    @Bind(R.id.cardFrame)
-    SwipeFlingAdapterView deck1;
+//    @Bind(R.id.cardFrame)
+//    SwipeFlingAdapterView deck1;
 
 
     @Bind(R.id.nav_view)
@@ -77,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ArrayList todaysTasks;
     ArrayAdapter arrayAdapter;
     AlarmManager alarmMan;
+
 
     //save our header or result
     private AccountHeader headerResult = null;
@@ -93,24 +91,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         loadMotivationalBackDrop();
         setupActionBar();
+        setupNavDrawer(savedInstanceState);
 
 
         initListeners();
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
 
 
-        final IProfile userProfile = new ProfileDrawerItem().withName("Abass Bayo").withNameShown(true).withEmail("100 Points").withIcon(getResources().getDrawable(R.drawable.exercise_brain));
+
+
+
+
+    }
+
+    public void setupNavDrawer(Bundle savedInstanceState){
+        final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo").withNameShown(true).withEmail("100 Points").withIcon(getResources().getDrawable(R.drawable.exercise_brain));
         final IProfile hansProfile = new ProfileDrawerItem().withName("Hans");
         final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn");
-
-
         headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.background_poly)
-                .addProfiles(
-                        userProfile,
-                        hansProfile,
-                        joshProfile,
+                .addProfiles(abassProfile, hansProfile, joshProfile,
                         //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
 //                        new ProfileSettingDrawerItem().withName("Work").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
 //                        new ProfileSettingDrawerItem().withName("School").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
@@ -126,41 +127,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 })
                 .withSavedInstance(savedInstanceState)
                 .build();
+
         drawerModel = new DrawerBuilder().withActivity(this).withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light)).withToolbar(toolbar)
                 .withAccountHeader(headerResult).addDrawerItems(
-        new PrimaryDrawerItem().withName("New Goal").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(1),
-        new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(2),
-        new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(3),
-        new PrimaryDrawerItem().withName("Calendar").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(4))
+                        new PrimaryDrawerItem().withName("New Goal").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_goal),
+                        new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_new_task),
+                        new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(R.id.nav_collaborators),
+                        new PrimaryDrawerItem().withName("Calendar").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(R.id.nav_calendar))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                      @Override
-                      public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
-                          //check if the drawerItem is set.
-                          //there are different reasons for the drawerItem to be null
-                          //--> click on the header
-                          //--> click on the footer
-                          //those items don't contain a drawerItem
-                          Intent intent = new Intent();
-                          if (iDrawerItem.getIdentifier() == 1) {
-                              intent = new Intent(MainActivity.this, GoalEditActivity.class);
-                          } else if (iDrawerItem.getIdentifier() == 2) {
-                              intent = new Intent(MainActivity.this, GoalListActivity.class);
-                          } else if (iDrawerItem.getIdentifier() == 3) {
-                              intent = new Intent(MainActivity.this, BackburnerPickerActivity.class);
-                          } else if (iDrawerItem.getIdentifier() == 4) {
-                              intent = new Intent(MainActivity.this, GoalDetailActivity.class);
-                          }
-                          if (intent != null) {
-                              MainActivity.this.startActivity(intent);
-                          }
-
-
-                          return false;
-                      }
+                    @Override
+                    public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
+                  
+                        switch (iDrawerItem.getIdentifier()) {
+                            case R.id.nav_new_goal: startActivity(new Intent(MainActivity.this, GoalEditActivity.class));
+                                break;
+                            case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, GoalListActivity.class));
+                                break;
+                            case R.id.nav_collaborators: startActivity(new Intent(MainActivity.this, BackburnerPickerActivity.class));
+                                break;
+                            case R.id.nav_calendar: startActivity(new Intent(MainActivity.this, GoalDetailActivity.class));
+                                break;
+                        }
+                        return false;
+                    }
                 }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
-
-
-
     }
 
 

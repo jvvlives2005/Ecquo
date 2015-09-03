@@ -65,10 +65,10 @@
 
 
 
-        <android.support.v4.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <!--<android.support.v4.widget.NestedScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
 
 
@@ -77,21 +77,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingTop="24dp">
-                <include layout="@layout/include_sample_taskcards"/>
 
 
-
-
-
-
-
+                <!--<include layout="@layout/include_sample_taskcards"/>-->
 
 
                 <RelativeLayout
                     android:id="@+id/goal_prompt_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
 
 
 
@@ -103,6 +97,8 @@
 
 
                     <Button
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
                         android:id="@+id/goal_list_btn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -116,11 +112,13 @@
             </LinearLayout>
 
 
-        </android.support.v4.widget.NestedScrollView>
+        <!--</android.support.v4.widget.NestedScrollView>-->
 
 
 
         <android.support.design.widget.FloatingActionButton
+            android:foregroundGravity="bottom"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:src="@drawable/ic_mode_edit_black_36dp"
@@ -130,9 +128,10 @@
             android:layout_gravity="right|bottom" />
 
 
-
-
     </android.support.design.widget.CoordinatorLayout>
+
+
+
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

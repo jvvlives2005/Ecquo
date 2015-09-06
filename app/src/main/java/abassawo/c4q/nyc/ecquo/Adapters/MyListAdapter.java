@@ -11,7 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+
+
 import com.nhaarman.listviewanimations.ArrayAdapter;
+
+
+
 
 
 
@@ -22,6 +27,8 @@ import abassawo.c4q.nyc.ecquo.R;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 
+
+
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -30,13 +37,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+
+
 import com.nhaarman.listviewanimations.ArrayAdapter;
+
+
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
+
 
 
 public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHeadersAdapter {
@@ -44,8 +58,16 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 
 
 
+
+
+
+
     private final Context mContext;
     private List<Goal> mGoals;
+
+
+
+
 
 
 
@@ -65,13 +87,18 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
             mGoals.add(new Goal("fix bugs"));
         }
 
-     ArrayList sampleTasks = new ArrayList();
+
+        ArrayList sampleTasks = new ArrayList();
         sampleTasks.add("fix animations");
         sampleTasks.add("set up navigation drawer.");
         for (int i = 0; i < 20; i++) {
-        add(mGoals.get(i).toString());
+            add(mGoals.get(i).toString());
+        }
     }
-    }
+
+
+
+
 
 
 
@@ -84,10 +111,18 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 
 
 
+
+
+
+
     @Override
     public boolean hasStableIds() {
         return true;
     }
+
+
+
+
 
 
 
@@ -103,8 +138,14 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
         }
 
 
+
+
         return view;
     }
+
+
+
+
 
 
 
@@ -129,6 +170,10 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 
 
 
+
+
+
+
     @Override
     public View getHeaderView(final int position, final View convertView, final ViewGroup parent) {
         TextView view = (TextView) convertView;
@@ -136,10 +181,15 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
             view = (TextView) LayoutInflater.from(mContext).inflate(R.layout.list_header, parent, false);
         }
 
+
         view.setText(mGoals.get(position).toString());
+
 
         return view;
     }
+
+
+
 
 
 

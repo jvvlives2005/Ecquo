@@ -1,12 +1,12 @@
 
 package abassawo.c4q.nyc.ecquo.Activities;
 
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,16 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 
 
 import com.andtinder.model.CardModel;
 import com.andtinder.model.Orientations;
 import com.andtinder.view.CardContainer;
 import com.andtinder.view.SimpleCardStackAdapter;
-import com.bumptech.glide.Glide;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -38,8 +36,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
-import java.util.ArrayList;
-
+import java.util.Date;
 
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
@@ -50,38 +47,24 @@ import butterknife.ButterKnife;
 
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    @Bind(R.id.goal_list_btn)
-    Button goalBtn;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     @Bind(R.id.drawer_view)
-    DrawerLayout mDrawerLayout;
-    @Bind(R.id.backdrop_img)
-    ImageView backdrop;
+       DrawerLayout mDrawerLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.fab)
-    View fab1;
     @Bind(R.id.deck1)
-    CardContainer cardDeck;
-    @Bind(R.id.deck2)
-    CardContainer cardDeck2;
-//    @Bind(R.id.cardFrame)
-//    SwipeFlingAdapterView deck1;
-
-
+    CardContainer deck;
+    private FragmentManager fragMan;
     @Bind(R.id.nav_view)
     NavigationView navigationView;
+    @Bind(R.id.fab2)
+    FloatingActionButton fabEdit;
+
 
 
 
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
     private ActionBarDrawerToggle mDrawerToggle;
-    private ArrayList habitList;
-    private ArrayList todaysTasks;
-    ArrayAdapter arrayAdapter;
-    AlarmManager alarmMan;
 
 
     //save our header or result
@@ -97,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        loadMotivationalBackDrop();
+        initState();
+        initListeners();
         setupActionBar();
         setupNavDrawer(savedInstanceState);
-        initListeners();
-        setupDayStacks(cardDeck);
-        setupDayStacks(cardDeck2);
+        setupDayStacks(deck);
+
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
     }
 
@@ -111,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
         for(int i = 0; i < 5; i++) {
             CardModel card = new CardModel("Fix bugs", "Testing", getResources().getDrawable(R.drawable.picture1));
-            CardModel card2 = new CardModel("Work on report", "More Testing", getResources().getDrawable(R.drawable.picture2));
+            CardModel card2 = new CardModel("Work on report and keep on testing stuff for this project because this is fun", "More Testing", getResources().getDrawable(R.drawable.picture2));
             adapter.add(card);
             adapter.add(card2);
         }
@@ -151,17 +134,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
-                  
-                        switch (iDrawerItem.getIdentifier()) {
-                            case R.id.nav_new_goal: startActivity(new Intent(MainActivity.this, GoalEditActivity.class));
-                                break;
-                            case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, GoalListActivity.class));
-                                break;
-                            case R.id.nav_collaborators: startActivity(new Intent(MainActivity.this, BackburnerPickerActivity.class));
-                                break;
-                            case R.id.nav_calendar: startActivity(new Intent(MainActivity.this, GoalDetailActivity.class));
-                                break;
-                        }
+
+                        //switch (iDrawerItem.getIdentifier()) {
+//                            case R.id.nav_new_goal: startActivity(new Intent(MainActivity.this, GoalEditActivity.class));
+//                                break;
+//                            case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, GoalListActivity.class));
+//                                break;
+//                            case R.id.nav_collaborators: startActivity(new Intent(MainActivity.this, BackburnerPickerActivity.class));
+//                                break;
+//                            case R.id.nav_calendar: startActivity(new Intent(MainActivity.this, GoalDetailActivity.class));
+                        //break;
+                        //}
                         return false;
                     }
                 }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
@@ -171,81 +154,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initState() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-
+        fragMan = getSupportFragmentManager();
     }
 
     public void initListeners(){
-
-        fab1.setOnClickListener(this);
-        goalBtn.setOnClickListener(this);
-
-
+        fabEdit.setOnClickListener(this);
 
     }
-
-
-    public void setupDrawerBehavior(){
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,R.string.openDrawer,R.string.closeDrawer){ //fixme fix the strings
-
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened( As I dont want anything happened whe drawer is 
-                // open I am not going to put anything here) 
-            }
-
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed 
-            }
-
-
-        }; // Drawer Toggle Object Made 
-        mDrawerLayout.setDrawerListener(mDrawerToggle); // Drawer Listener set to the Drawer toggle
-        mDrawerToggle.syncState();               // Finally we set the drawer toggle sync State
-
-
-    }
-    private void loadMotivationalBackDrop(){
-        Glide.with(MainActivity.this).load(R.drawable.do_it_now).centerCrop().into(backdrop);
-    }
-
-
 
 
     public void setupActionBar(){
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.app_name));
+        Date date = new Date();
+//        actionBar.setSubtitle(date.toString());
         actionBar.setIcon(R.mipmap.ic_ecquo);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(false);
         actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
-        collapsingToolbar.setTitle(getResources().getString(R.string.app_name));
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fab: startActivity(new Intent(MainActivity.this, BackburnerPickerActivity.class));
+            case R.id.fab2: startActivity(new Intent(MainActivity.this, TaskEditActivity.class));
         }
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.nav_new_goal:
-                Intent intent = new Intent(MainActivity.this, GoalEditActivity.class);
-                startActivity(intent);
-                break;
-        }
         finish();
         return true;
     }
@@ -256,5 +196,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        return false;
     }
 }

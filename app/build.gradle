@@ -39,4 +39,5 @@ dependencies {
         transitive = true
     }
     compile 'com.github.kikoso:SwipeableCards:1.1-RELEASE@aar'
+    compile 'com.etsy.android.grid:library:1.0.5'
 }

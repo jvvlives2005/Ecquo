@@ -17,7 +17,7 @@ public class EditDateFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_task_edit, container, false);
+        View view = inflater.inflate(R.layout.fragment_date_edit, container, false);
         return view;
     }
 }

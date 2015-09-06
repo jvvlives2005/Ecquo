@@ -45,5 +45,6 @@
     <string name="title_activity_task_edit">TaskEditActivity</string>
     <string name="name_task_prompt">Name Your Task</string>
     <string name="date_task_prompt"><![CDATA[Set your due date & time]]></string>
+    <string name="set_your_priority">Set your Priority</string>
 
 </resources>

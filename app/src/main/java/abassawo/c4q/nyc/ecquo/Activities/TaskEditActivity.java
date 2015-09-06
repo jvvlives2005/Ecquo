@@ -1,5 +1,6 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
+import android.app.FragmentTransaction;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +57,9 @@ public class TaskEditActivity extends AppCompatActivity {
         adapter.addFragment(new EditNameFragment(), "NAME");
         adapter.addFragment(new EditDateFragment(), "DATE");
         adapter.addFragment(new EditPriorityFragment(), "PRIORITY");
+        adapter.addFragment(SupportMapFragment.newInstance(), "LOCATIONS"); //test.
         adapter.addFragment(new EditLocationragment(), "PLACES");
+
         viewPager.setAdapter(adapter);
     }
 

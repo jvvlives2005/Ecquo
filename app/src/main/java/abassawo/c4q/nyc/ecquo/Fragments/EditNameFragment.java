@@ -39,6 +39,7 @@ public class EditNameFragment extends Fragment{
         if(edittext.getText().length()>0){
             textview.setAlpha(1);
 
+
             //textview.setVisibility(View.VISIBLE);
         }
 

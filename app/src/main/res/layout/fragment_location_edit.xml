@@ -1,0 +1,28 @@
+<RelativeLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set your Location Reminder"
+        android:id="@+id/set_location_prompt"/>
+
+    <EditText
+        android:layout_below="@+id/set_location_prompt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/address_search"/>
+
+<fragment
+    class="com.google.android.gms.maps.MapFragment"
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:layout_centerInParent="true"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_vertical_margin" />
+
+
+</RelativeLayout>

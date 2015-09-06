@@ -15,4 +15,6 @@
     <dimen name="item_circle_size_path">36dp</dimen>
     <dimen name="layout_child_offset_path">114dp</dimen>
     <dimen name="layout_radius_path">140dp</dimen>
+    <dimen name="card_staggered_height">240dp</dimen>
+    <dimen name="card_insets">8dp</dimen>
 </resources>

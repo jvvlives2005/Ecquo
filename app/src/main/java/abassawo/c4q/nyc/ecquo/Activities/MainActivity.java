@@ -48,15 +48,11 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
-    @Bind(R.id.drawer_view)
-       DrawerLayout mDrawerLayout;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.deck1)
     CardContainer deck;
     private FragmentManager fragMan;
-    @Bind(R.id.nav_view)
-    NavigationView navigationView;
     @Bind(R.id.fab2)
     FloatingActionButton fabEdit;
 

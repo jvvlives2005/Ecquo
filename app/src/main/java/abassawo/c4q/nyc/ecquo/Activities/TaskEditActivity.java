@@ -58,7 +58,7 @@ public class TaskEditActivity extends AppCompatActivity {
         adapter.addFragment(new EditDateFragment(), "DATE");
         adapter.addFragment(new EditPriorityFragment(), "PRIORITY");
         adapter.addFragment(SupportMapFragment.newInstance(), "LOCATIONS"); //test.
-        adapter.addFragment(new EditLocationragment(), "PLACES");
+        //adapter.addFragment(new EditLocationragment(), "PLACES");
 
         viewPager.setAdapter(adapter);
     }

@@ -50,13 +50,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.deck1)
-    CardContainer deck;
+//    @Bind(R.id.deck1)
+//    CardContainer deck;
     private FragmentManager fragMan;
     @Bind(R.id.fab2)
     FloatingActionButton fabEdit;
-
-
 
 
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListeners();
         setupActionBar();
         setupNavDrawer(savedInstanceState);
-        setupDayStacks(deck);
+        //setupDayStacks(deck);
 
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
     }
@@ -165,10 +163,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         actionBar.setTitle(getResources().getString(R.string.app_name));
         Date date = new Date();
 //        actionBar.setSubtitle(date.toString());
-        actionBar.setIcon(R.mipmap.ic_ecquo);
+        //actionBar.setIcon(R.mipmap.ic_ecquo);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDefaultDisplayHomeAsUpEnabled(false);
-        actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
+        //actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
     }
 
 

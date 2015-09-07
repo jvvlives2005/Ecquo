@@ -46,5 +46,6 @@
     <string name="name_task_prompt">Name Your Task</string>
     <string name="date_task_prompt"><![CDATA[Set your due date & time]]></string>
     <string name="set_your_priority">Set your Priority</string>
+    <string name="tasks_empty">Click the Ecquo Logo to add more tasks to work on today!</string>
 
 </resources>

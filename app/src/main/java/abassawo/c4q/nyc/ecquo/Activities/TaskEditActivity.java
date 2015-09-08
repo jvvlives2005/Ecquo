@@ -1,29 +1,19 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
-import android.app.FragmentTransaction;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import abassawo.c4q.nyc.ecquo.Fragments.EditDateFragment;
-import abassawo.c4q.nyc.ecquo.Fragments.EditLocationragment;
 import abassawo.c4q.nyc.ecquo.Fragments.EditNameFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.EditPriorityFragment;
 import abassawo.c4q.nyc.ecquo.R;

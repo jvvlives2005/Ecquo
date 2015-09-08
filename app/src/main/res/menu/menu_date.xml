@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/share" android:title="Today" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/today_item" android:title="Today" android:icon="@drawable/ic_discuss"/>
     <item android:id="@+id/upload" android:title="Tomorrow" android:icon="@drawable/ic_discuss"/>
     <item android:id="@+id/call" android:title="Next Week" android:icon="@drawable/ic_discuss"/>
 

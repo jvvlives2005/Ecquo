@@ -11,11 +11,15 @@ import java.util.ArrayList;
 public class Planner{
     private static final String TAG = "NotePad";
     private static final String FILENAME = "notes.json";
-
+    private static ArrayList<Task>mTasks;
     private ArrayList<Goal> mGoals;
 
     public ArrayList<Goal> getGoals() {
         return mGoals;
+    }
+
+    public ArrayList<Task> getTasks(){
+        return mTasks;
     }
     private JSONSerializer mSerializer;
 
@@ -28,6 +32,7 @@ public class Planner{
 
         try {
             mGoals = mSerializer.loadGoals();
+            mTasks = mSerializer.loadTasks();
         } catch (Exception e) {
             mGoals = new ArrayList<Goal>();
             Log.e(TAG, "Error loading labels: ", e);

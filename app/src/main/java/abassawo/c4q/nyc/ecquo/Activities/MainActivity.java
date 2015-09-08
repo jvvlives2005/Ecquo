@@ -12,12 +12,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 
 
 import com.andtinder.model.CardModel;
@@ -36,15 +38,15 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import abassawo.c4q.nyc.ecquo.Model.Planner;
+import abassawo.c4q.nyc.ecquo.Model.Task;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
-
-
-
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Bind(R.id.fab2)
     FloatingActionButton fabEdit;
+
+    @Bind(R.id.empty_card_view)
+    CardView emptyLayout;
 
     private FragmentManager fragMan;
 
@@ -66,7 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AccountHeader headerResult = null;
     private Drawer drawerModel = null;
     private static final int PROFILE_SETTING = 1;
-
+    private List<Task> taskList;
+    private List<Task> todayList;
+    @Bind(R.id.deck1) CardContainer deck;
 
 
 
@@ -79,7 +86,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListeners();
         setupActionBar();
         setupNavDrawer(savedInstanceState);
-        //setupDayStacks(deck);
+        taskList = Planner.get(getApplicationContext()).getTasks();
+        todayList = new ArrayList<>();
+        if(!taskList.isEmpty()) {
+
+            for (Task x : taskList) {
+                if (x.isRemindMeToday() && (!todayList.contains(x))) {
+                    todayList.add(x);
+                }
+            }
+        }
+        setupDayStacks(deck);
+        if(!todayList.isEmpty()){
+            //emptyLayout.setVisibility(View.GONE);
+        }
 
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
     }
@@ -87,11 +107,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupDayStacks(CardContainer deck){
         deck.setOrientation(Orientations.Orientation.Ordered);
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
-        for(int i = 0; i < 5; i++) {
-            CardModel card = new CardModel("Fix bugs", "Testing", getResources().getDrawable(R.drawable.picture1));
-            CardModel card2 = new CardModel("Work on report and keep on testing stuff for this project because this is fun", "More Testing", getResources().getDrawable(R.drawable.picture2));
+        todayList.add(new Task("Exercise"));
+        for(int i = 0; i < todayList.size(); i++) {
+            CardModel card = new CardModel(todayList.get(i).getTitle(), "Testing", getResources().getDrawable(R.drawable.picture1));
             adapter.add(card);
-            adapter.add(card2);
+
         }
         deck.setAdapter(adapter);
     }

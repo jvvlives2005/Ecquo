@@ -30,7 +30,7 @@
 
     <string name="goal_title_hint">New Goal</string>
     <string name="note_title_label">Title</string>
-    <string name="note_details_label">Details</string>
+    <string name="note_details_label">Priority</string>
     <string name="note_solved_label">Completed?</string>
     <string name="notes_title">Notes</string>
     <string name="today_tasks">Today\'s Tasks</string>

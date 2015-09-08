@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:slidingLayer="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -40,15 +41,16 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textinput_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText android:id="@+id/edit_task_title"
-                        android:layout_width="match_parent"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="16dp"
                         android:hint="@string/goal_title_hint"
@@ -62,6 +64,7 @@
 
 
                 <ImageButton
+                    android:layout_alignRight="@+id/textinput_layout"
                     style="@style/Item.Path"
                     android:id="@+id/btn_speak_now"
                     android:onClick="onClick"
@@ -70,7 +73,8 @@
                     android:src="@android:drawable/ic_btn_speak_now"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_margin="@dimen/activity_vertical_margin"/>
             </RelativeLayout>
         </LinearLayout>
 
@@ -91,6 +95,7 @@
 
 
         <ImageButton
+            android:visibility="invisible"
             android:id="@+id/remindMeButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -111,6 +116,8 @@
             android:layout_centerHorizontal="true" />
 
 
+
+
     </LinearLayout>
 
 
@@ -125,6 +132,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TimePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timePicker2"
+                android:layout_gravity="center_horizontal" />
+
             <View
                 android:id="@+id/view1"
                 android:layout_width="match_parent"
@@ -134,50 +147,4 @@
 
     </com.flipboard.bottomsheet.BottomSheetLayout>
 
-    <com.wunderlist.slidinglayer.SlidingLayer
-        android:id="@+id/slidingLayer"
-        android:layout_width="@dimen/layer_size"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/toolbar"
-        android:elevation="2dip">
-        <!--slidingLayer:shadowDrawable="@drawable/sidebar_shadow"
-        slidingLayer:shadowSize="@dimen/shadow_size"
-        slidingLayer:offsetDistance="@dimen/offset_distance"
-        slidingLayer:previewOffsetDistance="@dimen/preview_offset_distance"
-        slidingLayer:stickTo="top|bottom|right|left"
-        slidingLayer:changeStateOnTap="true">-->
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/primary_light">
-
-
-            <TextView
-                android:id="@+id/swipeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:drawablePadding="15dip"
-                android:paddingBottom="80dp"
-                android:textSize="17sp"
-                android:textColor="@color/colorPrimary"/>
-
-
-            <Button
-                android:id="@+id/buttonClose"
-                style="@style/ButtonRed"
-                android:onClick="buttonClicked"
-                android:layout_marginBottom="60dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:text="@string/close_button_container"/>
-
-
-        </RelativeLayout>
-
-
-    </com.wunderlist.slidinglayer.SlidingLayer>
-    </LinearLayout>
+</LinearLayout>

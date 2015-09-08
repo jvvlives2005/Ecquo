@@ -44,9 +44,9 @@ public class TaskEditActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new FragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(new EditNameFragment(), "NAME");
-        adapter.addFragment(new EditDateFragment(), "DATE");
-        adapter.addFragment(new EditPriorityFragment(), "PRIORITY");
+//        adapter.addFragment(new EditNameFragment(), "NAME");
+//        adapter.addFragment(new EditDateFragment(), "DATE");
+//        adapter.addFragment(new EditPriorityFragment(), "PRIORITY");
         adapter.addFragment(SupportMapFragment.newInstance(), "LOCATIONS"); //test.
         //adapter.addFragment(new EditLocationragment(), "PLACES");
 

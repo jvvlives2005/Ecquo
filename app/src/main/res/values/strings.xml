@@ -49,4 +49,12 @@
     <string name="tasks_empty">Click the Ecquo Logo to add more tasks to work on today!</string>
     <string name="title_activity_edit">EditActivity</string>
 
+    <string name="title_activity_launcher">LauncherActivity</string>
+
+    <string name="title">Ecquo Planner</string>
+    <string name="quote">“Dumb people talk about people.
+ Smart people talk about ideas.”</string>
+    <string name="author">-Hans</string>
+
+
 </resources>

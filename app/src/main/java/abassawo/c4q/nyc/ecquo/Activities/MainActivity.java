@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AccountHeader headerResult = null;
     private Drawer drawerModel = null;
     private static final int PROFILE_SETTING = 1;
-    private List<Task> taskList;
-    private List<Task> todayList;
+    public static List<Task> taskList;
+    public static List<Task> todayList;
     @Bind(R.id.deck1) CardContainer deck;
 
 
@@ -88,17 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupNavDrawer(savedInstanceState);
         taskList = Planner.get(getApplicationContext()).getTasks();
         todayList = new ArrayList<>();
-        if(!taskList.isEmpty()) {
 
-            for (Task x : taskList) {
-                if (x.isRemindMeToday() && (!todayList.contains(x))) {
-                    todayList.add(x);
-                }
-            }
-        }
         setupDayStacks(deck);
         if(!todayList.isEmpty()){
-            //emptyLayout.setVisibility(View.GONE);
+           emptyLayout.setAlpha(0);
+        } else {
+            emptyLayout.setAlpha(1);
         }
 
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
@@ -107,9 +102,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupDayStacks(CardContainer deck){
         deck.setOrientation(Orientations.Orientation.Ordered);
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
-        todayList.add(new Task("Exercise"));
+        for(Task x : taskList){
+            if(x.isRemindMeToday()){
+                todayList.add(x);
+            }
+        }
+        //fixme : sort the list by priority factors.
         for(int i = 0; i < todayList.size(); i++) {
-            CardModel card = new CardModel(todayList.get(i).getTitle(), "Testing", getResources().getDrawable(R.drawable.picture1));
+            CardModel card = new CardModel(todayList.get(i).getTitle(), "Testing", getResources().getDrawable(R.drawable.mountaintop));
             adapter.add(card);
 
         }

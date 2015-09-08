@@ -53,7 +53,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private Context ctx;
 
     private Task task;
-    private List<Task> todayList;
+    public static List<Task> todayList;
+    public static List<Task>taskList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,11 +124,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int id) {
                 switch (id) {
                     case R.id.today_item:
+                        task.setRemindMeToday(true);
                         todayList.add(task);
-                        Intent intent = new Intent(ctx, MainActivity.class);
-                        intent.putExtra("task_remind_today", task.isRemindMeToday());
-                        startActivity(intent);
-
+                        reminderSheet.show();
                         break;
                     default:
                         startActivity(new Intent(ctx, MainActivity.class));
@@ -169,7 +168,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         reminderSheet = new BottomSheet.Builder(this).title("Remind Me").sheet(R.menu.menu_reminder).listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-
+                Intent intent = new Intent(ctx, MainActivity.class);  //fixme
+                        startActivity(intent);
             }
         }).build();
     }

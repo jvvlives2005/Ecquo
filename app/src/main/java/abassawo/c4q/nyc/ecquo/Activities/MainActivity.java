@@ -50,11 +50,12 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-//    @Bind(R.id.deck1)
-//    CardContainer deck;
-    private FragmentManager fragMan;
+
     @Bind(R.id.fab2)
     FloatingActionButton fabEdit;
+
+    private FragmentManager fragMan;
+
 
 
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
@@ -173,7 +174,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fab2: startActivity(new Intent(MainActivity.this, TaskEditActivity.class));
+            //case R.id.fab2: startActivity(new Intent(MainActivity.this, TaskEditActivity.class));
+            case R.id.fab2: startActivity(new Intent(MainActivity.this, EditActivity.class));
         }
 
     }

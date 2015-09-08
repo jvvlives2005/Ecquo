@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -129,14 +128,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         todayList.add(task);
                         reminderSheet.show();
                         break;
-                    case R.id.tomorrow:
-                        //todo: task.setduedate
-                        Snackbar.make(findViewById(android.R.id.content), "New Task set to begin Tomorrow", Snackbar.LENGTH_LONG)
-                                .show();
-                        break;
                     default:
-                        //startActivity(new Intent(ctx, MainActivity.class));
-                        break;  
+                        startActivity(new Intent(ctx, MainActivity.class));
+                        break;
 
                 }
                 //reminderSheet.show();

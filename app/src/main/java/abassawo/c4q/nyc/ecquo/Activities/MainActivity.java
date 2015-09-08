@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setupDayStacks(deck);
         if(!todayList.isEmpty()){
-           emptyLayout.setAlpha(0);
+         //  emptyLayout.setAlpha(0);
         } else {
             emptyLayout.setAlpha(1);
         }

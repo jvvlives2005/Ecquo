@@ -2,14 +2,14 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_new_goal"
+            android:id="@+id/nav_new_task"
 
             android:icon="@drawable/ic_action_add_to_queue"
             android:title="New Goal" />
         <item
-            android:id="@+id/nav_new_task"
+            android:id="@+id/nav_places"
             android:icon="@drawable/ic_alarm_add_black"
-            android:title="New Task" />
+            android:title="Places" />
         <item
             android:id="@+id/nav_collaborators"
             android:icon="@drawable/ic_discuss"

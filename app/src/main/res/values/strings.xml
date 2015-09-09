@@ -55,6 +55,9 @@
     <string name="quote">“Dumb people talk about people.
  Smart people talk about ideas.”</string>
     <string name="author">-Hans</string>
+    <string name="search">Search</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="clear_search">Clear</string>
 
 
 </resources>

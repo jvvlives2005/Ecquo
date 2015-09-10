@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -43,6 +46,10 @@ import butterknife.ButterKnife;
 public class EditActivity extends AppCompatActivity implements View.OnClickListener{
     @Bind(R.id.edit_task_title)
     EditText edittext;
+    @Bind(R.id.rating_bar)
+    RatingBar priorityRatingBar;
+    @Bind(R.id.fab_reveal_button)
+    FloatingActionButton fab;
 
     @Bind(R.id.fab_reveal_layout_test)
     FABRevealLayout fabRevealLayout;
@@ -66,12 +73,25 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         configureFABReveal(fabRevealLayout);
         ctx = this;
         todayList = Planner.get(ctx).getTasks();
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(edittext.getText().toString().length() > 0) {
+                    fabRevealLayout.revealSecondaryView();
+                } else{
+                    Toast.makeText(getApplicationContext(), "Title neded", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         //bottomSheetLayout.setPeekOnDismiss(true);
         setupDateheets();
         setupLocationSheet();
         setupPrioritySheet();
         setupReminderSheet();
+
+
 //        showDateSheet(MenuSheetView.MenuType.LIST);
 //        final View priorityView = LayoutInflater.from(ctx).inflate(R.layout.bottom_priority_edit, bottomSheetLayout, false);
 //        View dateView = LayoutInflater.from(ctx).inflate(R.layout.fragment_date_edit, bottomSheetLayout, false);
@@ -111,13 +131,21 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSecondaryViewAppeared(final FABRevealLayout fabRevealLayout, View secondaryView) {
-               //showSecondaryViewItems();
+                priorityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        hideKeyboard();
+                        dateSheet.show();
+                        prepareBackTransition(fabRevealLayout);
+                    }
+                });
                 secondaryView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         hideKeyboard();
+                        dateSheet.show();
                         prepareBackTransition(fabRevealLayout);
-                        dateSheet.show(); //TESTING
+                       //TESTING
                     }
                 });
 
@@ -142,9 +170,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int id) {
                 switch (id) {
                     case R.id.today_item:
-                        task.setDisplayToday(true);
-                        todayList.add(task);
-                        reminderSheet.show();
+                        if (edittext.getText().toString().length() > 0) {
+                            task = new Task(edittext.getText().toString());
+                            task.setDisplayToday(true);
+                            todayList.add(task);
+                            reminderSheet.show();
+                        }
                         break;
                     default:
                         startActivity(new Intent(ctx, MainActivity.class));

@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name=".Activities.EditActivity"
-            android:label="@string/title_activity_edit" >
+            android:label="@string/title_activity_edit">
         </activity>
         <service android:name=".Model.WakeUpService"/>
         <receiver android:name=".Model.StartupReceiver">

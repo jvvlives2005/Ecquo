@@ -41,8 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import abassawo.c4q.nyc.ecquo.Model.Planner;
-import abassawo.c4q.nyc.ecquo.Model.QueryPreferences;
+import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.Model.Task;
 import abassawo.c4q.nyc.ecquo.Model.WakeUpService;
 import abassawo.c4q.nyc.ecquo.R;
@@ -88,16 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initListeners();
         setupActionBar();
         setupNavDrawer(savedInstanceState);
-        taskList = Planner.get(getApplicationContext()).getTasks();
-        todayList = new ArrayList<>();
+        taskList = sPlanner.get(getApplicationContext()).getTasks();
+        todayList = sPlanner.get(getApplicationContext()).getTodaysTasks();
 
         setupDayStacks(deck);
-//        if(!todayList.isEmpty()){
-//           emptyLayout.setAlpha(0);
-//        } else {
-//            emptyLayout.setAlpha(1);
-//        }
-
+//
         emptyLayout.setAlpha(1);
 
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
@@ -106,11 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupDayStacks(CardContainer deck){
         deck.setOrientation(Orientations.Orientation.Ordered);
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
-        for(Task x : taskList){
-            if(x.isNotifyToday()){
-                todayList.add(x);
-            }
-        }
+
         //fixme : sort the list by priority factors.
         for(int i = 0; i < todayList.size(); i++) {
             CardModel card = new CardModel(todayList.get(i).getTitle(), "Testing", getResources().getDrawable(R.drawable.mountaintop));
@@ -219,7 +209,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "QueryTextSubmit: " + query);
-                Planner.setStoredQuery(getApplicationContext(), query);
+                sPlanner.setStoredQuery(getApplicationContext(), query);
                 updateSearchQueryItems();
                 return false;
             }
@@ -233,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String query = Planner.getStoredQuery(getApplicationContext());
+                String query = sPlanner.getStoredQuery(getApplicationContext());
                 searchView.setQuery(query, false);
             }
         });

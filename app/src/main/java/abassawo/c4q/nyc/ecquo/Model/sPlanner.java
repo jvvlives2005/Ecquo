@@ -5,31 +5,51 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by c4q-Abass on 8/18/15.
+ * Singleton Class for tracking state throughout app.
  */
-public class Planner{
+public class sPlanner {
+    private static final Date todaysDate = new Date();
     private static final String TAG = "NotePad";
     private static final String FILENAME = "notes.json";
     private static ArrayList<Task>mTasks;
-    private ArrayList<Goal> mGoals;
 
+    private ArrayList<Goal> mGoals;
     public ArrayList<Goal> getGoals() {
         return mGoals;
     }
-
     public ArrayList<Task> getTasks(){
+
         return mTasks;
+    }
+
+
+
+    public List<Task>getTodaysTasks(){
+        List<Task> todayList = new ArrayList<Task>();
+        for(Task x : mTasks){
+            if(x.isNotifyToday()){
+                todayList.add(x);
+            }
+        }
+        return todayList;
     }
     private JSONSerializer mSerializer;
 
-    private static Planner sPlanner;
+    private static abassawo.c4q.nyc.ecquo.Model.sPlanner sSPlanner;
     private Context mAppContext;
 
-    private Planner(Context appContext) {
+    private sPlanner(Context appContext) {
+        calculateDates();
         mAppContext = appContext;
         mSerializer = new JSONSerializer(mAppContext, FILENAME);
+
+        Log.d(TAG + "date", todaysDate.toString());
 
         try {
             mGoals = mSerializer.loadGoals();
@@ -41,12 +61,17 @@ public class Planner{
 
     }
 
+    private void calculateDates(){
+        //Date tomorrowsDate = Calendar.getInstance().getTime().
+        // Date weekFromToday =
+    }
+
     //
-    public static Planner get(Context c) {
-        if (sPlanner == null) {
-            sPlanner = new Planner(c.getApplicationContext());
+    public static abassawo.c4q.nyc.ecquo.Model.sPlanner get(Context c) {
+        if (sSPlanner == null) {
+            sSPlanner = new sPlanner(c.getApplicationContext());
         }
-        return sPlanner;
+        return sSPlanner;
     }
 
     private static final String PREF_SEARCH_QUERY = "searchQuery";

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
+import com.truizlop.fabreveallayout.FABRevealLayout;
+import com.truizlop.fabreveallayout.OnRevealChangeListener;
 //import com.flipboard.bottomsheet.BottomSheetLayout;
 //import com.flipboard.bottomsheet.OnSheetDismissedListener;
 //import com.flipboard.bottomsheet.commons.MenuSheetView;
@@ -40,10 +43,9 @@ import butterknife.ButterKnife;
 public class EditActivity extends AppCompatActivity implements View.OnClickListener{
     @Bind(R.id.edit_task_title)
     EditText edittext;
-    //@Bind(R.id.bottomsheet)
-  //  BottomSheetLayout bottomSheetLayout;
-    @Bind(R.id.btn_speak_now)
-    ImageButton speakEnterBtn;
+
+    @Bind(R.id.fab_reveal_layout_test)
+    FABRevealLayout fabRevealLayout;
 
 
     private BottomSheet dateSheet;
@@ -61,9 +63,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
         ButterKnife.bind(this);
+        configureFABReveal(fabRevealLayout);
         ctx = this;
         todayList = Planner.get(ctx).getTasks();
-
 
         //bottomSheetLayout.setPeekOnDismiss(true);
         setupDateheets();
@@ -77,23 +79,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
        // bottomSheetLayout.showWithSheetView(priorityView);
         //bottomSheetLayout.showContextMenu();
 
-        speakEnterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(edittext.getText().length()>0){
-                   hideKeyboard();
-                    Task task = new Task(edittext.getText().toString());
-                    dateSheet.show();
-                    //showDateSheet(MenuSheetView.MenuType.LIST);
-                    //showDateSheet(MenuSheetView.MenuType.GRID);
 
 
-                }
-            }
-        });
-        if(edittext.getText().length()>0){
-            speakEnterBtn.setImageResource(android.R.drawable.ic_media_next);
-        }
 
         edittext.addTextChangedListener(new TextWatcher() {
             @Override
@@ -103,9 +90,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(edittext.getText().length()>0){
-                    speakEnterBtn.setImageResource(android.R.drawable.ic_media_next);
-                }
+
             }
 
             @Override
@@ -117,6 +102,39 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void configureFABReveal(FABRevealLayout fabRevealLayout) {
+        fabRevealLayout.setOnRevealChangeListener(new OnRevealChangeListener() {
+            @Override
+            public void onMainViewAppeared(FABRevealLayout fabRevealLayout, View mainView) {
+                //showMainViewItems();
+            }
+
+            @Override
+            public void onSecondaryViewAppeared(final FABRevealLayout fabRevealLayout, View secondaryView) {
+               //showSecondaryViewItems();
+                secondaryView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        hideKeyboard();
+                        prepareBackTransition(fabRevealLayout);
+                        dateSheet.show(); //TESTING
+                    }
+                });
+
+            }
+        });
+    }
+
+    private void prepareBackTransition(final FABRevealLayout fabRevealLayout) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fabRevealLayout.revealMainView();
+            }
+        }, 2000);
+    }
+
+
 
     public void setupDateheets() {
         dateSheet = new BottomSheet.Builder(this).title("Start Date").sheet(R.menu.menu_date).listener(new DialogInterface.OnClickListener() {
@@ -124,7 +142,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int id) {
                 switch (id) {
                     case R.id.today_item:
-                        task.setRemindMeToday(true);
+                        task.setDisplayToday(true);
                         todayList.add(task);
                         reminderSheet.show();
                         break;
@@ -174,41 +192,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }).build();
     }
 
-//    private void showDateSheet(MenuSheetView.MenuType menuType) {
-//        MenuSheetView dateSheetView =
-//                new MenuSheetView(EditActivity.this, menuType, "Start Date", new MenuSheetView.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        Toast.makeText(EditActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-//                        if (bottomSheetLayout.isSheetShowing()) {
-//                            bottomSheetLayout.dismissSheet();
-//                            startActivity(new Intent(ctx, TaskEditActivity.class)); //fixme
-//                        }
-//                        return true;
-//                    }
-//                });
-//        dateSheetView.inflateMenu(R.menu.menu_date);
-//        bottomSheetLayout.showWithSheetView(dateSheetView);
-//    }
-//
-//    private void showPrioritySheet(MenuSheetView.MenuType menuType){
-//        MenuSheetView prioritySheetView = new MenuSheetView(EditActivity.this, menuType, "Set Priority", new MenuSheetView.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//                bottomSheetLayout.dismissSheet();
-//                locationSheet.show();
-//                return false;
-//            }
-//        });
-//        prioritySheetView.inflateMenu(R.menu.menu_priority);
-//        bottomSheetLayout.dismissSheet();
-//        bottomSheetLayout.showWithSheetView(prioritySheetView);
-    //}
-
-//    @Override
-//    public void onDismissed(BottomSheetLayout bottomSheetLayout) {
-//
-//    }
 
     @Override
     public void onClick(View v) {

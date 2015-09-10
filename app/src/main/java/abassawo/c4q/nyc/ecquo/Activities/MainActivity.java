@@ -44,6 +44,7 @@ import java.util.List;
 import abassawo.c4q.nyc.ecquo.Model.Planner;
 import abassawo.c4q.nyc.ecquo.Model.QueryPreferences;
 import abassawo.c4q.nyc.ecquo.Model.Task;
+import abassawo.c4q.nyc.ecquo.Model.WakeUpService;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WakeUpService.setServiceAlarm(this, true);
         ButterKnife.bind(this);
         initState();
         initListeners();
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deck.setOrientation(Orientations.Orientation.Ordered);
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
         for(Task x : taskList){
-            if(x.isRemindMeToday()){
+            if(x.isNotifyToday()){
                 todayList.add(x);
             }
         }
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             //case R.id.fab2: startActivity(new Intent(MainActivity.this, TabbedEditActivity.class));
-            case R.id.fab2: startActivity(new Intent(MainActivity.this, EditActivity.class));
+            case R.id.fab2: startActivity(new Intent(MainActivity.this, EditActivity.class)); //testing animation
         }
 
     }

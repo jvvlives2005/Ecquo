@@ -58,6 +58,7 @@
     <string name="search">Search</string>
     <string name="sign_out">Sign Out</string>
     <string name="clear_search">Clear</string>
+    <string name="new_task_hint">New Task</string>
 
 
 </resources>

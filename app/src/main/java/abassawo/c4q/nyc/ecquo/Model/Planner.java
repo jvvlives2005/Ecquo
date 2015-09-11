@@ -1,6 +1,7 @@
 package abassawo.c4q.nyc.ecquo.Model;
 
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -11,11 +12,15 @@ import java.util.ArrayList;
 public class Planner{
     private static final String TAG = "NotePad";
     private static final String FILENAME = "notes.json";
-
+    private static ArrayList<Task>mTasks;
     private ArrayList<Goal> mGoals;
 
     public ArrayList<Goal> getGoals() {
         return mGoals;
+    }
+
+    public ArrayList<Task> getTasks(){
+        return mTasks;
     }
     private JSONSerializer mSerializer;
 
@@ -28,6 +33,7 @@ public class Planner{
 
         try {
             mGoals = mSerializer.loadGoals();
+            mTasks = mSerializer.loadTasks();
         } catch (Exception e) {
             mGoals = new ArrayList<Goal>();
             Log.e(TAG, "Error loading labels: ", e);
@@ -42,5 +48,16 @@ public class Planner{
         }
         return sPlanner;
     }
+
+    private static final String PREF_SEARCH_QUERY = "searchQuery";
+
+    public static String getStoredQuery(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getString(PREF_SEARCH_QUERY, null);
+    }
+
+    public static void setStoredQuery(Context context, String query) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREF_SEARCH_QUERY, query).apply();
+    }
+
 }
 

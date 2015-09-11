@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="shadow_size">8dp</dimen>
     <dimen name="layer_size">150dp</dimen>
-    <dimen name="preview_offset_distance">40dp</dimen>
+    <dimen name="preview_offset_distance">140dp</dimen>
     <dimen name="offset_distance">40dp</dimen>
     <dimen name="closed_offset_distance">300dp</dimen>
 

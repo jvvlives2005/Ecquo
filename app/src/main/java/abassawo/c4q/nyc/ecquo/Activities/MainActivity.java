@@ -5,14 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,25 +37,31 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import abassawo.c4q.nyc.ecquo.Model.Planner;
+import abassawo.c4q.nyc.ecquo.Model.QueryPreferences;
+import abassawo.c4q.nyc.ecquo.Model.Task;
+import abassawo.c4q.nyc.ecquo.Model.WakeUpService;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-
-
-
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-//    @Bind(R.id.deck1)
-//    CardContainer deck;
-    private FragmentManager fragMan;
+
     @Bind(R.id.fab2)
     FloatingActionButton fabEdit;
+
+    @Bind(R.id.empty_card_view)
+    CardView emptyLayout;
+
+    private FragmentManager fragMan;
+
 
 
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
@@ -65,7 +72,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AccountHeader headerResult = null;
     private Drawer drawerModel = null;
     private static final int PROFILE_SETTING = 1;
-
+    public static List<Task> taskList;
+    public static List<Task> todayList;
+    @Bind(R.id.deck1) CardContainer deck;
 
 
 
@@ -73,12 +82,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        WakeUpService.setServiceAlarm(this, true);
         ButterKnife.bind(this);
         initState();
         initListeners();
         setupActionBar();
         setupNavDrawer(savedInstanceState);
-        //setupDayStacks(deck);
+        taskList = Planner.get(getApplicationContext()).getTasks();
+        todayList = new ArrayList<>();
+
+        setupDayStacks(deck);
+//        if(!todayList.isEmpty()){
+//           emptyLayout.setAlpha(0);
+//        } else {
+//            emptyLayout.setAlpha(1);
+//        }
+
+        emptyLayout.setAlpha(1);
 
        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
     }
@@ -86,11 +106,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setupDayStacks(CardContainer deck){
         deck.setOrientation(Orientations.Orientation.Ordered);
         SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
-        for(int i = 0; i < 5; i++) {
-            CardModel card = new CardModel("Fix bugs", "Testing", getResources().getDrawable(R.drawable.picture1));
-            CardModel card2 = new CardModel("Work on report and keep on testing stuff for this project because this is fun", "More Testing", getResources().getDrawable(R.drawable.picture2));
+        for(Task x : taskList){
+            if(x.isNotifyToday()){
+                todayList.add(x);
+            }
+        }
+        //fixme : sort the list by priority factors.
+        for(int i = 0; i < todayList.size(); i++) {
+            CardModel card = new CardModel(todayList.get(i).getTitle(), "Testing", getResources().getDrawable(R.drawable.mountaintop));
             adapter.add(card);
-            adapter.add(card2);
+
         }
         deck.setAdapter(adapter);
     }
@@ -121,24 +146,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawerModel = new DrawerBuilder().withActivity(this).withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light)).withToolbar(toolbar)
                 .withAccountHeader(headerResult).addDrawerItems(
-                        new PrimaryDrawerItem().withName("New Goal").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_goal),
-                        new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_new_task),
+                        new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_task),
+                        new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_places),
                         new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(R.id.nav_collaborators),
                         new PrimaryDrawerItem().withName("Calendar").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(R.id.nav_calendar))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
 
-                        //switch (iDrawerItem.getIdentifier()) {
-//                            case R.id.nav_new_goal: startActivity(new Intent(MainActivity.this, GoalEditActivity.class));
-//                                break;
-//                            case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, GoalListActivity.class));
-//                                break;
-//                            case R.id.nav_collaborators: startActivity(new Intent(MainActivity.this, BackburnerPickerActivity.class));
-//                                break;
-//                            case R.id.nav_calendar: startActivity(new Intent(MainActivity.this, GoalDetailActivity.class));
-                        //break;
-                        //}
+                        switch (iDrawerItem.getIdentifier()) {
+                            case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, EditActivity.class));
+                                break;
+                            case R.id.nav_places: startActivity(new Intent(MainActivity.this, TabbedEditActivity.class));
+
+                        }
                         return false;
                     }
                 }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
@@ -173,15 +194,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.fab2: startActivity(new Intent(MainActivity.this, TaskEditActivity.class));
+            //case R.id.fab2: startActivity(new Intent(MainActivity.this, TabbedEditActivity.class));
+            case R.id.fab2: startActivity(new Intent(MainActivity.this, EditActivity.class)); //testing animation
         }
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        finish();
-        return true;
+//        switch(item.getItemId()){
+//
+//        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -189,7 +213,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.menu_item_search);
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "QueryTextSubmit: " + query);
+                Planner.setStoredQuery(getApplicationContext(), query);
+                updateSearchQueryItems();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = Planner.getStoredQuery(getApplicationContext());
+                searchView.setQuery(query, false);
+            }
+        });
         return true;
+    }
+
+    private void updateSearchQueryItems(){
+        //new FetchQueryTask().execute();
     }
 
 

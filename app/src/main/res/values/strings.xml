@@ -30,7 +30,7 @@
 
     <string name="goal_title_hint">New Goal</string>
     <string name="note_title_label">Title</string>
-    <string name="note_details_label">Details</string>
+    <string name="note_details_label">Priority</string>
     <string name="note_solved_label">Completed?</string>
     <string name="notes_title">Notes</string>
     <string name="today_tasks">Today\'s Tasks</string>
@@ -47,11 +47,18 @@
     <string name="date_task_prompt"><![CDATA[Set your due date & time]]></string>
     <string name="set_your_priority">Set your Priority</string>
     <string name="tasks_empty">Click the Ecquo Logo to add more tasks to work on today!</string>
+    <string name="title_activity_edit">EditActivity</string>
+
     <string name="title_activity_launcher">LauncherActivity</string>
 
     <string name="title">Ecquo Planner</string>
     <string name="quote">“Dumb people talk about people.
  Smart people talk about ideas.”</string>
     <string name="author">-Hans</string>
+    <string name="search">Search</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="clear_search">Clear</string>
+    <string name="new_task_hint">New Task</string>
+
 
 </resources>

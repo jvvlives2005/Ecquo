@@ -12,6 +12,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA6jAeh4tvOCg0KiFMcGjaNgk1x9pL5t3w" />
+
         <activity
             android:name=".Activities.LauncherActivity"
             android:label="@string/app_name"
@@ -28,9 +29,19 @@
             android:label="@string/app_name">
         </activity>
         <activity
-            android:name=".Activities.TaskEditActivity"
+            android:name=".Activities.TabbedEditActivity"
             android:label="@string/title_activity_task_edit" >
         </activity>
+        <activity
+            android:name=".Activities.EditActivity"
+            android:label="@string/title_activity_edit" >
+        </activity>
+        <service android:name=".Model.WakeUpService"/>
+        <receiver android:name=".Model.StartupReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

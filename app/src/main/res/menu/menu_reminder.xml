@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/every_day" android:title="Every Day" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/onceaweek" android:title="Once a Week" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/twiceaweek" android:title="Twice a Week" android:icon="@drawable/ic_discuss"/>
+
+
+    <group android:id="@+id/locationreminder">
+        <item android:id="@+id/help" android:title="GPS Reminder" android:icon="@drawable/ic_discuss"/>
+    </group>
+</menu>

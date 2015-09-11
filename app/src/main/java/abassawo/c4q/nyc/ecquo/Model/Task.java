@@ -10,22 +10,60 @@ import java.util.Date;
  */
 public class Task extends Note{
     private String title;
-    private Date deadlineDate;
+    private boolean isNotifyToday;
+    private Date startDate;
+    private Date endDate;
     private Location location;
-    private boolean dueToday = deadlineDate == new Date();
+    private int duration;
+    private Date reminderDay;
 
-    public Task(String title){
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+
+    public boolean isNotifyToday() {
+        return isNotifyToday;
+    }
+
+    public void setDisplayToday(boolean isNotifyToday) {
+        this.isNotifyToday = isNotifyToday;
+    }
+
+
+
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public Date getDeadlineDate()    {
-        return deadlineDate;
+
+
+    public boolean displayToday() {
+        return isNotifyToday;
     }
 
 
-    public boolean isDueToday(){
-        return dueToday;
+    public Task(String title){
+        this.title = title;
+        startDate = new Date();
+        //endDate = startDate + duration;
     }
+
+    public Date getEndDate()    {
+        return endDate;
+    }
+
+
 
 
 }

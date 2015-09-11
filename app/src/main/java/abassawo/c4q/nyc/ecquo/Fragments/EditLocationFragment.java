@@ -11,21 +11,17 @@ import com.google.android.gms.common.Scopes;
 //import com.google.android.gms.plus.Plus;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.maps.MapFragment;
 
 import abassawo.c4q.nyc.ecquo.R;
 
 /**
  * Created by c4q-Abass on 9/4/15.
  */
-public class EditLocationragment extends Fragment {
+public class EditLocationFragment extends MapFragment {
     public GoogleApiClient googleLogInClient;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_location_edit, container, false);
-        return view;
-    }
 
 
 //    protected synchronized void buildGoogleApiClient(Context context) {

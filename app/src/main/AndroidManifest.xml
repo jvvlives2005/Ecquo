@@ -9,11 +9,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:icon" >
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA6jAeh4tvOCg0KiFMcGjaNgk1x9pL5t3w"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA6jAeh4tvOCg0KiFMcGjaNgk1x9pL5t3w" />
+
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".Activities.LauncherActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,9 +25,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.TaskEditActivity"
+            android:name=".Activities.MainActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".Activities.TabbedEditActivity"
             android:label="@string/title_activity_task_edit" >
         </activity>
+        <activity
+            android:name=".Activities.EditActivity"
+            android:label="@string/title_activity_edit" >
+        </activity>
+        <service android:name=".Model.WakeUpService"/>
+        <receiver android:name=".Model.StartupReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

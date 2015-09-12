@@ -7,16 +7,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.List;
+
 import abassawo.c4q.nyc.ecquo.R;
 
 public class NavigationDrawerAdapter extends BaseAdapter {
-
     private List<NavigationDrawerItem> mDrawerItems;
     private LayoutInflater mLayoutInflater;
 
-
-    public NavigationDrawerAdapter(Context context,List<NavigationDrawerItem> mDrawerItems) {
+    public NavigationDrawerAdapter(Context context, List<NavigationDrawerItem> mDrawerItems) {
         super();
         this.mDrawerItems = mDrawerItems;
         mLayoutInflater = LayoutInflater.from(context);
@@ -29,7 +29,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        // Not used in this application.
+        // Not used in this application
         return null;
     }
 
@@ -50,9 +50,30 @@ public class NavigationDrawerAdapter extends BaseAdapter {
         ImageView icon = (ImageView) convertView.findViewById(R.id.navigation_item_icon);
         icon.setImageResource(navigationDrawerItem.getIconId());
 
-
         return convertView;
-
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

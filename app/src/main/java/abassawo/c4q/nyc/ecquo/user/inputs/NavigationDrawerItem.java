@@ -1,7 +1,6 @@
 package abassawo.c4q.nyc.ecquo.user.inputs;
 
 public class NavigationDrawerItem {
-
     private int iconId;
     private String title;
 
@@ -18,3 +17,4 @@ public class NavigationDrawerItem {
         return title;
     }
 }
+

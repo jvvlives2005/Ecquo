@@ -50,21 +50,20 @@ public class ArchivesAdapter extends RecyclerView.Adapter<ArchivesAdapter.NoteHo
     public void onBindViewHolder(NoteHolder holder, int position) {
         holder._id.setText(mData.get(position).getId() + "");
         holder.title.setText(mData.get(position).getTitle());
-        if(mData.get(position) .getDateTime().contains(AppConstant.No_TIME)){
+        if (mData.get(position).getDateTime().contains(AppConstant.NO_TIME)) {
             NoteCustomList noteCustomList = new NoteCustomList(mContext);
             noteCustomList.setUpForHomeAdapter(mData.get(position).getDescription());
             holder.listLayout.removeAllViews();
             holder.listLayout.addView(noteCustomList);
             holder.description.setVisibility(View.GONE);
-        }
-        else if(mData.get(position).getType().equals(AppConstant.LIST)) {
+        } else if (mData.get(position).getType().equals(AppConstant.LIST)) {
             NoteCustomList noteCustomList = new NoteCustomList(mContext);
             noteCustomList.setUpForListNotification(mData.get(position).getDescription());
             holder.listLayout.removeAllViews();
             holder.listLayout.addView(noteCustomList);
             holder.listLayout.setVisibility(View.VISIBLE);
             holder.description.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.listLayout.setVisibility(View.GONE);
             holder.description.setText(mData.get(position).getDescription());
         }

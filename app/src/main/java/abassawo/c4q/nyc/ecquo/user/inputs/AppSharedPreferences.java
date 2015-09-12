@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 
 public class AppSharedPreferences {
 
-    //this method will set the state of user knowing about the existence of the Navigation Drawer
+    // Setter method for the Navigation Drawer state
     public static void setUserLearned(Context context, String prefName, String prefValue) {
         android.content.SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         android.content.SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -13,19 +13,19 @@ public class AppSharedPreferences {
         editor.apply();
     }
 
-    //this method will get the state of user knowing about the existence of the Navigation Drawer
+    // Getter method for the Navigation Drawer state
     public static String hasUserLearned(Context context, String prefName, String defaultValue) {
         android.content.SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(prefName, defaultValue);
     }
 
-    //this method will get the upload preference for the image; whether google drive, dropbox or local
+    // Return preference for image location. Google Drive, Dropbox or Local
     public static int getUploadPreference(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return preferences.getInt(AppConstant.IMAGE_SELECTION_STORAGE, AppConstant.NONE_SELECTION);
     }
 
-    //this method will set the upload preference for the image; whether google drive, dropbox or local
+    // Set preference for image location. Google Drive, Dropbox or Local
     public static void setPersonalNotesPreference(Context context, int value) {
         SharedPreferences preferences = context.getSharedPreferences(
                 AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
@@ -34,7 +34,7 @@ public class AppSharedPreferences {
         editor.apply();
     }
 
-    //this method will store the ResourceID of the google drive directory to which we will save the image
+    // Set ResourceID of the Google Drive path (where we save image)
     public static void storeGoogleDriveResourceId(Context context, String value) {
         SharedPreferences preferences = context.getSharedPreferences(
                 AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
@@ -42,13 +42,14 @@ public class AppSharedPreferences {
         editor.putString(AppConstant.GOOGLE_DRIVE_ID, value);
         editor.apply();
     }
-    //this method will get the ResourceID of the google drive directory to which we will save the image
+
+    // Return ResourceID of the Google Drive path (where we save image)
     public static String getGoogleDriveResourceId(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(AppConstant.GOOGLE_DRIVE_ID, "");
     }
 
-    //this method will store the name of the google drive directory to which we will save the image
+    // Set Google Drive directory path (where we save image)
     public static void storeGoogleDriveUploadFileName(Context context, String value) {
         SharedPreferences preferences = context.getSharedPreferences(
                 AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
@@ -57,13 +58,13 @@ public class AppSharedPreferences {
         editor.apply();
     }
 
-    //this will get the path of the google drive directory to which we will save the image
+    // Return Google Drive directory path (where we save image)
     public static String getGoogleDriveUploadPath(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(AppConstant.GOOGLE_DRIVE_UPLOAD_DIR, "");
     }
 
-    //this will store the image upload path in dropbox
+    // Set Dropbox directory path (where we save image)
     public static void storeDropBoxUploadPath(Context context, String value) {
         SharedPreferences preferences = context.getSharedPreferences(
                 AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
@@ -72,21 +73,19 @@ public class AppSharedPreferences {
         editor.apply();
     }
 
-    //this will get the image upload path in dropbox
+    // Return Dropbox directory path (where we save image)
     public static String getDropBoxUploadPath(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(AppConstant.DROP_BOX_UPLOAD_PATH, "");
     }
 
-    //this will check the authenticated state of dropbox
     public static boolean isDropBoxAuthenticated(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(AppConstant.DROP_BOX_AUTH_BOOL, false);
     }
 
 
-
-    //this will set the authentication state of dropbox
+    // Set authenticated state of Dropbox
     public static void isDropBoxAuthenticated(Context context, boolean value) {
         SharedPreferences preferences = context.getSharedPreferences(
                 AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
@@ -95,13 +94,12 @@ public class AppSharedPreferences {
         editor.apply();
     }
 
-    //this will get the authenticated sate of google drive
     public static boolean isGoogleDriveAuthenticated(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(AppConstant.GOOGLE_DRIVE_AUTH_BOOL, false);
     }
 
-    //this will set the authenticated state of google drive
+    // Set authenticated state of Google drive
     public static void isGoogleDriveAuthenticated(Context context, boolean value) {
         SharedPreferences preferences = context.getSharedPreferences(
                 AppConstant.PERSONAL_NOTES_PREFERENCE, Context.MODE_PRIVATE);

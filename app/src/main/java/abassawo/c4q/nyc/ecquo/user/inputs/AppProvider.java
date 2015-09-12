@@ -84,24 +84,24 @@ public class AppProvider extends ContentProvider {
                 break;
             case NOTES_ID:
                 queryBuilder.setTables(AppDatabase.Tables.NOTES);
-                String note_id = NotesContract.Notes.getNoteId(uri);
-                queryBuilder.appendWhere(BaseColumns._ID + "=" + note_id);
+                String noteId = NotesContract.Notes.getNoteId(uri);
+                queryBuilder.appendWhere(BaseColumns._ID + "=" + noteId);
                 break;
             case ARCHIVES:
                 queryBuilder.setTables(AppDatabase.Tables.ARCHIVES);
                 break;
             case ARCHIVES_ID:
                 queryBuilder.setTables(AppDatabase.Tables.ARCHIVES);
-                String archive_id = ArchivesContract.Archives.getArchiveId(uri);
-                queryBuilder.appendWhere(BaseColumns._ID + "=" + archive_id);
+                String archiveId = ArchivesContract.Archives.getArchiveId(uri);
+                queryBuilder.appendWhere(BaseColumns._ID + "=" + archiveId);
                 break;
             case TRASH:
                 queryBuilder.setTables(AppDatabase.Tables.TRASH);
                 break;
             case TRASH_ID:
                 queryBuilder.setTables(AppDatabase.Tables.TRASH);
-                String trash_id = TrashContract.Trash.getTrashId(uri);
-                queryBuilder.appendWhere(BaseColumns._ID + "=" + trash_id);
+                String trashId = TrashContract.Trash.getTrashId(uri);
+                queryBuilder.appendWhere(BaseColumns._ID + "=" + trashId);
                 break;
 
             default:
@@ -174,10 +174,11 @@ public class AppProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
 
-        if(uri.equals(NotesContract.BASE_CONTENT_URI)) {
+        if (uri.equals(NotesContract.BASE_CONTENT_URI)) {
             deleteDatabase();
             return 0;
         }
+
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
 
@@ -206,3 +207,18 @@ public class AppProvider extends ContentProvider {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

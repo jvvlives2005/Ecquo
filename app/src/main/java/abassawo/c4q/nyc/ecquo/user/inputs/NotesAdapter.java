@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.Collections;
 import java.util.List;
 
+
 import abassawo.c4q.nyc.ecquo.R;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteHolder> {

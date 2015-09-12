@@ -1,7 +1,7 @@
 package abassawo.c4q.nyc.ecquo.user.inputs;
 
 
-import android.content.AsyncTaskLoader;
+import android.support.v4.content.AsyncTaskLoader;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,13 +11,12 @@ import android.provider.BaseColumns;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class NotesLoader extends AsyncTaskLoader<List<Note>> {
 
     private List<Note> mNotes;
     private ContentResolver mContentResolver;
     private Cursor mCursor;
-    private int mType; // Reminder of a note
+    private int mType;   // Reminder or a note
 
     public NotesLoader(Context context, ContentResolver contentResolver, int type) {
         super(context);
@@ -39,7 +38,7 @@ public class NotesLoader extends AsyncTaskLoader<List<Note>> {
                 NotesContract.NotesColumns.NOTES_IMAGE_STORAGE_SELECTION };
 
         Uri uri = NotesContract.URI_TABLE;
-        mCursor = mContentResolver.query(uri, projection, null, null, BaseColumns._ID + " DESC");
+        mCursor = mContentResolver.query(uri,projection, null, null, BaseColumns._ID + " DESC");
         if(mCursor != null) {
             if(mCursor.moveToFirst()) {
                 do {
@@ -51,6 +50,7 @@ public class NotesLoader extends AsyncTaskLoader<List<Note>> {
                     String imagePath = mCursor.getString(mCursor.getColumnIndex(NotesContract.NotesColumns.NOTES_IMAGE));
                     int imageSelection = mCursor.getInt(mCursor.getColumnIndex(NotesContract.NotesColumns.NOTES_IMAGE_STORAGE_SELECTION));
                     int _id = mCursor.getInt(mCursor.getColumnIndex(BaseColumns._ID));
+
                     if(mType == BaseActivity.NOTES) {
                         if(time.equals(AppConstant.NO_TIME)) {
                             time = "";
@@ -59,7 +59,7 @@ public class NotesLoader extends AsyncTaskLoader<List<Note>> {
                                 if(imageSelection == AppConstant.DEVICE_SELECTION) {
                                     note.setBitmap(imagePath);
                                 } else {
-                                    // Is a Google Drive or Dropbox Image
+                                    // Is a Google Drive or Dropbox image
                                 }
                             } else {
                                 note.setImagePath(AppConstant.NO_IMAGE);
@@ -75,7 +75,7 @@ public class NotesLoader extends AsyncTaskLoader<List<Note>> {
                                 if(imageSelection == AppConstant.DEVICE_SELECTION) {
                                     note.setBitmap(imagePath);
                                 } else {
-                                    // Is a Google Drive or Dropbox Image
+                                    // Is a Google Drive or Dropbox image
                                 }
                             } else {
                                 note.setImagePath(AppConstant.NO_IMAGE);
@@ -92,4 +92,65 @@ public class NotesLoader extends AsyncTaskLoader<List<Note>> {
 
         return entries;
     }
+
+    @Override
+    public void deliverResult(List<Note> notes) {
+        if (isReset()) {
+            if(notes != null) {
+                releaseResources();
+                return;
+            }
+        }
+        List<Note> oldNotes = mNotes;
+        mNotes = notes;
+        if(isStarted()) {
+            super.deliverResult(notes);
+        }
+        if(oldNotes != null && oldNotes != notes) {
+            releaseResources();
+        }
+    }
+
+    @Override
+    protected void onStartLoading() {
+        if(mNotes != null) {
+            deliverResult(mNotes);
+        }
+        if (takeContentChanged()) {
+            forceLoad();
+        } else if(mNotes == null) {
+            forceLoad();
+        }
+    }
+
+    @Override
+    protected void onStopLoading() {
+        cancelLoad();
+    }
+
+    @Override
+    protected void onReset() {
+        onStopLoading();
+        if(mNotes != null) {
+            releaseResources();
+            mNotes = null;
+        }
+    }
+
+    @Override
+    public void onCanceled(List<Note> notes) {
+        super.onCanceled(notes);
+        releaseResources();
+    }
+
+    @Override
+    public void forceLoad() {
+        super.forceLoad();
+    }
+
+    private void releaseResources() {
+        mCursor.close();
+    }
 }
+
+

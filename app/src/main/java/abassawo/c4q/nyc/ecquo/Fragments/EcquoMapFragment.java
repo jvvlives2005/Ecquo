@@ -145,7 +145,6 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
 
     public void initMap(GoogleMap map){
         map.setMyLocationEnabled(true);
-
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL); //Choose type of map, normal, terrain, satellite, none
         marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("MOMI"));
 
@@ -154,8 +153,12 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
         String provider = locationManager.getBestProvider(criteria, true);
         try {
             Location location = locationManager.getLastKnownLocation(provider);
-            Log.d(location.toString(), "test location" );
-            setMapPin(new LatLng(location.getLatitude(), location.getLongitude()));
+            Log.d(location.toString(), "test location");
+            if(location != null) {
+                setMapPin(new LatLng(location.getLatitude(), location.getLongitude()));
+            } else{
+                setMapPin(new LatLng(lat, lng)); //default placeholder map location.
+            }
         } catch(Exception e){  //fixme
 
         }
@@ -167,8 +170,6 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
 
         LatLngBounds bounds = new LatLngBounds.Builder().include(homePoint).include(workPoint).build();
         int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
-
-
         //setupMapView();
     }
 
@@ -263,7 +264,7 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-                mMap.setMyLocationEnabled(true);
+                //mMap.setMyLocationEnabled(true);
                 //mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
                 initMap(mMap);
             }

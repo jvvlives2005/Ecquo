@@ -70,9 +70,7 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
         view = super.onCreateView(inflater, container, savedInstanceState);
         initState();
         mCurrentLocation = new LatLng(lat, lng);
-
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
 
 //        if (checkLocationPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 //            // TODO: Consider calling
@@ -134,47 +132,42 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
         ctx = getActivity().getApplicationContext();
         buildGoogleMapClient(ctx);
         Geocoder geocoder = new Geocoder(ctx, Locale.getDefault());
-        getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                mMap = googleMap;
-                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
-                    @Override
-                    public void onMapLoaded() {
-                mMap.setMyLocationEnabled(true);
-                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-                        initMap(mMap);
-                    }
-                });
+        getMapAsync(this);
 
 
-            }
-        });
     }
 
-
+    private void setMapPin(LatLng coordinates) {
+        if (mMap != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 16.0F ));
+        }
+    }
 
     public void initMap(GoogleMap map){
         map.setMyLocationEnabled(true);
+
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL); //Choose type of map, normal, terrain, satellite, none
+        marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("MOMI"));
+
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
         try {
             Location location = locationManager.getLastKnownLocation(provider);
             Log.d(location.toString(), "test location" );
+            setMapPin(new LatLng(location.getLatitude(), location.getLongitude()));
         } catch(Exception e){  //fixme
 
         }
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL); //Choose type of map, normal, terrain, satellite, none
-        marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("MOMI"));
+
+
         LatLng homePoint = new LatLng(lat, lng);    //fixme
         LatLng workPoint = new LatLng(100, -11); //fixme
         //LatLngBounds latBounds = new LatLngBounds.Builder().include()
 
         LatLngBounds bounds = new LatLngBounds.Builder().include(homePoint).include(workPoint).build();
         int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
-        Marker newmarker = map.addMarker(new MarkerOptions().position(homePoint).title("marker title").icon(BitmapDescriptorFactory.fromResource(R.drawable.main_screen_rocket)));
+
 
         //setupMapView();
     }
@@ -262,24 +255,26 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
     }
 
 
+
     @Override
     public void onMapReady(GoogleMap map) {
+        mMap = map;
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                mMap.setMyLocationEnabled(true);
+                //mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                initMap(mMap);
+            }
+
+
+        });
+
 
 
     }
 
-    private void setMapPin() {
-        if (mMap != null) {
-            // Set initial view to current location
-            LatLngBounds AUSTRALIA = new LatLngBounds(
-                    new LatLng(-44, 113), new LatLng(-10, 154));
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(AUSTRALIA, 0));
-            //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPosition)
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(mCurrentLocation).zoom(14.0f).build();
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-            mMap.moveCamera(cameraUpdate);
-        }
-    }
 
 }
 

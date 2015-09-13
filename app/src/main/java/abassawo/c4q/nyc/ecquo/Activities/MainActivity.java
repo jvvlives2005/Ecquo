@@ -167,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+
+
     public void setupDayStacks(CardContainer deck, boolean dummyData){
         final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
         if (dummyData){

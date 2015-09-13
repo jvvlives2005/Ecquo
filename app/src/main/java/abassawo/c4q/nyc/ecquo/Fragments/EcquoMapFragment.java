@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
 /**
  * Created by c4q-Abass on 9/4/15.
  */
-public class EcquoMapFragment extends SupportMapFragment implements GoogleApiClient.ConnectionCallbacks {
+public class EcquoMapFragment extends SupportMapFragment implements GoogleApiClient.ConnectionCallbacks, OnMapReadyCallback {
     private MapView mMapView;
     private GoogleMap mMap;
     private LatLng mCurrentLocation;
@@ -70,9 +70,20 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
         view = super.onCreateView(inflater, container, savedInstanceState);
         initState();
         mCurrentLocation = new LatLng(lat, lng);
+
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
 
+//        if (checkLocationPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for Activity#requestPermissions for more details.
+//            return TODO;
+//        }
         try {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, new LocationListener() {
                 @Override
@@ -99,29 +110,11 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
 
         }
 
-
-
-
-        // view = inflater.inflate(R.layout.map_location_edit, container, false);
-//        searchField = (AutoCompleteTextView) view.findViewById(R.id.search_location_box);
-//        initListeners();
         return view;
     }
 
 
-    public void initListeners(){
-        searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_GO) {
-                    mCurrentLocation = getLatLng(searchField.getText().toString());
-                    setMapPin();
 
-                }
-                return true;
-            }
-        });
-    }
 
     public static EcquoMapFragment newInstance(){
         return new EcquoMapFragment();
@@ -149,11 +142,12 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
                 mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
                     @Override
                     public void onMapLoaded() {
-                        mMap.setMyLocationEnabled(true);
-                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                mMap.setMyLocationEnabled(true);
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                        initMap(mMap);
                     }
                 });
-               // initMap(mMap);
+
 
             }
         });
@@ -166,12 +160,12 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
-//        try {
-//           // Location location = locationManager.getLastKnownLocation(provider);
-//           // Log.d(location.toString(), "test location" );
-//        } catch(Exception e){  //fixme
-//
-//        }
+        try {
+            Location location = locationManager.getLastKnownLocation(provider);
+            Log.d(location.toString(), "test location" );
+        } catch(Exception e){  //fixme
+
+        }
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL); //Choose type of map, normal, terrain, satellite, none
         marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("MOMI"));
         LatLng homePoint = new LatLng(lat, lng);    //fixme
@@ -267,11 +261,12 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
 
     }
 
-//
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
 
-//    }
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+
+    }
 
     private void setMapPin() {
         if (mMap != null) {

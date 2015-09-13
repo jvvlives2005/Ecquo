@@ -10,6 +10,7 @@ import java.util.Date;
 
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by c4q-Abass on 9/13/15.
@@ -21,6 +22,7 @@ public class LabelPicker extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_label_list);
+        ButterKnife.bind(this);
         setupActionBar();
     }
 

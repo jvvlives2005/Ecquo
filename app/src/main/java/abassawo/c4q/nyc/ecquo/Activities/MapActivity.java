@@ -52,7 +52,7 @@ public class MapActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(new EcquoMapFragment(), TAG);
-                transaction.commit();
+        transaction.commit();
     }
 
 

@@ -1,18 +1,25 @@
 package abassawo.c4q.nyc.ecquo.Fragments;
 
 import android.content.Context;
+import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 //import com.google.android.gms.plus.Plus;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,9 +33,11 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
 import java.util.Locale;
 
 import abassawo.c4q.nyc.ecquo.R;
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -37,29 +46,47 @@ import butterknife.ButterKnife;
 public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks{
     private MapView mMapView;
     private GoogleMap mMap;
-    private Location mCurrentLocation;
-    private Location mLastLocation;
+    private LatLng mCurrentLocation;
+    private LatLng mLastLocation;
     private GoogleApiClient googleLogInClient;
     private static Context ctx;
     private Geocoder geocoder;
     private Marker marker;
     private double lat, lng;
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.map_location_edit, container, false);
-//        return view;
-//    }
+    AutoCompleteTextView searchField;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        searchField = (AutoCompleteTextView) view.findViewById(R.id.search_location_box);
+        initListeners();
+        return view;
+    }
+
+    public void initListeners(){
+        searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    mCurrentLocation = getLatLng(searchField.getText().toString());
+                    setMapPin(mCurrentLocation);
+
+                }
+                return true;
+            }
+        });
+    }
 
     public static EcquoMapFragment newInstance(){
-            return new EcquoMapFragment();
+        return new EcquoMapFragment();
     }
 
     public void initState(){
         lat = 40.756296;
         lng = -73.923944;
     }
-
 
 
     @Override
@@ -70,7 +97,6 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
         ctx = getActivity().getApplicationContext();
         buildGoogleMapClient(ctx);
         Geocoder geocoder = new Geocoder(ctx, Locale.getDefault());
-
         getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
@@ -79,9 +105,9 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
 
             }
         });
-        //setupMapView();
-        //setupMap(mMap);
     }
+
+
 
     public void initMap(GoogleMap map){
         map.setMyLocationEnabled(true);
@@ -89,7 +115,8 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
         try {
-            mCurrentLocation = locationManager.getLastKnownLocation(provider);
+            Location location = locationManager.getLastKnownLocation(provider);
+            Log.d(location.toString(), "test location" );
         } catch(Exception e){  //fixme
 
         }
@@ -111,6 +138,8 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
 
     public void buildGoogleMapClient(Context ctx){
         googleLogInClient = new GoogleApiClient.Builder(ctx)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
                 .addApi(LocationServices.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
                     @Override
                     public void onConnected(Bundle bundle) {
@@ -152,11 +181,35 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
         googleLogInClient.disconnect();
     }
 
+    public LatLng getLatLng(String strAddress) {
+        Geocoder coder = new Geocoder(getActivity());
+        List<Address> address;
+        LatLng coordinates = null;
+
+        try {
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return coordinates;
+    }
+
+
 
 
     @Override
     public void onConnected(Bundle bundle) {
-        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(googleLogInClient);
+        mCurrentLocation = new LatLng(lat, lng);
+                //LocationServices.FusedLocationApi.getLastLocation(googleLogInClient);
     }
 
     @Override
@@ -165,11 +218,28 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
     }
 
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(true);
+        mMap.getUiSettings().setTiltGesturesEnabled(true);
+        mMap.getUiSettings().setScrollGesturesEnabled(true);
+        mMap.getUiSettings().setRotateGesturesEnabled(true);
+        mMap.setMyLocationEnabled(true);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//        mMap.setOnMapClickListener(mapClickListener);
+//        mMap.setOnMarkerClickListener(markerClickListener);
     }
+
+    private void setMapPin(LatLng latLng) {
+        if (mMap != null) {
+            // Set initial view to current location
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+        }
+    }
+
 }
 
 

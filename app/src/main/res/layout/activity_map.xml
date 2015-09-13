@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_map_container"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:background="@color/colorPrimary"
+        android:id="@+id/toolbar"
+        android:homeAsUpIndicator="@drawable/ic_ecquo"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:layout_collapseMode="pin"/>
 
+    <HorizontalScrollView
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/search_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/abc_action_bar_default_height_material"
+        android:layout_gravity="center"
+        android:layout_weight="9"
+        android:requiresFadingEdge="horizontal"
+        android:scrollbars="none">
 
-    <FrameLayout
+        <AutoCompleteTextView
+            android:layout_below="@+id/toolbar"
+            android:id="@+id/search_location_box"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Search for Location"/>
+
+    </HorizontalScrollView>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_below="@+id/search_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/map_frame">
-    </FrameLayout>
+        xmlns:android="http://schemas.android.com/apk/res/android" />
 
-</LinearLayout>
+</RelativeLayout>

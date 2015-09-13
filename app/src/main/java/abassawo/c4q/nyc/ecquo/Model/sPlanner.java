@@ -32,7 +32,6 @@ public class sPlanner {
     }
 
 
-
     public List<Task>getTodaysTasks(){
         List<Task> todayList = new ArrayList<Task>();
         for(Task x : mTasks){

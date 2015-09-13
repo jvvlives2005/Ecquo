@@ -50,6 +50,8 @@
             android:name=".Activities.EditActivity"
             android:label="@string/title_activity_edit">
         </activity>
+        <activity android:name=".Activities.LabelPicker"
+            android:label="LabelPicker"></activity>
         <service android:name=".Model.WakeUpService"/>
         <receiver android:name=".Model.StartupReceiver">
             <intent-filter>

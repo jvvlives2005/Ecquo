@@ -1,10 +1,14 @@
 package abassawo.c4q.nyc.ecquo.Fragments;
 
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,7 +47,7 @@ import butterknife.ButterKnife;
 /**
  * Created by c4q-Abass on 9/4/15.
  */
-public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks{
+public class EcquoMapFragment extends SupportMapFragment implements GoogleApiClient.ConnectionCallbacks {
     private MapView mMapView;
     private GoogleMap mMap;
     private LatLng mCurrentLocation;
@@ -53,17 +57,57 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
     private Geocoder geocoder;
     private Marker marker;
     private double lat, lng;
+    private View view;
+    private LocationManager locationManager;
+    private static final long MIN_TIME = 400;
+    private static final float MIN_DISTANCE = 1000;
 
     AutoCompleteTextView searchField;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        searchField = (AutoCompleteTextView) view.findViewById(R.id.search_location_box);
-        initListeners();
+        view = super.onCreateView(inflater, container, savedInstanceState);
+        initState();
+        mCurrentLocation = new LatLng(lat, lng);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        } catch (SecurityException e){
+
+        }
+
+
+
+
+        // view = inflater.inflate(R.layout.map_location_edit, container, false);
+//        searchField = (AutoCompleteTextView) view.findViewById(R.id.search_location_box);
+//        initListeners();
         return view;
     }
+
 
     public void initListeners(){
         searchField.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -71,7 +115,7 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_GO) {
                     mCurrentLocation = getLatLng(searchField.getText().toString());
-                    setMapPin(mCurrentLocation);
+                    setMapPin();
 
                 }
                 return true;
@@ -101,7 +145,15 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
-                initMap(mMap);
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                    @Override
+                    public void onMapLoaded() {
+                        mMap.setMyLocationEnabled(true);
+                        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+                    }
+                });
+               // initMap(mMap);
 
             }
         });
@@ -114,12 +166,12 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
-        try {
-            Location location = locationManager.getLastKnownLocation(provider);
-            Log.d(location.toString(), "test location" );
-        } catch(Exception e){  //fixme
-
-        }
+//        try {
+//           // Location location = locationManager.getLastKnownLocation(provider);
+//           // Log.d(location.toString(), "test location" );
+//        } catch(Exception e){  //fixme
+//
+//        }
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL); //Choose type of map, normal, terrain, satellite, none
         marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).title("MOMI"));
         LatLng homePoint = new LatLng(lat, lng);    //fixme
@@ -129,9 +181,7 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
         LatLngBounds bounds = new LatLngBounds.Builder().include(homePoint).include(workPoint).build();
         int margin = getResources().getDimensionPixelSize(R.dimen.map_inset_margin);
         Marker newmarker = map.addMarker(new MarkerOptions().position(homePoint).title("marker title").icon(BitmapDescriptorFactory.fromResource(R.drawable.main_screen_rocket)));
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(homePoint).zoom(14.0f).build();
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
-        map.moveCamera(cameraUpdate);
+
         //setupMapView();
     }
 
@@ -217,26 +267,22 @@ public class EcquoMapFragment extends SupportMapFragment implements OnMapReadyCa
 
     }
 
+//
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap.getUiSettings().setMapToolbarEnabled(true);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setCompassEnabled(true);
-        mMap.getUiSettings().setMapToolbarEnabled(true);
-        mMap.getUiSettings().setTiltGesturesEnabled(true);
-        mMap.getUiSettings().setScrollGesturesEnabled(true);
-        mMap.getUiSettings().setRotateGesturesEnabled(true);
-        mMap.setMyLocationEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//        mMap.setOnMapClickListener(mapClickListener);
-//        mMap.setOnMarkerClickListener(markerClickListener);
-    }
+//    }
 
-    private void setMapPin(LatLng latLng) {
+    private void setMapPin() {
         if (mMap != null) {
             // Set initial view to current location
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
+            LatLngBounds AUSTRALIA = new LatLngBounds(
+                    new LatLng(-44, 113), new LatLng(-10, 154));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(AUSTRALIA, 0));
+            //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPosition)
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(mCurrentLocation).zoom(14.0f).build();
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+            mMap.moveCamera(cameraUpdate);
         }
     }
 

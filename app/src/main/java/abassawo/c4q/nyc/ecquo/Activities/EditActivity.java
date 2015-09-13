@@ -345,9 +345,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() ==android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             startActivity(new Intent(ctx, MainActivity.class));
             finish();
+        } else if(item.getItemId() == R.id.menu_item_label){
+            startActivity(new Intent(ctx, LabelPicker.class));
+
         }
         return super.onOptionsItemSelected(item);
     }

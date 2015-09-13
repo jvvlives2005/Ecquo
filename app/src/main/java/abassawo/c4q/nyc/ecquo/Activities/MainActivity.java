@@ -1,6 +1,7 @@
 
 package abassawo.c4q.nyc.ecquo.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -62,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Toolbar toolbar;
     @Bind(R.id.empty_prompt)
     TextView tasksEmptyTV;
-
     @Bind(R.id.fab2)
     FloatingActionButton fabEdit;
 
@@ -178,9 +178,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         } else {
-            todayList = sPlanner.get(getApplicationContext()).getTodaysTasks();
+            Context ctx = getApplicationContext();
+            todayList = sPlanner.get(ctx).getTodaysTasks();
         }
-            deck.setOrientation(Orientations.Orientation.Disordered);
+
+        //TODO - Sort list before populating deck.
+            deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
 
 
             //fixme : sort the list by priority factors.
@@ -212,8 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onDislike() {  //this is whiping right. hence the positive note.
-
-
                         Snackbar
                                 .make(coordinatorLayoutView, "Good Job, Keep up the good work", Snackbar.LENGTH_LONG)
                                 .show();
@@ -308,6 +309,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                drawerModel.openDrawer();
+                break;
+
+        }
         return super.onOptionsItemSelected(item);
     }
 

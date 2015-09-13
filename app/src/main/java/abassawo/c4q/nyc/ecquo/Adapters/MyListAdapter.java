@@ -57,7 +57,7 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
         mGoals = sPlanner.get(mContext).getGoals();
         Goal goal = new Goal("Work");
         Goal goal2 = new Goal("School");
-        goal2.add(new Task("Final Project"));
+        goal2.add(new Task("Final Project", mContext));
         for (int i = 0; i < 100; i++){
             mGoals.add(goal);
             mGoals.add(goal2);

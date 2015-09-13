@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/new_place" android:title="Today" android:icon="@drawable/ic_discuss"/>
-    <group android:id="@+id/helpgroup">
-        <item android:id="@+id/help" android:title="Location" android:icon="@drawable/ic_discuss"/>
-    </group>
+    <item android:id="@+id/my_current_location" android:title="Current Location" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/saved_places" android:title="Choose from Saved Places" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/new_place" android:title="Search by Zip" android:icon="@drawable/ic_discuss"/>
 </menu>

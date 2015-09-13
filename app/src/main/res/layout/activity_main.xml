@@ -45,15 +45,13 @@
 
 
 
-
-
             <android.support.design.widget.FloatingActionButton
                 android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:src="@drawable/graphicon"
                 android:textColor="@android:color/black"
-                android:id="@+id/fab1"
+                android:id="@+id/fabGraph"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:layout_alignParentBottom="true"
@@ -69,7 +67,7 @@
                 android:clickable="true"
                 android:onClick="onClick"
                 android:layout_gravity="right"
-                android:layout_alignTop="@+id/fab1"
+                android:layout_alignTop="@+id/fabGraph"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/activity_vertical_margin"/>

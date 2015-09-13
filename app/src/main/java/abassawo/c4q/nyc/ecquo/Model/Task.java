@@ -1,8 +1,11 @@
 package abassawo.c4q.nyc.ecquo.Model;
 
+import android.content.Context;
 import android.location.Location;
 
 import java.util.Date;
+
+import abassawo.c4q.nyc.ecquo.R;
 
 
 /**
@@ -10,35 +13,85 @@ import java.util.Date;
  */
 public class Task extends Note{
     private String title;
-    private boolean isNotifyToday;
-    private Date startDate;
-    private Date endDate;
+
+    public String getLabel() {
+        return label;
+    }
+
+    private String label;
+    private boolean dueToday;
+    private boolean remindMeToday;
+    private Date mDueDate;
     private Location location;
     private int duration;
     private Date reminderDay;
+    private int taskPhotoId;
+    private boolean hasCustomPhoto;
+    private Date todaysDate;
 
 
-    public Date getStartDate() {
-        return startDate;
+    public boolean isDueToday(){
+        return this.mDueDate == this.todaysDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setDueToday(){
+        this.setDueDate(this.todaysDate);
+    }
+
+    public void setDueTomorrow(Context ctx){
+        this.setDueDate(sPlanner.get(ctx).getTomorrowsDate());
+    }
+
+
+    public void setDueinOneWeek(Context ctx){
+        this.setDueDate(sPlanner.get(ctx).getNextWeekDate());
+    }
+
+    public void setLabel(String label){
+        this.label = label;
+    }
+
+
+
+
+    public int getTaskPhoto() {
+        return taskPhotoId;
+    }
+
+    public void setTaskPhoto(int taskPhoto_id) {
+        this.taskPhotoId = taskPhoto_id;
+    }
+
+    public boolean isCustomPhotoSet(){
+        return this.getTaskPhoto() != R.drawable.mountaintop;
+    }
+
+
+    public Date getDueDate() {
+        return mDueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.mDueDate = dueDate;
     }
 
 
     public boolean isNotifyToday() {
-        return isNotifyToday;
-    }
-
-    public void setDisplayToday(boolean isNotifyToday) {
-        this.isNotifyToday = isNotifyToday;
+        boolean notifyToday = false;
+        if(this.isDueToday()){
+            notifyToday = true;
+        }
+//        else if (this.isReminderForToday){
+//
+//        }
+        return notifyToday;
     }
 
 
 
 
     public String getTitle() {
+
         return title;
     }
 
@@ -48,19 +101,27 @@ public class Task extends Note{
 
 
 
-    public boolean displayToday() {
-        return isNotifyToday;
-    }
-
-
-    public Task(String title){
+    public Task(String title, Context ctx){
+        this.label = "Personal";
+        todaysDate = sPlanner.get(ctx).getTodaysDate();
         this.title = title;
-        startDate = new Date();
+        mDueDate = new Date();
+        this.taskPhotoId = R.drawable.mountaintop;
         //endDate = startDate + duration;
     }
 
-    public Date getEndDate()    {
-        return endDate;
+
+    public void setDuetoday(Context ctx){
+        this.setDueDate(sPlanner.get(ctx).getTodaysDate());
+    }
+
+    @Override
+    public String toString(){
+        return this.title + " " + this.getDueDate() + "  custom photo +  " + this.isCustomPhotoSet() + "does this belong in today's list?" + this.isNotifyToday();
+    }
+
+    public boolean isReminderForToday(){
+        return this.isDueToday(); //fixme
     }
 
 

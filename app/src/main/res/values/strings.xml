@@ -46,7 +46,7 @@
     <string name="name_task_prompt">Name Your Task</string>
     <string name="date_task_prompt"><![CDATA[Set your due date & time]]></string>
     <string name="set_your_priority">Set your Priority</string>
-    <string name="tasks_empty">Click the Ecquo Logo to add more tasks to work on today!</string>
+    <string name="tasks_empty">Add more tasks to work on today!</string>
     <string name="title_activity_edit">EditActivity</string>
 
     <string name="title_activity_launcher">LauncherActivity</string>
@@ -60,6 +60,19 @@
     <string name="clear_search">Clear</string>
     <string name="new_task_hint">New Task</string>
     <string name="label">Label</string>
+    <string name="date_picker_title">Set Due Date</string>
+
+
+    <string-array name="date_chooser_prompt">
+        <item>Today</item>
+        <item>Tomorrow</item>
+        <item>Next Week</item>
+        <item>Pick from Calendar</item>
+    </string-array>
+
+    <string-array name="quotes">
+        <item>dumb people are dumb</item>
+    </string-array>
 
 
 </resources>

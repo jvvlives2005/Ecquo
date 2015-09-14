@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.Date;
+
 import abassawo.c4q.nyc.ecquo.Adapters.FragAdapter;
 import abassawo.c4q.nyc.ecquo.Fragments.PlaceListFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment;
@@ -22,6 +25,8 @@ public class MapActivity extends AppCompatActivity {
     @Bind(R.id.viewpager) ViewPager viewpager;
     @Bind(R.id.tabs)
     TabLayout tabLayout;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
 
 
 
@@ -32,8 +37,20 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
         setupViewPager(viewpager);
+        setupActionBar();
         tabLayout.setupWithViewPager(viewpager);
 
+    }
+
+    public void setupActionBar(){
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        //actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -43,7 +60,7 @@ public class MapActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-
+    
 
 
 

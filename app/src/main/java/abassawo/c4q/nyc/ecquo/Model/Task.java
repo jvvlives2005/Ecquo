@@ -22,12 +22,28 @@ public class Task extends Note{
     private boolean dueToday;
     private boolean remindMeToday;
     private Date mDueDate;
-    private Location location;
     private int duration;
     private Date reminderDay;
     private int taskPhotoId;
     private boolean hasCustomPhoto;
-    private Date todaysDate;
+    private static Date todaysDate;
+    private Date mStartDate;
+
+    public void setPriority(Float priority) {
+        this.priority = priority;
+    }
+
+    private Float priority;
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Float getPriority(){
+        return priority;
+    }
+
+    private Location location;
 
 
     public boolean isDueToday(){
@@ -40,6 +56,10 @@ public class Task extends Note{
 
     public void setDueTomorrow(Context ctx){
         this.setDueDate(sPlanner.get(ctx).getTomorrowsDate());
+    }
+
+    public void setLocation(Location location){
+        this.location = location;
     }
 
 
@@ -105,7 +125,8 @@ public class Task extends Note{
         this.label = "Personal";
         todaysDate = sPlanner.get(ctx).getTodaysDate();
         this.title = title;
-        mDueDate = new Date();
+        mStartDate = todaysDate;
+       // mDueDate = new Date();
         this.taskPhotoId = R.drawable.mountaintop;
         //endDate = startDate + duration;
     }
@@ -117,7 +138,11 @@ public class Task extends Note{
 
     @Override
     public String toString(){
-        return this.title + " " + this.getDueDate() + "  custom photo +  " + this.isCustomPhotoSet() + "does this belong in today's list?" + this.isNotifyToday();
+        return "Title " + this.title + "\n" +
+                "Due Date " + this.getDueDate() + "\n" +
+                "Location" + this.location + "\n" +
+                "custom photo set? : " + this.isCustomPhotoSet() + "\n" +
+                "Part of today's list?" + this.isNotifyToday();
     }
 
     public boolean isReminderForToday(){

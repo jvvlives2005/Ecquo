@@ -5,13 +5,18 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -33,6 +38,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.flipboard.bottomsheet.BottomSheetLayout;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.truizlop.fabreveallayout.FABRevealLayout;
 import com.truizlop.fabreveallayout.OnRevealChangeListener;
 
@@ -50,7 +59,7 @@ import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EditActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener{
+public class EditActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.edit_task_title)
@@ -61,20 +70,23 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     FloatingActionButton fab;
     @Bind(R.id.camButton)
     ImageButton cameraButton;
-    @Bind(R.id.note_imageView) ImageView imgPreview;
+    @Bind(R.id.note_imageView)
+    ImageView imgPreview;
 
     @Bind(R.id.fab_reveal_layout_test)
     FABRevealLayout fabRevealLayout;
 
-
+    private LocationManager locationManager;
     private BottomSheet dateSheet;
     private BottomSheet prioritySheet;
-    @Bind(R.id.bottomsheet) BottomSheetLayout bottomSheetLayout;
+    @Bind(R.id.bottomsheet)
+    BottomSheetLayout bottomSheetLayout;
     private BottomSheet locationSheet;
     private BottomSheet reminderSheet;
     private BottomSheet pictureDialogSheet;
     private Uri imageUri;
     private int CAPTURE_IMAGE = 9;
+    private String TAG = "EditActivity";
 
     private Context ctx;
     private DatePicker datePicker;
@@ -83,6 +95,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public static List<Task> todayList;
     public static List<Task> taskList;
     private DatePickerFragment dateDialog;
+    private GoogleApiClient mClient;
+    private Location mCurrentLocation;
+    private static final long MIN_TIME = 400;
+    private static final float MIN_DISTANCE = 1000;
+
 
     FragmentManager fm;
 
@@ -92,16 +109,17 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_edit);
         ButterKnife.bind(this);
         initState();
+        buildGoogleMapClient(this);
         initViews();
         setupListeners();
     }
 
-    public void initState(){
+    public void initState() {
         ctx = this;
         taskList = sPlanner.get(ctx).getTasks();
     }
 
-    public void initViews(){
+    public void initViews() {
         setupActionBar();
         configureFABReveal(fabRevealLayout);
         setupDateSheets();
@@ -111,7 +129,18 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         setupPicturePickerSheet();
     }
 
-    public void setupListeners(){
+    public void setupListeners() {
+        priorityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                hideKeyboard();
+                mTask.setPriority(rating);
+                Log.d(String.valueOf(rating), TAG);
+                Log.d(mTask.toString(), TAG);
+                dateSheet.show();
+                prepareBackTransition(fabRevealLayout);
+            }
+        });
         cameraButton.setOnClickListener(this);
         fab.setOnClickListener(this);
         edittext.addTextChangedListener(new TextWatcher() {
@@ -136,14 +165,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void showDialogSheet(){
-        if(bottomSheetLayout.isSheetShowing()){
-            bottomSheetLayout.dismissSheet();
-        }
-                bottomSheetLayout.showWithSheetView(LayoutInflater.from(ctx).inflate(R.layout.dialog_date, bottomSheetLayout, false));
-    }
-
-
+//    public void showDialogSheet() {
+//        if (bottomSheetLayout.isSheetShowing()) {
+//            bottomSheetLayout.dismissSheet();
+//        }
+//        bottomSheetLayout.showWithSheetView(LayoutInflater.from(ctx).inflate(R.layout.dialog_date, bottomSheetLayout, false));
+//    }
 
 
     private void configureFABReveal(FABRevealLayout fabRevealLayout) {
@@ -155,20 +182,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSecondaryViewAppeared(final FABRevealLayout fabRevealLayout, View secondaryView) {
-                priorityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        hideKeyboard();
-                        dateSheet.show();
-                        prepareBackTransition(fabRevealLayout);
-                    }
-                });
                 secondaryView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         hideKeyboard();
                         //dateSheet.show();
-                        showDialogSheet();
+                        //showDialogSheet();
                         //prioritySheet.show();
                         prepareBackTransition(fabRevealLayout);
                         //TESTING
@@ -188,7 +207,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }, 2000);
     }
 
-    public void setupPicturePickerSheet(){
+    public void setupPicturePickerSheet() {
         pictureDialogSheet = new BottomSheet.Builder(this).title("Choose a photo for this task").sheet(R.menu.menu_picture_edit).listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -205,49 +224,50 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             Date date = (Date) data.getExtras().get("EXTRA_DATE");
             mTask.setDueDate(date);
         }
     }
 
     public void setupDateSheets() {
-            fm = getSupportFragmentManager();
-            mTask = new Task(edittext.getText().toString(), ctx);
+        fm = getSupportFragmentManager();
+        mTask = new Task(edittext.getText().toString(), ctx);
 
-            dateDialog = DatePickerFragment.newInstance(mTask.getDueDate());
-            dateSheet = new BottomSheet.Builder(this).title("Due Date").sheet(R.menu.menu_date).listener(new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int id) {
-                    switch (id) {
-                        case R.id.today_item:
-                            mTask.setDueToday();
-                            taskList.add(mTask);
-                            Log.d(mTask.toString(), "due date test");
-                            //timeSheet.show();
-                            reminderSheet.show();
-                            break;
-                        case R.id.tomorrow:
-                            mTask.setDueTomorrow(ctx); //setDueTomorrow fixme
-                            taskList.add(mTask);
-                            Log.d(mTask.toString(), "due date test");
-                            reminderSheet.show();
-                            break;
-                        case R.id.choosedate:
-                            fm.beginTransaction().add(dateDialog, "DATE").commit();
-                            reminderSheet.show();
-                            break;
-                        case R.id.nextweek:
-                            mTask.setDueinOneWeek(ctx);
-                            Log.d(mTask.toString(), "due date test");
-                        default:
-                            //startActivity(new Intent(ctx, MainActivity.class));
-                            break;
-                    }
-
+        dateDialog = DatePickerFragment.newInstance(mTask.getDueDate());
+        dateSheet = new BottomSheet.Builder(this).title("Due Date").sheet(R.menu.menu_date).listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                switch (id) {
+                    case R.id.today_item:
+                        mTask.setDueToday();
+                        taskList.add(mTask);
+                        Log.d(mTask.toString(), "due date test");
+                        //timeSheet.show();
+                        reminderSheet.show();
+                        break;
+                    case R.id.tomorrow:
+                        mTask.setDueTomorrow(ctx); //setDueTomorrow fixme
+                        taskList.add(mTask);
+                        Log.d(mTask.toString(), "due date test");
+                        reminderSheet.show();
+                        break;
+                    case R.id.choosedate:
+                        fm.beginTransaction().add(dateDialog, "DATE").commit();
+                        reminderSheet.show();
+                        break;
+                    case R.id.nextweek:
+                        mTask.setDueinOneWeek(ctx);
+                        Log.d(mTask.toString(), "due date test");
+                        reminderSheet.show();
+                        break;
+                    default:
+                        //startActivity(new Intent(ctx, MainActivity.class));
+                        break;
                 }
-            }).build();
 
+            }
+        }).build();
 
 
     }
@@ -261,11 +281,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         prioritySheet = new BottomSheet.Builder(this).title("Priority").sheet(R.menu.menu_reminder).listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-               // locationSheet.show();
+                // locationSheet.show();
                 switch (id) {
                     case R.id.locationreminder:
-                    startActivity(new Intent(ctx, MapActivity.class));
-                    break;
+                        startActivity(new Intent(ctx, MapViewActivity.class));
+                        break;
                 }
             }
         }).build();
@@ -273,22 +293,85 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private LocationRequest createLocationRequest() {
+
+        try {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+
+
+                }
+
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+
+                }
+
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+
+                }
+
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+
+                }
+            });
+        } catch (SecurityException e){
+
+
+        }
+
+        return new LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setNumUpdates(1);
+    }
+
     public void setupLocationSheet() {
         locationSheet = new BottomSheet.Builder(this).title("Location").sheet(R.menu.menu_location).listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(ctx, MapActivity.class);
+                Intent intent = new Intent(ctx, MapViewActivity.class);
                 switch (id) {
-                //fixme
+                    //fixme
                     case R.id.my_current_location:
-                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                        try {
+
+                            Location location = LocationServices.FusedLocationApi.getLastLocation(mClient);
+                            if (location != null) {
+                                mTask.setLocation(location);
+                                Log.d(mTask.toString(), "Location update test");
+                                taskList.add(mTask);
+                            } else {
+                                View view = findViewById(R.id.snackbar_space);
+                                Snackbar alertSnack = Snackbar.make(view,"Please check your network connection", Snackbar.LENGTH_INDEFINITE).setAction("Search a location", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fix this to show a dialog allowing user to connect whatever isnt connected.
+                                    }
+                                });
+                                alertSnack.show();
+                            }
+                        } catch (Exception e) {
+
+                        }
+
+
                         break;
                     case R.id.saved_places:
+                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
                         break;
                     case R.id.new_place:
-                startActivity(intent);
+                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
                         break;
-
+                    default: startActivity(new Intent(EditActivity.this, MainActivity.class));
                 }
             }
         }).build();
@@ -343,19 +426,20 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             startActivity(new Intent(ctx, MainActivity.class));
             finish();
-        } else if(item.getItemId() == R.id.menu_item_label){
+        } else if (item.getItemId() == R.id.menu_item_label) {
             startActivity(new Intent(ctx, LabelPicker.class));
 
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void startCameraIntent(){
+    public void startCameraIntent() {
         //Destination
         String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES).getPath();
@@ -388,7 +472,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -404,6 +487,30 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
+    }
+
+    public void buildGoogleMapClient(Context ctx) {
+        mClient = new GoogleApiClient.Builder(ctx)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .addApi(LocationServices.API).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                    @Override
+                    public void onConnected(Bundle bundle) {
+                        invalidateOptionsMenu();
+                        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mClient);
+
+                    }
+
+
+                    @Override
+                    public void onConnectionSuspended(int i) {
+
+
+                    }
+                })
+                .build();
+
+
     }
 
 

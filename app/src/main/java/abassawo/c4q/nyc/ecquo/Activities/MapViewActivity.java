@@ -18,7 +18,7 @@ import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapActivity extends AppCompatActivity {
+public class MapViewActivity extends AppCompatActivity {
     private String TAG = "MapActiivity";
     private FragAdapter adapter;
 

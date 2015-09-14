@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.R;
 
 /**
@@ -22,7 +23,7 @@ import abassawo.c4q.nyc.ecquo.R;
 public class DatePickerFragment extends DialogFragment {
     public static final String EXTRA_DATE = "abassawo.c4q.nyc.ecquo.Fragments.DatePickerFragment";
 
-    private Date mDate;
+    private Date mStartDate;
 
     public static DatePickerFragment newInstance(Date date)
     {
@@ -36,11 +37,11 @@ public class DatePickerFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mDate = (Date)getArguments().getSerializable(EXTRA_DATE);
+        mStartDate = sPlanner.get(getActivity().getApplicationContext()).getTodaysDate();
 
         // Create a calendar to get year,month,day
         final Calendar cal = Calendar.getInstance();
-        cal.setTime(mDate);
+        cal.setTime( mStartDate);
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -57,14 +58,14 @@ public class DatePickerFragment extends DialogFragment {
                                       int dayOfMonth) {
 
                 final Calendar cal = Calendar.getInstance();
-                cal.setTime(mDate);
+                cal.setTime(mStartDate);
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
                 int minute = cal.get(Calendar.MINUTE);
                 // Translate picked date to Date
-                mDate = new GregorianCalendar(year, monthOfYear, dayOfMonth, hour, minute).getTime();
+                mStartDate = new GregorianCalendar(year, monthOfYear, dayOfMonth, hour, minute).getTime();
 
                 // Update argument to preserve selected value on rotation
-                getArguments().putSerializable(EXTRA_DATE, mDate);
+                getArguments().putSerializable(EXTRA_DATE,  mStartDate);
             }
         });
 
@@ -86,7 +87,7 @@ public class DatePickerFragment extends DialogFragment {
             return;
 
         Intent i = new Intent();
-        i.putExtra(EXTRA_DATE, mDate);
+        i.putExtra(EXTRA_DATE, mStartDate);
 
 
         getTargetFragment()

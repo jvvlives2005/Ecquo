@@ -318,7 +318,19 @@ public class EcquoMapFragment extends SupportMapFragment implements GoogleApiCli
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.getUiSettings().setMapToolbarEnabled(true);
+        map.getUiSettings().setZoomControlsEnabled(true);
+        map.getUiSettings().setCompassEnabled(true);
+        map.getUiSettings().setMapToolbarEnabled(true);
+        map.getUiSettings().setTiltGesturesEnabled(true);
+        map.getUiSettings().setScrollGesturesEnabled(true);
+        map.getUiSettings().setRotateGesturesEnabled(true);
+        map.setMyLocationEnabled(true);
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+//        map.setOnMapClickListener(mapClickListener);
+//        map.setOnMarkerClickListener(markerClickListener);
+        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {

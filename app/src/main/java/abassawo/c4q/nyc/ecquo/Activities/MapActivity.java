@@ -47,7 +47,7 @@ public class MapActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getResources().getString(R.string.app_name));
 
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         //actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);

@@ -43,19 +43,18 @@
 
 
     <android.support.design.widget.FloatingActionButton
+        android:visibility="invisible"
         android:id="@+id/fab"
-        android:layout_margin="@dimen/activity_vertical_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_action_add_to_queue"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_action_add_to_queue" />
 
         <android.support.v7.widget.Toolbar
             android:background="@color/colorPrimary"
             android:id="@+id/toolbar"
+            android:homeAsUpIndicator="@drawable/ic_ecquo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"

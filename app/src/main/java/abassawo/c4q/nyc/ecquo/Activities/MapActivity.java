@@ -1,35 +1,27 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AutoCompleteTextView;
-
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-
-import java.util.Date;
-
+import abassawo.c4q.nyc.ecquo.Adapters.FragAdapter;
+import abassawo.c4q.nyc.ecquo.Fragments.PlaceListFragment;
+import abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MapActivity extends AppCompatActivity {
     private String TAG = "MapActiivity";
-    @Bind(R.id.search_location_box)
-    AutoCompleteTextView searchField;
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    private FragAdapter adapter;
 
+    @Bind(R.id.viewpager) ViewPager viewpager;
+    @Bind(R.id.tabs)
+    TabLayout tabLayout;
 
 
 
@@ -39,20 +31,20 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
-        setupActionBar();
+        setupViewPager(viewpager);
+        tabLayout.setupWithViewPager(viewpager);
+
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new FragAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TabbedMapFragment(), "New Location");
+        adapter.addFragment(new PlaceListFragment(), "Saved Locations");
+        viewPager.setAdapter(adapter);
     }
 
 
 
-    public void setupActionBar(){
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(getResources().getString(R.string.app_name));
-        Date date = new Date();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-        actionBar.setDisplayShowHomeEnabled(true);
-        //actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo);
-    }
 
 
     @Override

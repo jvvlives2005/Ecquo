@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment">
+
+
+    <fragment
+        android:id="@+id/map"
+        android:name="abassawo.c4q.nyc.ecquo.Fragments.EcquoMapFragment"
+        android:layout_below="@+id/search_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:tag="MapActivity"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/map"
+        android:layout_alignRight="@+id/map"
+        android:layout_alignEnd="@+id/map"
+        android:layout_gravity="right|bottom" />
+
+
+</FrameLayout>

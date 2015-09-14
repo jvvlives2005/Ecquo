@@ -73,6 +73,7 @@
     <string-array name="quotes">
         <item>dumb people are dumb</item>
     </string-array>
+    <string name="title_activity_task">TaskActivity</string>
 
 
 </resources>

@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             switch (iDrawerItem.getIdentifier()) {
                                 case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, EditActivity.class));
                                     break;
-                                case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapActivity.class));
+                                case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapViewActivity.class));
 
                             }
                             return false;
@@ -252,6 +252,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         deck.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Task task = (Task) deck.getItemAtPosition(position);
+                Intent detailintent = new Intent(getApplicationContext(), TaskDetailActivity.class);
+                detailintent.putExtra("task extra", task); //fixme
+                startActivity(detailintent);
                 Log.d(deck.getSelectedView().toString(), "task to string");
             }
         });

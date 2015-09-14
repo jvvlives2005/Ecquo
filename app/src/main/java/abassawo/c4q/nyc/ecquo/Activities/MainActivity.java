@@ -4,7 +4,6 @@ package abassawo.c4q.nyc.ecquo.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -100,8 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskList = sPlanner.get(getApplicationContext()).getTasks();
 
 
-        //setupDayStacks(deck, true);
-        setupDayStacks(deck, false);
+        setupDayStacks(deck, true);
 //
         emptyLayout.setAlpha(1);
 
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             switch (iDrawerItem.getIdentifier()) {
                                 case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, EditActivity.class));
                                     break;
-                                case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapViewActivity.class));
+                                case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapActivity.class));
 
                             }
                             return false;
@@ -200,9 +198,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //}
 
-               // card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.c4qlogo));
+                card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.c4qlogo));
 
-                card = new CardModel(todayList.get(i).getTitle().toString(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.c4qlogo)); //TESTING //todo //fixme
+
                 card.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {
                     final View coordinatorLayoutView = findViewById(R.id.main_content);
 

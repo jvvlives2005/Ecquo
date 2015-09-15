@@ -137,7 +137,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Set Priority"
+                android:text="Priority and Reminders"
                 android:textAlignment="center"
                 style="?android:listSeparatorTextViewStyle"
                 android:layout_below="@+id/linearLayout"
@@ -156,6 +156,7 @@
                 android:stepSize="22.0"/>
 
             <android.support.design.widget.FloatingActionButton
+                android:background="@color/colorAccent"
                 android:id="@+id/time_reminder_fab_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,6 +166,7 @@
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/location_reminder_fab_button"
+                android:background="@color/colorAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_place"

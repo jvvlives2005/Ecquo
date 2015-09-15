@@ -70,14 +70,19 @@
         android:layout_alignParentEnd="true" />
 
 
-
         <ListView
-            android:background="@color/colorPrimaryLight"
             android:layout_below="@+id/appbar"
             android:id="@+id/search_results_lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
 
+
+        <TextView
+            android:layout_above="@+id/search_results_lv"
+            android:id="@+id/current_location_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Location: "/>
     </RelativeLayout>
 
 

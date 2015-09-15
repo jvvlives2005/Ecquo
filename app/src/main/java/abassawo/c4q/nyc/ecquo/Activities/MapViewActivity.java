@@ -26,7 +26,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,7 +53,10 @@ public class MapViewActivity extends AppCompatActivity {
     private FragAdapter adapter;
     private Geocoder geocoder;
     private LatLng searchedLocation;
+    private GoogleApiClient client;
     private AutoCompleteAdapter suggestionAdapter;
+    private static final LatLngBounds BOUNDS = new LatLngBounds(
+            new LatLng(40.498425, -74.250219), new LatLng(40.792266, -73.776434));
     @Bind(R.id.viewpager) ViewPager viewpager;
     @Bind(R.id.search_results_lv)
     ListView resultsLV;
@@ -60,12 +67,20 @@ public class MapViewActivity extends AppCompatActivity {
     Toolbar toolbar;
 
 
-
+    protected synchronized void buildGoogleApiClient(Context context) {
+        client = new GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .build();
+        Log.d("Map", "Connected to Google API Client");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        buildGoogleApiClient(this);
         geocoder = new Geocoder(getApplicationContext());
 //        suggestionAdapter = new AutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
 //                client, BOUNDS, null);
@@ -160,10 +175,12 @@ public class MapViewActivity extends AppCompatActivity {
                 return false;
             }
         });
-        /**
-         * Set all of different kinds of listeners
-         */
-        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+        //searchView.setSuggestionsAdapter(new SuggestionsAdapter(this));
+                // searchView.setSuggestionsAdapter(new AutoCompleteAdapter(getApplicationContext(), , ));
+                /**
+                 * Set all of different kinds of listeners
+                 */
+                MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
                         boolean menuIsOpen = false;

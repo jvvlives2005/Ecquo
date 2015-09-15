@@ -503,8 +503,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.camButton:
+                if (!bottomSheetLayout.isSheetShowing()){
                 showGalleryPickerSheetView();
-                //pictureDialogSheet.show();
+                } else {
+                    bottomSheetLayout.dismissSheet();
+                }
                 break;
             case R.id.time_reminder_fab_button:
                 fm.beginTransaction().add(timeDialog, "TIME").commit();

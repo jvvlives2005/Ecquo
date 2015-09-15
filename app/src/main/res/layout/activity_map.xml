@@ -72,6 +72,7 @@
 
 
         <ListView
+            android:background="@color/colorPrimaryLight"
             android:layout_below="@+id/appbar"
             android:id="@+id/search_results_lv"
             android:layout_width="match_parent"

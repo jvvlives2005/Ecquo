@@ -93,11 +93,33 @@
 
 
         <TextView
+            style="?android:listSeparatorTextViewStyle"
             android:layout_below="@+id/appbar"
             android:id="@+id/current_location_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Current Location: "/>
+
+        <TextView
+            android:id="@+id/found_location"
+            android:layout_below="@+id/current_location_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            style="?android:listSeparatorTextViewStyle"
+            android:id="@+id/savedplaces_header"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:layout_below="@+id/current_location_textview"
+            android:text="Saved Locations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/savedplaces_header"></ListView>
     </RelativeLayout>
 
 

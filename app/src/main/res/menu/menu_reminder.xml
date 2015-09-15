@@ -1,10 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/every_day" android:title="Every Day" android:icon="@drawable/ic_discuss"/>
-    <item android:id="@+id/onceaweek" android:title="Once a Week" android:icon="@drawable/ic_discuss"/>
-    <item android:id="@+id/twiceaweek" android:title="Twice a Week" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/time_reminder" android:title="Timed Reminder" android:icon="@drawable/ic_alarm_add_black"/>
+    <item android:id="@+id/location_reminder" android:title="Location Reminder" android:icon="@drawable/ic_action_place"/>
 
 
-    <group>
-        <item android:id="@+id/no_reminder" android:title="Don't Remind Me" android:icon="@drawable/ic_discuss"/>
-    </group>
 </menu>

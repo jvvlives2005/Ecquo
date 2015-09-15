@@ -77,8 +77,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton cameraButton;
     @Bind(R.id.note_imageView)
     ImageView imgPreview;
-    @Bind(R.id.time_reminder_fab_button) FloatingActionButton timeFab;
-    @Bind(R.id.location_reminder_fab_button) FloatingActionButton locationFab;
 
     @Bind(R.id.fab_reveal_layout)
     FABRevealLayout fabRevealLayout;
@@ -108,6 +106,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_TIME = 3;
     private static final int REQUEST_DATE = REQUEST_TIME + REQUEST_TIME;
     public static final int REQUEST_LOCATION = REQUEST_DATE + REQUEST_TIME;
+
+    private BottomSheet locationSheet;
+    private BottomSheet reminderSheet;
     FragmentManager fm;
 
     @Override
@@ -145,17 +146,17 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         fm = getSupportFragmentManager();
 
 
+
     }
 
     public void initViews() {
         setupActionBar();
         configureFABReveal(fabRevealLayout);
         setupDateSheets();
+        setupReminderSheet();
     }
 
     public void setupListeners() {
-        timeFab.setOnClickListener(this);
-        locationFab.setOnClickListener(this);
         priorityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -237,23 +238,27 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
                         prepareBackTransition(fabRevealLayout);
-                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                        reminderSheet.show();
+                       // startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
                     case R.id.tomorrow:
                         mTask.setDueTomorrow(ctx); //setDueTomorrow fixme
                         taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
                         prepareBackTransition(fabRevealLayout);
-                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                        reminderSheet.show();
+                        //startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
                     case R.id.choosedate:
                         fm.beginTransaction().add(dateDialog, "DATE").commit();
+                        reminderSheet.show();
                         break;
                     case R.id.nextweek:
                         mTask.setDueinOneWeek(ctx);
                         Log.d(mTask.toString(), "due date test");
                         prepareBackTransition(fabRevealLayout);
-                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                        reminderSheet.show();
+                        //startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
                     default:
                         break;
@@ -468,7 +473,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 //Date date = (Date) data.getExtras().get("EXTRA_DATE");
                 Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
                 mTask.setDueDate(date);
-                mTask.setDueDate(date);
                 // updateDate();
             }  else if (requestCode == REQUEST_TIME) {
                 Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
@@ -509,12 +513,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                     bottomSheetLayout.dismissSheet();
                 }
                 break;
-            case R.id.time_reminder_fab_button:
-                fm.beginTransaction().add(timeDialog, "TIME").commit();
-                break;
-            case R.id.location_reminder_fab_button:
-                Intent locationIntent = new Intent(this, MapViewActivity.class);
-                startActivityForResult(locationIntent, REQUEST_LOCATION);
+//            case R.id.time_reminder_fab_button: //set these listeners on bottomsheet dialog
+//                fm.beginTransaction().add(timeDialog, "TIME").commit();
+//                break;
+//            case R.id.location_reminder_fab_button:
+
 
         }
     }
@@ -542,6 +545,49 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
+    public void setupLocationSheet() {
+        locationSheet = new BottomSheet.Builder(this).title("Location").sheet(R.menu.menu_location).listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(ctx, MapViewActivity.class);
+                switch (id) {
+                    case R.id.saved_places:
+
+                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
+                        break;
+                    case R.id.new_place:
+                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
+                        break;
+                    default:
+                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                }
+            }
+        }).build();
+    }
+
+    public void setupReminderSheet() {
+        reminderSheet = new BottomSheet.Builder(this).title("Remind Me").sheet(R.menu.menu_reminder).listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                switch (id) {
+                    case R.id.time_reminder:
+                        fm.beginTransaction().add(timeDialog, "TIME").commit();
+                        break;
+                    case R.id.location_reminder:
+                        Intent locationIntent = new Intent(EditActivity.this, MapViewActivity.class);
+                startActivityForResult(locationIntent, REQUEST_LOCATION);
+                        break;
+                }
+                //  locationSheet.show();
+//                Intent intent = new Intent(ctx, MainActivity.class);  //fixme
+//                startActivity(intent);
+            }
+        }).build();
+    }
+
+
+
 
 
     @Override

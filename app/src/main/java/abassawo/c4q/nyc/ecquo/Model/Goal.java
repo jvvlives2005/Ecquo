@@ -74,7 +74,7 @@ public class Goal {
         goal_Id = UUID.randomUUID();
         startDate = new Date();
         taskList = new ArrayList<Task>();
-        taskList.add(new Task("Add a new Task"));
+
 
     }
 

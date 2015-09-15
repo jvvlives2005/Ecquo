@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="shadow_size">8dp</dimen>
     <dimen name="layer_size">150dp</dimen>
-    <dimen name="preview_offset_distance">40dp</dimen>
+    <dimen name="preview_offset_distance">140dp</dimen>
     <dimen name="offset_distance">40dp</dimen>
     <dimen name="closed_offset_distance">300dp</dimen>
 
@@ -17,4 +17,6 @@
     <dimen name="layout_radius_path">140dp</dimen>
     <dimen name="card_staggered_height">240dp</dimen>
     <dimen name="card_insets">8dp</dimen>
+
+    <dimen name="map_inset_margin">100dp</dimen>
 </resources>

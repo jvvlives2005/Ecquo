@@ -61,8 +61,8 @@ public class JSONSerializer {
 
     }
 
-    public ArrayList<Goal> loadLabels()throws IOException, JSONException {
-        ArrayList<Goal> labels = new ArrayList<Goal>();
+    public ArrayList<Task> loadTasks()throws IOException, JSONException {
+        ArrayList<Task> tasks = new ArrayList<Task>();
         BufferedReader reader = null;
         try {
             // Open and read the file into a StringBuilder
@@ -78,7 +78,7 @@ public class JSONSerializer {
             JSONArray array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
             //Build the array of notes from JSONObjects
             for (int i = 0; i < array.length(); i++) {
-                labels.add(new Goal(array.getJSONObject(i).toString()));
+                tasks.add(new Task(array.getJSONObject(i).toString(), mContext));
             }
         } catch (FileNotFoundException e) {
             // Ignore this one; it happens when starting fresh
@@ -86,7 +86,7 @@ public class JSONSerializer {
             if (reader != null)
                 reader.close();
         }
-        return labels;
+        return tasks;
     }
 
 

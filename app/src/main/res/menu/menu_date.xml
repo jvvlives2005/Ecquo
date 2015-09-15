@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/today_item" android:title="Today" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/tomorrow" android:title="Tomorrow" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/nextweek" android:title="Next Week" android:icon="@drawable/ic_discuss"/>
+
+
+    <group>
+        <item android:id="@+id/choosedate" android:title="Choose from Calendar" android:icon="@drawable/ic_discuss"/>
+    </group>
+</menu>

@@ -4,7 +4,6 @@ package abassawo.c4q.nyc.ecquo.Adapters;
  * Created by c4q-Abass on 8/31/15.
  */
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,36 +20,14 @@ import com.nhaarman.listviewanimations.ArrayAdapter;
 
 
 import abassawo.c4q.nyc.ecquo.Model.Goal;
-import abassawo.c4q.nyc.ecquo.Model.Planner;
+import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.Model.Task;
 import abassawo.c4q.nyc.ecquo.R;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 
-
-
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-
-
-
-import com.nhaarman.listviewanimations.ArrayAdapter;
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
-
-
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-
-
 
 
 public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHeadersAdapter {
@@ -77,10 +54,10 @@ public class MyListAdapter extends ArrayAdapter<String> implements  StickyListHe
 //        for (int i = 0; i < 100; i++) {
 //            add(mContext.getString(R.string.row_number, i));
 //        }
-        mGoals = Planner.get(mContext).getGoals();
+        mGoals = sPlanner.get(mContext).getGoals();
         Goal goal = new Goal("Work");
         Goal goal2 = new Goal("School");
-        goal2.add(new Task("Final Project"));
+        goal2.add(new Task("Final Project", mContext));
         for (int i = 0; i < 100; i++){
             mGoals.add(goal);
             mGoals.add(goal2);

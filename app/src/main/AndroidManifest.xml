@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="abassawo.c4q.nyc.ecquo" >
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="ANDROID.PERMISSION.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ecquo_launcher"
@@ -12,6 +18,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyA6jAeh4tvOCg0KiFMcGjaNgk1x9pL5t3w" />
+
         <activity
             android:name=".Activities.LauncherActivity"
             android:label="@string/app_name"
@@ -24,13 +31,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
-            android:label="@string/app_name">
+            android:name=".Activities.StatsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Activities.TaskEditActivity"
-            android:label="@string/title_activity_task_edit" >
+            android:name=".Activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".Activities.MapViewActivity"
+            android:label="@string/title_activity_task_edit"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.EditActivity"
+            android:label="@string/title_activity_edit" >
+        </activity>
+        <activity
+            android:name=".Activities.LabelPicker"
+            android:label="LabelPicker" />
+
+        <service android:name=".Model.WakeUpService" />
+
+        <receiver android:name=".Model.StartupReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".Activities.TaskDetailActivity"
+            android:label="@string/title_activity_task" >
+        </activity>
+        <activity android:name=".Activities.TaskListActivity"
+            android:label="@string/title_task_activity_list"/>
     </application>
 
 </manifest>

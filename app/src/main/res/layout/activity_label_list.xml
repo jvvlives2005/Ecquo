@@ -5,24 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <android.support.v7.widget.Toolbar
-        android:background="@color/colorPrimary"
         android:id="@+id/toolbar"
-        android:homeAsUpIndicator="@drawable/ic_ecquo"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_collapseMode="pin"/>
+        app:layout_collapseMode="pin"
+        android:background="@color/colorPrimary"
+        android:homeAsUpIndicator="@drawable/ic_ecquo"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ListView
+        android:id="@+id/labels_listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/labels_listview">
+        android:layout_height="wrap_content">
 
     </ListView>
-
-
-
 
 </LinearLayout>

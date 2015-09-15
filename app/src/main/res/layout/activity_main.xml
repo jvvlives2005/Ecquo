@@ -2,12 +2,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:slidingLayer="http://schemas.android.com/tools"
-    android:background="@color/card_bg"
     android:id="@+id/drawer_view"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:background="@color/card_bg"
     android:fitsSystemWindows="true">
-
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,19 +20,18 @@
             android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
-            android:background="@color/colorPrimary"
             android:id="@+id/toolbar"
-            android:homeAsUpIndicator="@drawable/ic_ecquo"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_collapseMode="pin"/>
+            app:layout_collapseMode="pin"
+            android:background="@color/colorPrimary"
+            android:homeAsUpIndicator="@drawable/ic_ecquo"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
             <include layout="@layout/include_empty_prompt"/>
 
             <com.andtinder.view.CardContainer xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/deck1"
-                android:padding="15dp"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="360dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -41,39 +39,40 @@
                 android:layout_marginLeft="@dimen/card_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
-
-
-
+                android:layout_centerHorizontal="true"
+                android:padding="15dp"
+                android:gravity="center"
+               />
 
             <android.support.design.widget.FloatingActionButton
-                android:layout_margin="@dimen/activity_vertical_margin"
+                android:id="@+id/fabGraph"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:src="@drawable/graphicon"
-                android:textColor="@android:color/black"
-                android:id="@+id/fabGraph"
-                android:clickable="true"
-                android:onClick="onClick"
+                android:layout_margin="@dimen/activity_vertical_margin"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:foregroundGravity="bottom|right"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:src="@android:drawable/ic_input_add"
-                android:id="@+id/fab2"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/graphicon"
+                android:textColor="@android:color/black"
                 android:clickable="true"
                 android:onClick="onClick"
-                android:layout_gravity="right"
+                 />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/fabGraph"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginRight="@dimen/activity_vertical_margin"/>
+                android:layout_gravity="right"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:foregroundGravity="bottom|right"
+                android:src="@android:drawable/ic_input_add"                android:clickable="true"
+                android:onClick="onClick"/>
 
         </RelativeLayout>
+
         </android.support.design.widget.CoordinatorLayout>
 
     </android.support.v4.widget.DrawerLayout>

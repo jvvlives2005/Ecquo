@@ -161,7 +161,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
     }
 
 
- 
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -265,8 +265,8 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 
 
             // Format details of the place for display and show it in a TextView.
-            
-//            currLocationTV.setText(formatPlaceDetails(getResources(), place.getName(), //Buggy
+
+//            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(), //Buggy
 //                    place.getId(), place.getAddress(), place.getPhoneNumber(),
 //                    place.getWebsiteUri()));
 
@@ -276,7 +276,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
             // Display the third party attributions if set.
             final CharSequence thirdPartyAttribution = places.getAttributions();
             if (thirdPartyAttribution == null) {
-               // mPlaceDetailsAttribution.setVisibility(View.GONE);
+                // mPlaceDetailsAttribution.setVisibility(View.GONE);
             } else {
                 mPlaceDetailsAttribution.setVisibility(View.VISIBLE);
                 mPlaceDetailsAttribution.setText(Html.fromHtml(thirdPartyAttribution.toString()));

@@ -16,27 +16,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:background="@color/colorPrimary"
-            android:id="@+id/toolbar"
-            android:homeAsUpIndicator="@drawable/ic_ecquo"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_collapseMode="pin"/>
-
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
-            android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
             android:layout_height="@dimen/detail_backdrop_height">
 
             <AutoCompleteTextView
+
                 android:id="@+id/autocompleteTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Search Location: "/>
+
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
@@ -76,15 +68,8 @@
         android:layout_alignParentEnd="true" />
 
 
-        <ListView
-            android:layout_below="@+id/appbar"
-            android:id="@+id/search_results_lv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></ListView>
-
-
         <TextView
-            android:layout_above="@+id/search_results_lv"
+            android:layout_below="@+id/appbar"
             android:id="@+id/current_location_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -60,8 +60,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
     private Geocoder geocoder;
     private LatLng searchedLocation;
     @Bind(R.id.viewpager) ViewPager viewpager;
-    @Bind(R.id.search_results_lv)
-    ListView resultsLV;
     @Bind(R.id.current_location_textview)
     TextView currLocationTV;
     @Bind(R.id.autocompleteTV)
@@ -75,8 +73,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
             new LatLng(40.498425, -74.250219), new LatLng(40.792266, -73.776434));
 
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
 
 
     @Override
@@ -92,7 +88,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
         ButterKnife.bind(this);
         geocoder = new Geocoder(getApplicationContext());
         setupViewPager(viewpager);
-        setupActionBar();
 
 
         acTextView.setOnItemClickListener(mAutocompleteClickListener);
@@ -119,15 +114,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 
     }
 
-
-    public void setupActionBar(){
-        setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        //actionBar.setHomeAsUpIndicator(R.mipmap.ic_ecquo); 
-    }
 
 
     private void setupViewPager(ViewPager viewPager) {
@@ -175,8 +161,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
     }
 
 
-
-
+ 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -202,7 +187,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
                         addressStrList.add(x);
                     }
                     ArrayAdapter resultsAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, addressStrList);
-                    resultsLV.setAdapter(resultsAdapter);
                 } catch(Exception e){
 
 
@@ -255,7 +239,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
 
-
+            currLocationTV.setText(item.description);
             Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
                     Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
@@ -281,9 +265,12 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 
 
             // Format details of the place for display and show it in a TextView.
-//            mPlaceDetailsText.setText(formatPlaceDetails(getResources(), place.getName(), //Buggy
+            
+//            currLocationTV.setText(formatPlaceDetails(getResources(), place.getName(), //Buggy
 //                    place.getId(), place.getAddress(), place.getPhoneNumber(),
 //                    place.getWebsiteUri()));
+
+
 
 
             // Display the third party attributions if set.
@@ -296,7 +283,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
             }
 
 
-            Log.i(TAG, "Place details received: " + place.getName());
+            Log.i(TAG, "Place details received: " + place.getName()); //catch the result here. forward back to edit activity. finalize the tasks' informations.
 
 
             places.release();

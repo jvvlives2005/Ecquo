@@ -2,10 +2,9 @@ package abassawo.c4q.nyc.ecquo.Model;
 
 import android.content.Context;
 import android.location.Location;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.Date;
+import java.util.UUID;
 
 import abassawo.c4q.nyc.ecquo.R;
 
@@ -13,13 +12,33 @@ import abassawo.c4q.nyc.ecquo.R;
 /**
  * Created by c4q-Abass on 8/31/15.
  */
-public class Task extends Note implements Parcelable {
+public class Task extends Note {
+    public static final String TASK_KEY_INDEX = "index";
     private String title;
+
+    public String getReminderFrequency() {
+        return reminderFrequency;
+    }
+
+    public void setReminderFrequency(String reminderFrequency) {
+        this.reminderFrequency = reminderFrequency;
+    }
+
+    private String reminderFrequency;
 
     public String getLabel() {
         return label;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    private UUID id;
     private String label;
     private boolean dueToday;
     private boolean remindMeToday;
@@ -124,6 +143,7 @@ public class Task extends Note implements Parcelable {
 
 
     public Task(String title, Context ctx){
+        this.id = UUID.randomUUID();
         this.label = "Personal";
         todaysDate = sPlanner.get(ctx).getTodaysDate();
         this.title = title;
@@ -153,15 +173,7 @@ public class Task extends Note implements Parcelable {
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
 
 
 }

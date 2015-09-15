@@ -74,6 +74,7 @@
         <item>dumb people are dumb</item>
     </string-array>
     <string name="title_activity_task">TaskActivity</string>
+    <string name="title_task_activity_list">Tasks</string>
 
 
 </resources>

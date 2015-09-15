@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private String TAG = "abassawo.c4q.nyc.ecquo.Activities.MainActivity";
-    private int REQUEST_NEW_TASK = 5;
+    public static int REQUEST_NEW_TASK = 5;
 
     //save our header or result
     private AccountHeader headerResult = null;
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_task),
                             new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_places),
                             new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(R.id.nav_collaborators),
-                            new PrimaryDrawerItem().withName("Calendar").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(R.id.nav_calendar))
+                            new PrimaryDrawerItem().withName("All Tasks").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(R.id.nav_all_tasks))
                     .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
                         public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
@@ -143,7 +143,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, EditActivity.class));
                                     break;
                                 case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapViewActivity.class));
-
+                                    break;
+                                case R.id.nav_all_tasks: startActivity(new Intent(MainActivity.this, TaskListActivity.class));
                             }
                             return false;
                         }
@@ -254,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Task task = (Task) deck.getItemAtPosition(position);
                 Intent detailintent = new Intent(getApplicationContext(), TaskDetailActivity.class);
-                detailintent.putExtra("task extra", task); //fixme
+                detailintent.putExtra("TASK", task.getId()); //fixme
                 startActivity(detailintent);
                 Log.d(deck.getSelectedView().toString(), "task to string");
             }

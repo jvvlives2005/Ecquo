@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -105,13 +106,35 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_STORAGE = 0;
     private static final int REQUEST_IMAGE_CAPTURE = REQUEST_STORAGE + 1;
     private static final int REQUEST_LOAD_IMAGE = REQUEST_IMAGE_CAPTURE + 1;
+    private static final int REQUEST_TIME = 3;
+    private static final int REQUEST_DATE = REQUEST_TIME + REQUEST_TIME;
+
 
     FragmentManager fm;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.i(TAG, "OnSaveinstanceState");
+        //outState.p(Task.TASK_KEY_INDEX, mTask.getId());
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
+
+//        else if(savedInstanceState != null){
+//            mTask = savedInstanceState.getInt(Task.TASK_KEY_INDEX, "AA" )
+//        }
         ButterKnife.bind(this);
         initState();
         buildGoogleMapClient(this);
@@ -122,6 +145,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void initState() {
         ctx = this;
         taskList = sPlanner.get(ctx).getTasks();
+
+
     }
 
     public void initViews() {
@@ -219,15 +244,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        super.onActivityReenter(resultCode, data);
-        if (resultCode == RESULT_OK) {
-            Date date = (Date) data.getExtras().get("EXTRA_DATE");
-            mTask.setDueDate(date);
-        }
-    }
-
     public void setupDateSheets() {
         fm = getSupportFragmentManager();
         mTask = new Task(edittext.getText().toString(), ctx);
@@ -241,7 +257,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         mTask.setDueToday();
                         taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
-                        locationSheet.show();       //No reminders presented if due today.
+                        if (mTask.getDueDate() != null) {
+                            locationSheet.show();
+                        }  else {
+                            Toast.makeText(getApplicationContext(), "Date not set", Toast.LENGTH_SHORT).show();
+                        }
+
+                        //No reminders presented if due today.
                         break;
                     case R.id.tomorrow:
                         mTask.setDueTomorrow(ctx); //setDueTomorrow fixme
@@ -402,12 +424,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 switch (id) {
-                    default:
-                        locationSheet.show();
+                    default:  if(mTask.getDueDate() != null && (mTask.getReminderFrequency() != null)){
+                                locationSheet.show();
+                        } else {
+
+                        }
+                     }
+
                 }
 
-
-            }
         }).build();
     }
 
@@ -478,21 +503,34 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) return;
-        if (requestCode == CAPTURE_IMAGE) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Date date = (Date) data.getExtras().get("EXTRA_DATE");
+            mTask.setDueDate(date);
+        } else if (resultCode != Activity.RESULT_OK) {
+            return;
+        } else if (requestCode == CAPTURE_IMAGE) {
             Glide.with(this).load(imageUri).into(imgPreview);
+        } else if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mTask.setDueDate(date);
+           // updateDate();
         }
-//        if (requestCode == REQUEST_DATE) {
-//            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-//            mNote.setDate(date);
-//            updateDate();
-//        }
-//        } else if (requestCode == REQUEST_TIME) {
+//        else if (requestCode == REQUEST_TIME) {
 //            Date date = (Date)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-//            mNote.setDate(date);
+//            mTask.setDate(date);
 //            updateDate();
-//        }
     }
+
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Date date = (Date) data.getExtras().get("EXTRA_DATE");
+            mTask.setDueDate(date);
+        }
+    }
+
 
 
     @Override
@@ -542,5 +580,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
     }
+
+
 }
 

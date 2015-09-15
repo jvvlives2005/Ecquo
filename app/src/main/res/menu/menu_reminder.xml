@@ -4,7 +4,7 @@
     <item android:id="@+id/twiceaweek" android:title="Twice a Week" android:icon="@drawable/ic_discuss"/>
 
 
-    <group android:id="@+id/locationreminder">
-        <item android:id="@+id/help" android:title="GPS Reminder" android:icon="@drawable/ic_discuss"/>
+    <group>
+        <item android:id="@+id/no_reminder" android:title="Don't Remind Me" android:icon="@drawable/ic_discuss"/>
     </group>
 </menu>

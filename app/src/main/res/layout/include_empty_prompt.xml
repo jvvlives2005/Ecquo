@@ -63,7 +63,7 @@
             <TextView
                 android:textSize="16sp"
                 android:padding="@dimen/activity_vertical_margin"
-                android:id="@+id/animation_prompt"
+                android:id="@+id/empty_prompt"
                 android:gravity="center_horizontal"
                 android:text="@string/tasks_empty"
                 android:layout_width="match_parent"

@@ -3,6 +3,8 @@ package abassawo.c4q.nyc.ecquo.Model;
 import android.content.Context;
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -50,13 +52,23 @@ public class Task extends Note {
     private static Date todaysDate;
     private Date mStartDate;
 
+    public Date getReminderTime() {
+        return reminderTime;
+    }
+
+    public void setReminderTime(Date reminderTime) {
+        this.reminderTime = reminderTime;
+    }
+
+    private Date reminderTime;
+
     public void setPriority(Float priority) {
         this.priority = priority;
     }
 
     private Float priority;
 
-    public Location getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
@@ -64,7 +76,7 @@ public class Task extends Note {
         return priority;
     }
 
-    private Location location;
+    private LatLng location;
 
 
     public boolean isDueToday(){
@@ -79,7 +91,8 @@ public class Task extends Note {
         this.setDueDate(sPlanner.get(ctx).getTomorrowsDate());
     }
 
-    public void setLocation(Location location){
+    public void setLocation(LatLng location){
+
         this.location = location;
     }
 

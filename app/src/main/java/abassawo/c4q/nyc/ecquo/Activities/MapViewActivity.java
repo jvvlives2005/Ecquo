@@ -1,5 +1,6 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.design.widget.TabLayout;
@@ -75,6 +76,16 @@ public class MapViewActivity extends AppCompatActivity {
         adapter.addFragment(new TabbedMapFragment(), "New Location");
         //adapter.addFragment(new PlaceListFragment(), "Saved Locations");
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if(requestCode == EditActivity.REQUEST_LOCATION){
+
+            }
+        }
     }
 
     

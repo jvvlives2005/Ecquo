@@ -61,6 +61,7 @@
     <string name="new_task_hint">New Task</string>
     <string name="label">Label</string>
     <string name="date_picker_title">Set Due Date</string>
+    <string name="time_picker_title">Set a time for this action</string>
 
 
     <string-array name="date_chooser_prompt">

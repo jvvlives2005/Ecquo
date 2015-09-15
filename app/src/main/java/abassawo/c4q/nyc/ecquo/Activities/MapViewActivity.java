@@ -1,10 +1,16 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.CursorAdapter;
+import android.support.v4.widget.ResourceCursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,8 +20,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -24,11 +33,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import abassawo.c4q.nyc.ecquo.Adapters.AutoCompleteAdapter;
 import abassawo.c4q.nyc.ecquo.Adapters.FragAdapter;
 import abassawo.c4q.nyc.ecquo.Fragments.PlaceListFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.R;
+
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -37,6 +49,7 @@ public class MapViewActivity extends AppCompatActivity {
     private FragAdapter adapter;
     private Geocoder geocoder;
     private LatLng searchedLocation;
+    private AutoCompleteAdapter suggestionAdapter;
     @Bind(R.id.viewpager) ViewPager viewpager;
     @Bind(R.id.search_results_lv)
     ListView resultsLV;
@@ -54,11 +67,12 @@ public class MapViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         geocoder = new Geocoder(getApplicationContext());
-
+//        suggestionAdapter = new AutoCompleteAdapter(this, android.R.layout.simple_list_item_1,
+//                client, BOUNDS, null);
         ButterKnife.bind(this);
         setupViewPager(viewpager);
         setupActionBar();
-       // tabLayout.setupWithViewPager(viewpager);
+        // tabLayout.setupWithViewPager(viewpager);
 
     }
 
@@ -83,7 +97,7 @@ public class MapViewActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK) {
             if(requestCode == EditActivity.REQUEST_LOCATION){
-
+                //deliverResultToReceiver();
             }
         }
     }
@@ -112,7 +126,14 @@ public class MapViewActivity extends AppCompatActivity {
 
 
     public List<Address> getCoordListfromSearch(String address) throws IOException { //for more results that can be set to an adapter
-        List<Address> addressList = geocoder.getFromLocationName(address, 5);
+        List<Address> addressList = null;
+        try{
+            addressList = geocoder.getFromLocationName(address, 5);
+        } catch(IOException ioe){
+            ioe.printStackTrace();
+            String errorMessage = getString(R.string.service_not_available);
+            Log.e(TAG, errorMessage, ioe);
+        }
         return addressList;
     }
 
@@ -122,48 +143,93 @@ public class MapViewActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_map_activity, menu);
         MenuItem searchItem = menu.findItem(R.id.map_item_search);
         final SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setIconified(false);
+
+
+
+        SearchView.SearchAutoComplete searchAutoComplete = (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete.setTextColor(getResources().getColor(R.color.material_blue_grey_800));
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d(TAG, "QueryTextSubmit: " + query);
-                sPlanner.setStoredQuery(getApplicationContext(), query);
-                updateSearchQueryItems();
+            public boolean onClose() {
 
-                    try{
-                        searchedLocation = getLatLngFromAddress(query);
-                        Log.d(searchedLocation.toString(), "Location Test");
-                        //setViewToLocation(searchedLocation); //FIXME
-                        List<Address> results = getCoordListfromSearch(query);
-                        ArrayList addressStrList = new ArrayList();
-                        for(Address x : results){
-                            addressStrList.add(x);
-                        }
-                        ArrayAdapter resultsAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, addressStrList);
-                        resultsLV.setAdapter(resultsAdapter);
-                    } catch(Exception e){
-
-                    }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
+                Toast.makeText(getApplicationContext(), "close", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
+        /**
+         * Set all of different kinds of listeners
+         */
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        boolean menuIsOpen = false;
+                        return true;
+                    }
 
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return true;
+                    }
+                });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+
+                                          {
+                                              @Override
+                                              public boolean onQueryTextSubmit(String query) {
+                                                  Log.d(TAG, "QueryTextSubmit: " + query);
+                                                  sPlanner.setStoredQuery(getApplicationContext(), query);
+                                                  updateSearchQueryItems();
+
+                                                  try {
+                                                      searchedLocation = getLatLngFromAddress(query);
+                                                      Log.d(searchedLocation.toString(), "Location Test");
+                                                      //setViewToLocation(searchedLocation); //FIXME
+                                                      List<Address> results = getCoordListfromSearch(query);
+                                                      ArrayList addressStrList = new ArrayList();
+                                                      for (Address x : results) {
+                                                          addressStrList.add(x);
+                                                      }
+                                                      ArrayAdapter resultsAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, addressStrList);
+                                                      resultsLV.setAdapter(resultsAdapter);
+                                                  } catch (Exception e) {
+
+                                                  }
+                                                  return false;
+                                              }
+
+                                              @Override
+                                              public boolean onQueryTextChange(String newText) {
+                                                  return false;
+                                              }
+            }
+
+            );
+
+            searchView.setOnSearchClickListener(new View.OnClickListener()
+
+            {
+                @Override
+                public void onClick (View v){
                 String query = sPlanner.getStoredQuery(getApplicationContext());
                 searchView.setQuery(query, false);
             }
-        });
-        return true;
-    }
+            }
+
+            );
+            return true;
+
+
+        }
+
 
     private void updateSearchQueryItems(){
         //new FetchQueryTask().execute();
     }
+
 
 }

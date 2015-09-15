@@ -14,13 +14,13 @@ import com.google.android.gms.maps.model.LatLngBounds;
 /**
  * Created by c4q-Abass on 9/13/15. 
  */
-public class SearchFilterAdapter extends ArrayAdapter<SearchFilterAdapter.PlaceFilter> implements Filterable {
+public class AutoCompleteAdapter extends ArrayAdapter<AutoCompleteAdapter.PlaceFilter> implements Filterable {
     private GoogleApiClient mGoogleApiClient;
     private LatLngBounds mBounds;
     private AutocompleteFilter mPlaceFilter;
 
 
-    public SearchFilterAdapter(Context context, int resource, GoogleApiClient googleApiClient,
+    public AutoCompleteAdapter(Context context, int resource, GoogleApiClient googleApiClient,
                                LatLngBounds bounds, AutocompleteFilter filter) {
         super(context, resource);
         mGoogleApiClient = googleApiClient;

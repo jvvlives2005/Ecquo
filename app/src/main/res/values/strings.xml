@@ -76,6 +76,7 @@
     </string-array>
     <string name="title_activity_task">TaskActivity</string>
     <string name="title_task_activity_list">Tasks</string>
+    <string name="service_not_available">Service Not Available</string>
 
 
 </resources>

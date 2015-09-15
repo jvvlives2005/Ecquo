@@ -1,26 +1,18 @@
 package abassawo.c4q.nyc.ecquo.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -40,7 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.IOException;
 import java.util.List;
 
-import abassawo.c4q.nyc.ecquo.Adapters.SearchFilterAdapter;
+import abassawo.c4q.nyc.ecquo.Adapters.AutoCompleteAdapter;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,7 +43,7 @@ public class TabbedMapFragment extends Fragment implements GoogleApiClient.Conne
 
     private LatLng searchedLocation;
     private Geocoder geocoder;
-    private SearchFilterAdapter mAdapter;
+    private AutoCompleteAdapter mAdapter;
     private String TAG = "abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment";
     private GoogleApiClient mClient;
     private GoogleMap map;
@@ -144,7 +136,7 @@ public class TabbedMapFragment extends Fragment implements GoogleApiClient.Conne
     private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final SearchFilterAdapter.PlaceFilter item = mAdapter.getItem(position);
+            final AutoCompleteAdapter.PlaceFilter item = mAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
             Log.i(TAG, "Autocomplete item selected: " + item.description);
 

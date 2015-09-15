@@ -32,7 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.IOException;
 import java.util.List;
 
-import abassawo.c4q.nyc.ecquo.Adapters.AutoCompleteAdapter;
+
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,7 +43,7 @@ public class TabbedMapFragment extends Fragment implements GoogleApiClient.Conne
 
     private LatLng searchedLocation;
     private Geocoder geocoder;
-    private AutoCompleteAdapter mAdapter;
+
     private String TAG = "abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment";
     private GoogleApiClient mClient;
     private GoogleMap map;
@@ -132,33 +132,33 @@ public class TabbedMapFragment extends Fragment implements GoogleApiClient.Conne
 
 
 
-
-    private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            final AutoCompleteAdapter.PlaceFilter item = mAdapter.getItem(position);
-            final String placeId = String.valueOf(item.placeId);
-            Log.i(TAG, "Autocomplete item selected: " + item.description);
-
-            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mClient, placeId);
-            placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
-                @Override
-                public void onResult(PlaceBuffer places) {
-                    if (!places.getStatus().isSuccess()) {
-                        // Request did not complete successfully
-                        Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
-                        places.release();
-                        return;
-                    }
-                    places.release();
-                }
-            });
-            Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
-
-            LatLng search_location = getLatLngFromAddress(item.toString());
-            setViewToLocation(search_location);
-        }
-    };
+//
+//    private AdapterView.OnItemClickListener mAutocompleteClickListener = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            final AutoCompleteAdapter.PlaceFilter item = mAdapter.getItem(position);
+//            final String placeId = String.valueOf(item.placeId);
+//            Log.i(TAG, "Autocomplete item selected: " + item.description);
+//
+//            PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi.getPlaceById(mClient, placeId);
+//            placeResult.setResultCallback(new ResultCallback<PlaceBuffer>() {
+//                @Override
+//                public void onResult(PlaceBuffer places) {
+//                    if (!places.getStatus().isSuccess()) {
+//                        // Request did not complete successfully
+//                        Log.e(TAG, "Place query did not complete. Error: " + places.getStatus().toString());
+//                        places.release();
+//                        return;
+//                    }
+//                    places.release();
+//                }
+//            });
+//            Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
+//
+//            LatLng search_location = getLatLngFromAddress(item.toString());
+//            setViewToLocation(search_location);
+//        }
+//    };
 
 
     public LatLng getLatLngFromAddress(String address){

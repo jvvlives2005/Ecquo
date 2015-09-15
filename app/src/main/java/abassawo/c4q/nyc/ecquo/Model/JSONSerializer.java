@@ -78,7 +78,7 @@ public class JSONSerializer {
             JSONArray array = (JSONArray) new JSONTokener(jsonString.toString()).nextValue();
             //Build the array of notes from JSONObjects
             for (int i = 0; i < array.length(); i++) {
-                tasks.add(new Task(array.getJSONObject(i).toString()));
+                tasks.add(new Task(array.getJSONObject(i).toString(), mContext));
             }
         } catch (FileNotFoundException e) {
             // Ignore this one; it happens when starting fresh

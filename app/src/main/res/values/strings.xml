@@ -61,6 +61,7 @@
     <string name="new_task_hint">New Task</string>
     <string name="label">Label</string>
     <string name="date_picker_title">Set Due Date</string>
+    <string name="time_picker_title">Set a time for this action</string>
 
 
     <string-array name="date_chooser_prompt">
@@ -75,6 +76,12 @@
     </string-array>
     <string name="title_activity_task">TaskActivity</string>
     <string name="title_task_activity_list">Tasks</string>
+    <string name="service_not_available">Service Not Available</string>
+
+    <string name="autocomplete_hint">Enter place name or address</string>
+    <string name="selected_place">Last Selected Place:</string>
+    <string name="clear_text">Clear Text</string>
+    <string name="place_details"><![CDATA[<!-- getString(String, Object...) does not support HTML tags directly, they need to be encoded first.     Original string: <b>%1$s</b><br/><i>Place Id: %2$s</i><br/>Address: %3$s<br/>Phone: %4$s<br/>Website: %5$s-->     <string name=\"place_details\">&lt;b&gt;%1$s&lt;/b&gt;&lt;br/&gt;&lt;i&gt;Place Id: %2$s&lt;/i&gt;&lt;br/&gt;Address: %3$s&lt;br/&gt;Phone: %4$s&lt;br/&gt;Website: %5$s</string>]]></string>
 
 
 </resources>

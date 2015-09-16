@@ -28,15 +28,23 @@ public class sPlanner {
     private static ArrayList<Task>mTasks;
     private Date tomorrowsDate;
     private Date weekfromToday;
-
+    private boolean firstRun;
     private ArrayList<Goal> mGoals;
+
+
+
     public ArrayList<Goal> getGoals() {
+
         return mGoals;
     }
+
+
     public ArrayList<Task> getTasks(){
 
         return mTasks;
     }
+
+
 
 
     public List<Task>getTodaysTasks(){
@@ -166,5 +174,15 @@ public class sPlanner {
     }
 
 
+
+
+
+    public boolean isFirstRun() {
+        return firstRun;
+    }
+
+    public void setFirstRun(boolean firstRun) {
+        this.firstRun = firstRun;
+    }
 }
 

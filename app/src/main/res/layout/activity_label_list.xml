@@ -10,11 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
-        android:background="@color/colorPrimary"
         android:homeAsUpIndicator="@drawable/ic_ecquo"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <EditText
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_width="match_parent"
+            android:hint="Enter a New Label"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_edittext"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_toStartOf="@+id/imageView" />
+        <ImageView
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:clickable="true"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_input_add"
+            android:id="@+id/imageView" />
+
+        </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
 
     <ListView
+        android:background="@color/card_bg"
         android:id="@+id/labels_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

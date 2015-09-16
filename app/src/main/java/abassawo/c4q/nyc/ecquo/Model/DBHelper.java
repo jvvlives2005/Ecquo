@@ -27,6 +27,7 @@ public class DBHelper extends SQLiteOpenHelper {
         cupboard().withDatabase(db).createTables();
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         cupboard().withDatabase(db).upgradeTables();

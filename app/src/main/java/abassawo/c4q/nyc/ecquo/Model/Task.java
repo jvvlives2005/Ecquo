@@ -1,7 +1,9 @@
 package abassawo.c4q.nyc.ecquo.Model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.text.format.DateUtils;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -15,6 +17,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import abassawo.c4q.nyc.ecquo.R;
+import nl.qbusict.cupboard.annotation.Ignore;
 
 
 /**
@@ -24,18 +27,33 @@ public class Task extends Note {
     public static final String TASK_KEY_INDEX = "index";
     private String title;
     private static final String JSON_ID = "id";
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setIsCompleted(boolean isCompleted) {
+        this.isCompleted = isCompleted;
+    }
+
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
     private static final String JSON_START_DATE = "startdate";
     private static final String JSON_LABEL_TAG = "label";
+    private boolean isCompleted;
     public Long _id;//for cupboard
 
     private boolean solved;
     private boolean complete;
 
-    public Task(){
 
+    @Ignore
+    private String uriSource;
+
+    public Task(){
+        this.customPhoto = false;
+        this.uriSource = "";
     }
 
     public String getReminderFrequency() {
@@ -67,7 +85,7 @@ public class Task extends Note {
     private int duration;
     private Date reminderDay;
     private int taskPhotoId;
-    private boolean hasCustomPhoto;
+    private boolean customPhoto;
     private static Date todaysDate;
 
     public Date getStartDate() {
@@ -155,7 +173,7 @@ public class Task extends Note {
     }
 
     public boolean isCustomPhotoSet(){
-        return this.getTaskPhoto() != R.drawable.mountaintop;
+        return customPhoto = true;
     }
 
 
@@ -197,6 +215,8 @@ public class Task extends Note {
         this.title = title;
         mStartDate = todaysDate;
         this.taskPhotoId = R.drawable.mountaintop;
+        this.uriSource = "";
+        this.customPhoto = false;
     }
 
 
@@ -206,7 +226,11 @@ public class Task extends Note {
 
     @Override
     public String toString(){
-        return "Title " + this.title + "\n" +
+        return  this.title;
+    }
+
+    public String debugString(){
+        return title + this.title + "\n" +
                 "Priority " + this.getPriority() + "\n" +
                 "Due Date " + this.getDueDate() + "\n" +
                 "Location " + this.location + "\n" +
@@ -230,4 +254,16 @@ public class Task extends Note {
     }
 
 
+    public String getUriStr() {
+        return uriSource;
+    }
+
+    public void setUriStr(String source) {
+        this.uriSource = source;
+    }
+
+
+    public void setCustomPhoto(boolean hasCustomPhoto) {
+        this.customPhoto = hasCustomPhoto;
+    }
 }

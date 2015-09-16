@@ -1,11 +1,23 @@
 
 package abassawo.c4q.nyc.ecquo.Activities;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -44,11 +56,16 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import abassawo.c4q.nyc.ecquo.Model.DBHelper;
+import abassawo.c4q.nyc.ecquo.Model.EmailFetcher;
+import abassawo.c4q.nyc.ecquo.Model.User;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.Model.Task;
 import abassawo.c4q.nyc.ecquo.R;
@@ -73,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     DrawerLayout mDrawerLayout;
     private FragmentManager fragMan;
     private  SQLiteDatabase  db;
+    boolean firstRun;
 
 
 
@@ -85,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PROFILE_SETTING = 1;
     public static List<Task> taskList;
     public static List<Task> todayList;
+    private User user;
+    private IProfile userProfile;
 
     private ActionBarDrawerToggle mDrawerToggle;
     @Bind(R.id.deck1) CardContainer deck;
@@ -101,43 +121,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         taskList = sPlanner.get(getApplicationContext()).fetchAllTasks();
         todayList = new ArrayList<Task>();
-                //generateDummyData();
-
         initDB();
-//        Task persistenceTask = new Task("Persistence Test", getApplicationContext());
-//        long id = cupboard().withDatabase(db).put(persistenceTask);
-
-        //if(db not empty) {
-           //fetchDBforTasksDueToday();//testing
-        //}
         ButterKnife.bind(this);
         setupNavDrawer(savedInstanceState);
-
         initState();
         initListeners();
         setupActionBar();
         taskList = sPlanner.get(getApplicationContext()).getTasks();
-
-
         setupDayStacks(deck);
-//
         emptyLayout.setAlpha(1);
-
-       // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
     }
 
 
-        public void setupNavDrawer(Bundle savedInstanceState){
-            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo")
-                    .withNameShown(true)
-                    .withEmail("100 Points")
+    public void setupNavDrawer(Bundle savedInstanceState){
+            user = new User();
+            if(user.points == null) {
+                user.pointTally = 100;
+            } else {
+                user.points = String.valueOf(user.pointTally) + " Points" ;
+            }
+            userProfile = new ProfileDrawerItem().withName(EmailFetcher.getEmailId(this))
+                    .withNameShown(true).withEmail(user.points)
                     .withIcon(getResources()
                             .getDrawable(R.drawable.exercise_brain));
-            final IProfile hansProfile = new ProfileDrawerItem().withName("Hans");
-            final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn");
+            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo")
+                    .withNameShown(true)
+                    .withEmail("150 Points")
+                    .withIcon(getResources()
+                            .getDrawable(R.drawable.exercise_brain));
+            final IProfile hansProfile = new ProfileDrawerItem().withName("Hans").withNameShown(true).withEmail("120 Points");
+            final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn").withNameShown(true).withEmail("130");
             headerResult = new AccountHeaderBuilder()
                     .withActivity(this)
-                    .addProfiles(abassProfile, hansProfile, joshProfile,
+                    .addProfiles(userProfile, abassProfile, hansProfile, joshProfile,
                             //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
 //                        new ProfileSettingDrawerItem().withName("Work").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
 //                        new ProfileSettingDrawerItem().withName("School").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
@@ -190,10 +206,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
     }
 
+    public Bitmap getBitmapFromUri(Uri uri){
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public Bitmap getThumbnail(Uri uri) throws FileNotFoundException, IOException{
+        InputStream input = getApplicationContext().getContentResolver().openInputStream(uri);
+
+        BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
+        onlyBoundsOptions.inJustDecodeBounds = true;
+        onlyBoundsOptions.inDither=true;//optional
+        onlyBoundsOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        BitmapFactory.decodeStream(input, null, onlyBoundsOptions);
+        input.close();
+        if ((onlyBoundsOptions.outWidth == -1) || (onlyBoundsOptions.outHeight == -1))
+            return null;
+
+        int originalSize = (onlyBoundsOptions.outHeight > onlyBoundsOptions.outWidth) ? onlyBoundsOptions.outHeight : onlyBoundsOptions.outWidth;
+
+        double ratio = (originalSize > 1) ? (originalSize / 1) : 1.0;
+
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.inSampleSize = getPowerOfTwoForSampleRatio(ratio);
+        bitmapOptions.inDither=true;//optional
+        bitmapOptions.inPreferredConfig=Bitmap.Config.ARGB_8888;//optional
+        input = this.getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
+        input.close();
+        return bitmap;
+    }
+
+    private static int getPowerOfTwoForSampleRatio(double ratio){
+        int k = Integer.highestOneBit((int)Math.floor(ratio));
+        if(k==0) return 1;
+        else return k;
+    }
+
 
 
 
     public void setupDayStacks(CardContainer decK) {
+        Drawable defaultDrawable = getResources().getDrawable(R.drawable.c4qlogo);
         final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
 
         //TODO - Sort list before populating deck.
@@ -204,21 +263,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i = 0; i < taskList.size(); i++) {
             Task iterTask = taskList.get(i);
 
-
             if (iterTask.isNotifyToday()) {
                 todayList.add(iterTask);
             }
         }
 
         if (!todayList.isEmpty()) {
+
+
+
             for (int i = 0; i < todayList.size(); i++) {
                 CardModel card = new CardModel();
+//                if(todayList.get(i).isCustomPhotoSet()){
+//                    Bitmap drawable = null;
+//                    try {
+//                        drawable = getThumbnail (Uri.parse(todayList.get(i).getUriStr()));
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    card = new CardModel(todayList.get(i).getTitle(),
+//                            todayList.get(i).getLabel(),
+//                            drawable);
+//
+//                } else {
 
+                    card = new CardModel(todayList.get(i).getTitle(),
+                            todayList.get(i).getLabel(),
+                            defaultDrawable);
+               // }
 
-                card = new CardModel(
-                        todayList.get(i).getTitle(),
-                        todayList.get(i).getLabel(),
-                        getResources().getDrawable(R.drawable.c4qlogo));
 
 
                 card.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {
@@ -226,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     @Override
                     public void onLike() {  //this is swiping left. library is backwards.
+                        user.addtoPoints(10);
                         Snackbar
                                 .make(coordinatorLayoutView, "Task dismissed for later", Snackbar.LENGTH_SHORT)
                                 .show();

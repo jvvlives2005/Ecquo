@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_action_place"
+        android:src="@drawable/locationicon_green"
         android:visibility="invisible" />
 
     <fragment

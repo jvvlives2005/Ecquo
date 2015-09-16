@@ -2,9 +2,12 @@ package abassawo.c4q.nyc.ecquo.Activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +20,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -29,11 +32,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -45,25 +51,37 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
 import com.truizlop.fabreveallayout.FABRevealLayout;
 import com.truizlop.fabreveallayout.OnRevealChangeListener;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+//import abassawo.c4q.nyc.ecquo.Fragments.DatePickerFragment;
+//import abassawo.c4q.nyc.ecquo.Fragments.TimePickerFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.DatePickerFragment;
+import abassawo.c4q.nyc.ecquo.Fragments.TimePickerFragment;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.Model.Task;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class EditActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
+
+
+
+
+public class EditActivity extends AppCompatActivity implements View.OnClickListener,
+        com.wdullaer.materialdatetimepicker.time.TimePickerDialog.OnTimeSetListener,
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.edit_task_title)
@@ -77,28 +95,22 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.note_imageView)
     ImageView imgPreview;
 
-    @Bind(R.id.fab_reveal_layout_test)
+    @Bind(R.id.fab_reveal_layout)
     FABRevealLayout fabRevealLayout;
-    private String sheetTitle;
     private LocationManager locationManager;
     private BottomSheet dateSheet;
-    private BottomSheet prioritySheet;
     @Bind(R.id.bottomsheet)
     BottomSheetLayout bottomSheetLayout;
-    private BottomSheet locationSheet;
-    private BottomSheet reminderSheet;
-    private BottomSheet pictureDialogSheet;
     private Uri imageUri;
     private int CAPTURE_IMAGE = 9;
     private String TAG = "EditActivity";
+    private Uri cameraImageUri;
 
     private Context ctx;
-    private DatePicker datePicker;
     private static final String DIALOG_DATE = "date";
     private Task mTask; //TASK BEING EDITED.
     public static List<Task> todayList;
     public static List<Task> taskList;
-    private DatePickerFragment dateDialog;
     private GoogleApiClient mClient;
     private Location mCurrentLocation;
     private static final long MIN_TIME = 400;
@@ -106,11 +118,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_STORAGE = 0;
     private static final int REQUEST_IMAGE_CAPTURE = REQUEST_STORAGE + 1;
     private static final int REQUEST_LOAD_IMAGE = REQUEST_IMAGE_CAPTURE + 1;
-    private static final int REQUEST_TIME = 3;
-    private static final int REQUEST_DATE = REQUEST_TIME + REQUEST_TIME;
+    public static final int REQUEST_TIME = 3;
+    public static final int REQUEST_DATE = REQUEST_TIME + REQUEST_TIME;
+    public static final int REQUEST_LOCATION = REQUEST_DATE + REQUEST_TIME;
 
-
-    FragmentManager fm;
+    private BottomSheet locationSheet;
+    private BottomSheet reminderSheet;
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -123,7 +136,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         Log.i(TAG, "OnSaveinstanceState");
         //outState.p(Task.TASK_KEY_INDEX, mTask.getId());
     }
-
 
 
     @Override
@@ -142,20 +154,43 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         setupListeners();
     }
 
+//    public void showDatePicker(){
+//        DatePickerDialog mDatePicker;
+//        Calendar mcurrentDate = Calendar.getInstance();
+//        int mYear = mcurrentDate.get(Calendar.YEAR);
+//        int mMonth = mcurrentDate.get(Calendar.MONTH);
+//        int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+//        mDatePicker = new DatePickerDialog(getApplicationContext(), new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
+//                // TODO Auto-generated method stub
+//                    /* get date and time */
+//                selectedMonth = selectedMonth + 1;
+//                Calendar mDueDate = Calendar.getInstance();
+//                mDueDate.set(Calendar.YEAR, selectedYear);
+//                mDueDate.set(Calendar.MONTH, selectedMonth);
+//                mDueDate.set(Calendar.DAY_OF_MONTH, selectedDay);
+//
+//                mTask.setDueDate(mDueDate.getTime());
+//
+//
+//            }
+//        }, mYear, mMonth, mDay);
+//        mDatePicker.setTitle("Select Date");
+//        mDatePicker.show();
+//    }
+
     public void initState() {
         ctx = this;
         taskList = sPlanner.get(ctx).getTasks();
-
-
     }
 
     public void initViews() {
         setupActionBar();
         configureFABReveal(fabRevealLayout);
         setupDateSheets();
-        setupLocationSheet();
         setupReminderSheet();
-        setupPicturePickerSheet();
+        setupLocationSheet();
     }
 
     public void setupListeners() {
@@ -167,7 +202,8 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(String.valueOf(rating), TAG);
                 Log.d(mTask.toString(), TAG);
                 dateSheet.show();
-                prepareBackTransition(fabRevealLayout);
+                //showDatePicker();
+
             }
         });
         cameraButton.setOnClickListener(this);
@@ -190,7 +226,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        // prioritySheet.show();
 
     }
 
@@ -204,15 +239,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onSecondaryViewAppeared(final FABRevealLayout fabRevealLayout, View secondaryView) {
+                hideKeyboard();
                 secondaryView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        hideKeyboard();
-                        //dateSheet.show();
-                        //showDialogSheet();
-                        //prioritySheet.show();
+                        dateSheet.show();
                         prepareBackTransition(fabRevealLayout);
-                        //TESTING
+
                     }
                 });
 
@@ -230,25 +263,10 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         }, 2000);
     }
 
-    public void setupPicturePickerSheet() {
-        pictureDialogSheet = new BottomSheet.Builder(this).title("Choose a photo for this task").sheet(R.menu.menu_picture_edit).listener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                switch (id) {
-                    case R.id.take_a_picture:
-                        startCameraIntent();
-                        break;
-                }
-            }
-        }).build();
-
-    }
 
     public void setupDateSheets() {
-        fm = getSupportFragmentManager();
         mTask = new Task(edittext.getText().toString(), ctx);
 
-        dateDialog = DatePickerFragment.newInstance(mTask.getDueDate());
         dateSheet = new BottomSheet.Builder(this).title("Due Date").sheet(R.menu.menu_date).listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
@@ -257,29 +275,37 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         mTask.setDueToday();
                         taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
-                        if (mTask.getDueDate() != null) {
-                            locationSheet.show();
-                        }  else {
-                            Toast.makeText(getApplicationContext(), "Date not set", Toast.LENGTH_SHORT).show();
-                        }
-
-                        //No reminders presented if due today.
+                        prepareBackTransition(fabRevealLayout);
+                        reminderSheet.show();
+                        // startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
                     case R.id.tomorrow:
                         mTask.setDueTomorrow(ctx); //setDueTomorrow fixme
                         taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
-                        reminderSheet.show();      //Reminders are presented.
+                        prepareBackTransition(fabRevealLayout);
+                        reminderSheet.show();
+                        //startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
                     case R.id.choosedate:
-                        fm.beginTransaction().add(dateDialog, "DATE").commit();
+                        dateSheet.dismiss();//testing
+                        showCustomDatePicker();
+                        Calendar mcurrentDate = Calendar.getInstance();
+                        int mYear = mcurrentDate.get(Calendar.YEAR);
+                        int mMonth = mcurrentDate.get(Calendar.MONTH);
+                        int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                        // fm.beginTransaction().add(dateDialog, "DATE").commit(); //open datepicker
+                        reminderSheet.show();
                         break;
                     case R.id.nextweek:
                         mTask.setDueinOneWeek(ctx);
                         Log.d(mTask.toString(), "due date test");
+                        prepareBackTransition(fabRevealLayout);
                         reminderSheet.show();
+                        //startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
-                    default:break;
+                    default:
+                        break;
                 }
 
             }
@@ -287,34 +313,12 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
+
 
     @Override
     public void onProvideAssistData(Bundle data) {
         super.onProvideAssistData(data);
     }
-
-
-
-    public void setupLocationSheet() {
-        locationSheet = new BottomSheet.Builder(this).title("Location").sheet(R.menu.menu_location).listener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                Intent intent = new Intent(ctx, MapViewActivity.class);
-                switch (id) {
-                    case R.id.saved_places:
-
-                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
-                        break;
-                    case R.id.new_place:
-                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
-                        break;
-                    default: startActivity(new Intent(EditActivity.this, MainActivity.class));
-                }
-            }
-        }).build();
-    }
-
-
 
 
     private void dispatchTakePictureIntent() {
@@ -346,11 +350,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
 
         // Save a file: path for use with ACTION_VIEW intents
-        Uri cameraImageUri = Uri.fromFile(imageFile);
+        cameraImageUri = Uri.fromFile(imageFile);
         return imageFile;
     }
 
-    private void showGalleryPickerSheetView(){
+    private void showGalleryPickerSheetView() {
         ImagePickerSheetView sheetView = new ImagePickerSheetView.Builder(this)
                 .setMaxItems(30)
                 .setShowCameraOption(createCameraIntent() != null)
@@ -399,7 +403,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private Intent createPickIntent() {
         Intent picImageIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         if (picImageIntent.resolveActivity(getPackageManager()) != null) {
@@ -417,23 +420,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             return null;
         }
-    }
-
-    public void setupReminderSheet() {
-        reminderSheet = new BottomSheet.Builder(this).title("Remind Me").sheet(R.menu.menu_reminder).listener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                switch (id) {
-                    default:  if(mTask.getDueDate() != null && (mTask.getReminderFrequency() != null)){
-                                locationSheet.show();
-                        } else {
-
-                        }
-                     }
-
-                }
-
-        }).build();
     }
 
 
@@ -487,39 +473,69 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-    public void startCameraIntent() {
-        //Destination
-        String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES).getPath();
-
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-        File mediaFile = new File(mediaStorageDir + File.separator + "IMG_" + timeStamp + ".jpg");
-        // Send intent to take picture
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        imageUri = Uri.fromFile(mediaFile);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mediaFile));
-        startActivityForResult(cameraIntent, CAPTURE_IMAGE);
-    }
+//    public void startCameraIntent() {
+//        //Destination
+//        String mediaStorageDir = Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES).getPath();
+//
+//        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+//        File mediaFile = new File(mediaStorageDir + File.separator + "IMG_" + timeStamp + ".jpg");
+//        // Send intent to take picture
+//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        imageUri = Uri.fromFile(mediaFile);
+//        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mediaFile));
+//        startActivityForResult(cameraIntent, CAPTURE_IMAGE);
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Date date = (Date) data.getExtras().get("EXTRA_DATE");
-            mTask.setDueDate(date);
-        } else if (resultCode != Activity.RESULT_OK) {
-            return;
-        } else if (requestCode == CAPTURE_IMAGE) {
-            Glide.with(this).load(imageUri).into(imgPreview);
-        } else if (requestCode == REQUEST_DATE) {
-            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
-            mTask.setDueDate(date);
-           // updateDate();
+            Uri selectedImage = null;
+            if (requestCode == REQUEST_LOAD_IMAGE && data != null) {
+                selectedImage = data.getData();
+                if (selectedImage == null) {
+                    //generic error
+                }
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                // Do something with imagePath
+                selectedImage = cameraImageUri;
+            } else if (requestCode == REQUEST_LOCATION) {
+//                mTask.setLocation(data.getExtras().get("LOCATION"));
+            } else if (requestCode == REQUEST_DATE) {
+                Intent intent = getIntent();
+                mTask.setDueDate((Date) intent.getExtras().get((DatePickerFragment.EXTRA_DATE)));
+                Log.d(TAG, mTask.getDueDate().toString());
+            }
+
+
+            if (selectedImage != null) {
+                showSelectedImage(selectedImage);
+            } else {
+                //genericError();
+            }
+
+            if (resultCode == DatePickerFragment.DATE_PICKED_RESULT_CODE) {
+                long datePickedInMilliseconds = data.getLongExtra(DatePickerFragment.DATE_PICKED_INTENT_KEY, 0);
+                mTask.setDueDate(new Date(datePickedInMilliseconds));
+                Log.d(TAG, mTask.getDueDate().toString());
+            }
+
+            if (requestCode == REQUEST_DATE) {
+                //Date date = (Date) data.getExtras().get("EXTRA_DATE");
+                Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+                mTask.setDueDate(date);
+                // updateDate();
+            } else if (requestCode == REQUEST_TIME) {
+                Date date = (Date) data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
+                mTask.setReminderTime(date);
+                // updateDate();
+
+            }
+            if (resultCode != Activity.RESULT_OK) {
+                return;
+            }
         }
-//        else if (requestCode == REQUEST_TIME) {
-//            Date date = (Date)data.getSerializableExtra(TimePickerFragment.EXTRA_TIME);
-//            mTask.setDate(date);
-//            updateDate();
     }
 
     @Override
@@ -530,7 +546,6 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             mTask.setDueDate(date);
         }
     }
-
 
 
     @Override
@@ -544,9 +559,17 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.camButton:
-                showGalleryPickerSheetView();
-                //pictureDialogSheet.show();
+                if (!bottomSheetLayout.isSheetShowing()) {
+                    showGalleryPickerSheetView();
+                } else {
+                    bottomSheetLayout.dismissSheet();
+                }
                 break;
+//            case R.id.time_reminder_fab_button: //set these listeners on bottomsheet dialog
+//                fm.beginTransaction().add(timeDialog, "TIME").commit();
+//                break;
+//            case R.id.location_reminder_fab_button:
+
 
         }
     }
@@ -575,12 +598,126 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void setupLocationSheet() {
+        locationSheet = new BottomSheet.Builder(this).title("Location").sheet(R.menu.menu_location).listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(ctx, MapViewActivity.class);
+                switch (id) {
+                    case R.id.current_location:
+                        if (mCurrentLocation != null) {
+                            mTask.setLocation(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
+                            Log.d(mCurrentLocation.getLatitude() + "," + mCurrentLocation.getLongitude(), "location");
+                        }
+                        break;
+                    case R.id.choose_location:
+                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
+                        break;
+                    case R.id.no_location:
+                        mTask.setLocation(new LatLng(0, 0));
+                    default:
+                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                }
+            }
+        }).build();
+    }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+    public void setupReminderSheet() {
+        reminderSheet = new BottomSheet.Builder(this).title("Remind Me").sheet(R.menu.menu_reminder).listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                switch (id) {
+                    case R.id.current_time_reminder:
+                        mTask.setReminderTime(new Date());
+                        locationSheet.show();
+                        break;
+                    case R.id.custom_time:
+                         showCustomTimePicker();
+                        //fm.beginTransaction().add(timeDialog, "TIME").commit();
+                        break;
+                    case R.id.no_timed_reminder:
+                        taskList.add(mTask);
+                        locationSheet.show();
+                        break;
+                }
+                //  locationSheet.show();
+//                Intent intent = new Intent(ctx, MainActivity.class);  //fixme
+//                startActivity(intent);
+            }
+        }).build();
+    }
+
+    public void showCustomTimePicker() {
+        Calendar now = Calendar.getInstance();
+        com.wdullaer.materialdatetimepicker.time.TimePickerDialog tpd;
+        tpd = com.wdullaer.materialdatetimepicker.time.TimePickerDialog.newInstance(EditActivity.this,
+                now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE), false);
+        tpd.setThemeDark(true);
+        tpd.vibrate(false);
+        tpd.dismissOnPause(true);
+        tpd.setAccentColor(Color.parseColor("#03A9F4"));
+
+        tpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                Log.d("TimePicker", "Dialog was cancelled");
+            }
+        });
+        tpd.show(getFragmentManager(), "Timepickerdialog");
+    }
+
+    public void showCustomDatePicker() {
+        Calendar now = Calendar.getInstance();
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd;
+        dpd = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                EditActivity.this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH));
+
+
+        dpd.setThemeDark(true);
+        dpd.vibrate(false);
+        dpd.dismissOnPause(true);
+        // if (modeCustomAccentDate.isChecked()) {
+        dpd.setAccentColor(Color.parseColor("#03A9F4"));
+
+        //}
+        dpd.show(getFragmentManager(), "Datepickerdialog");
+
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        com.wdullaer.materialdatetimepicker.time.TimePickerDialog tpd = (com.wdullaer.materialdatetimepicker.time.TimePickerDialog) getFragmentManager().findFragmentByTag("Timepickerdialog");
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog dpd = (com.wdullaer.materialdatetimepicker.date.DatePickerDialog) getFragmentManager().findFragmentByTag("Datepickerdialog");
 
+
+        if (tpd != null) tpd.setOnTimeSetListener(this);
+        if (dpd != null) dpd.setOnDateSetListener(this);
+
+    }
+
+    @Override
+    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePickerDialog, int year, int month, int day) {
+           Calendar date = Calendar.getInstance();
+           date.set(Calendar.YEAR, year);
+           date.set(Calendar.MONTH, month);
+           date.set(Calendar.DAY_OF_MONTH, day);
+           mTask.setDueDate(date.getTime());
+           locationSheet.show();
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout radialPickerLayout, int hour, int min) {
+        Calendar time =  Calendar.getInstance();
+        time.set(Calendar.HOUR, hour);
+        time.set(Calendar.MINUTE, min);
+        mTask.setReminderTime(time.getTime());
+        locationSheet.show();
+
+    }
 }
-

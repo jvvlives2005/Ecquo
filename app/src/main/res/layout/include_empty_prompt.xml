@@ -51,7 +51,7 @@
                 android:layout_centerInParent="true"
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/ecquo_launcher_trans"
+                android:src="@drawable/ecquologo_icon"
                 />
 
             <TextView

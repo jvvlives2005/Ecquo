@@ -10,7 +10,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:homeAsUpIndicator="@drawable/ic_ecquo"
+        android:homeAsUpIndicator="@drawable/hi512"
         app:layout_collapseMode="pin"/>
 
 

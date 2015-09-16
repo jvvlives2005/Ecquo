@@ -11,7 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
         android:background="@color/colorPrimary"
-        android:homeAsUpIndicator="@drawable/ic_ecquo"
+        android:homeAsUpIndicator="@drawable/hi512"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ListView

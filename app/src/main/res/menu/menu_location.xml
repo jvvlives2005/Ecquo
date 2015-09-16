@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/current_location" android:title="My Current Location" android:icon="@drawable/ic_action_place"/>
-    <item android:id="@+id/saved_places" android:title="Choose from Saved Places" android:icon="@drawable/ic_discuss"/>
-    <item android:id="@+id/new_place" android:title="Search by Zip" android:icon="@drawable/ic_discuss"/>
+    <item android:id="@+id/choose_location" android:title="Choose a Location" android:icon="@drawable/ic_discuss"/>
     <item android:id="@+id/no_location" android:title="No Location Services for this Task" android:icon="@drawable/ic_discuss"/>
 </menu>

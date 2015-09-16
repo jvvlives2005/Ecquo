@@ -50,6 +50,15 @@ public class Task extends Note {
     private int taskPhotoId;
     private boolean hasCustomPhoto;
     private static Date todaysDate;
+
+    public Date getStartDate() {
+        return mStartDate;
+    }
+
+    public void setStartDate(Date mStartDate) {
+        this.mStartDate = mStartDate;
+    }
+
     private Date mStartDate;
 
     public Date getReminderTime() {

@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        todayList = sPlanner.get(getApplicationContext()).getTodaysTasks();
         WakeUpService.setServiceAlarm(this, true);
         ButterKnife.bind(this);
         setupNavDrawer(savedInstanceState);
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         taskList = sPlanner.get(getApplicationContext()).getTasks();
 
 
-        setupDayStacks(deck, true);
+        setupDayStacks(deck);
 //
         emptyLayout.setAlpha(1);
 
@@ -108,7 +109,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         public void setupNavDrawer(Bundle savedInstanceState){
-            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo").withNameShown(true).withEmail("100 Points").withIcon(getResources().getDrawable(R.drawable.exercise_brain));
+            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo")
+                    .withNameShown(true)
+                    .withEmail("100 Points")
+                    .withIcon(getResources()
+                            .getDrawable(R.drawable.exercise_brain));
             final IProfile hansProfile = new ProfileDrawerItem().withName("Hans");
             final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn");
             headerResult = new AccountHeaderBuilder()
@@ -129,7 +134,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .withSavedInstance(savedInstanceState)
                     .build();
 
-            drawerModel = new DrawerBuilder().withActivity(this).withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light)).withToolbar(toolbar)
+            drawerModel = new DrawerBuilder().withActivity(this)
+                    .withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light))
+                    .withToolbar(toolbar)
                     .withAccountHeader(headerResult).addDrawerItems(
                             new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_task),
                             new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_places),
@@ -167,8 +174,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    public void setupDayStacks(CardContainer deck, boolean dummyData){
+    public void setupDayStacks(CardContainer decK){
         final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
+        boolean dummyData = false;
         if (dummyData){
             todayList = generateDummyData();
             for(Task x : taskList){
@@ -177,10 +185,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
 
-        } else {
-            Context ctx = getApplicationContext();
-            todayList = sPlanner.get(ctx).getTodaysTasks();
         }
+
 
         //TODO - Sort list before populating deck.
             deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
@@ -199,7 +205,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //}
 
-                card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.c4qlogo));
+                card = new CardModel(
+                        todayList.get(i).getTitle(),
+                        iterTask.getLabel(),
+                        getResources().getDrawable(R.drawable.c4qlogo));
 
 
                 card.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {

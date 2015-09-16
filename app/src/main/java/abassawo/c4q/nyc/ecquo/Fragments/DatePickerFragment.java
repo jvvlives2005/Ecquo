@@ -2,6 +2,7 @@ package abassawo.c4q.nyc.ecquo.Fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,16 +15,23 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import abassawo.c4q.nyc.ecquo.Activities.EditActivity;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.R;
 
 /**
  * Created by c4q-Abass on 9/10/15.
  */
-public class DatePickerFragment extends DialogFragment {
+public class DatePickerFragment extends DialogFragment{
+    public static final String DATE_PICKED_INTENT_KEY = "DATE_PICKED_INTENT_KEY";
+    public static final int DATE_PICKED_RESULT_CODE = 123;
+
+
     public static final String EXTRA_DATE = "abassawo.c4q.nyc.ecquo.Fragments.DatePickerFragment";
 
+    public static final int EXTRA_DATE_KEY = 11;
     private Date mStartDate;
+    private Date mNewDate;
 
     public static DatePickerFragment newInstance(Date date)
     {
@@ -62,10 +70,10 @@ public class DatePickerFragment extends DialogFragment {
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
                 int minute = cal.get(Calendar.MINUTE);
                 // Translate picked date to Date
-                mStartDate = new GregorianCalendar(year, monthOfYear, dayOfMonth, hour, minute).getTime();
+                mNewDate = new GregorianCalendar(year, monthOfYear, dayOfMonth, hour, minute).getTime();
 
                 // Update argument to preserve selected value on rotation
-                getArguments().putSerializable(EXTRA_DATE,  mStartDate);
+                getArguments().putSerializable(EXTRA_DATE, mStartDate);
             }
         });
 
@@ -76,21 +84,41 @@ public class DatePickerFragment extends DialogFragment {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        sendResult(Activity.RESULT_OK);
+                       passBackDate();
+                       // sendResult(Activity.RESULT_OK);
                     }
                 })
                 .create();
     }
 
-    private void sendResult(int resultCode) {
-        if (getTargetFragment() == null)
-            return;
-
+    private void passBackDate() {
         Intent i = new Intent();
-        i.putExtra(EXTRA_DATE, mStartDate);
-
-
-        getTargetFragment()
-                .onActivityResult(getTargetRequestCode(), resultCode, i);
+        i.putExtra(DATE_PICKED_INTENT_KEY, mNewDate);
+        getTargetFragment().onActivityResult(
+                getTargetRequestCode(), DATE_PICKED_RESULT_CODE, i);
     }
+
+//    private void sendResult(int resultCode) {
+//        if (getTargetFragment() == null)
+//            return;
+//
+//        Intent i = new Intent();
+//        i.putExtra(EXTRA_DATE, mStartDate);
+//
+//
+//        getTargetFragment()
+//                .onActivityResult(getTargetRequestCode(), resultCode, i);
+//    }
+
+//    @Override
+//    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+//        Calendar dateTime = Calendar.getInstance();
+//        dateTime.set(Calendar.YEAR, year);
+//        dateTime.set(Calendar.MONTH, monthOfYear);
+//        dateTime.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//        Intent i = new Intent();
+//        i.putExtra(EXTRA_DATE, dateTime);
+//        startActivityForResult(i, EditActivity.REQUEST_DATE);
+//
+//    }
 }

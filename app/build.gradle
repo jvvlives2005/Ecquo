@@ -67,6 +67,7 @@ dependencies {
     compile 'com.flipboard:bottomsheet-core:1.4.0'
     compile 'com.flipboard:bottomsheet-commons:1.4.0'
     compile 'com.truizlop.fabreveallayout:library:1.0.0'
+    compile 'com.wdullaer:materialdatetimepicker:1.5.1'
 
 
 }

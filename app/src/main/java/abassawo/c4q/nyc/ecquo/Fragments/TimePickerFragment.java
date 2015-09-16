@@ -18,7 +18,7 @@ import android.widget.TimePicker.OnTimeChangedListener;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.R;
 
-public class TimePickerFragment extends DialogFragment {
+public class TimePickerFragment extends DialogFragment implements DialogInterface.OnClickListener  {
     public static final String EXTRA_TIME = "com.bignerdranch.android.criminalintent.time";
 
     private Date mDate;
@@ -84,11 +84,17 @@ public class TimePickerFragment extends DialogFragment {
     private void sendResult(int resultCode) {
         if (getTargetFragment() == null)
             return;
+//
+//        Intent i = new Intent();
+//        i.putExtra("date", mDate);
+//        i.putExtra("extra time", EXTRA_TIME);
+//
+//        getTargetFragment()
+//                .onActivityResult(getTargetRequestCode(), resultCode, i);
+    }
 
-        Intent i = new Intent();
-        i.putExtra(EXTRA_TIME, mDate);
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
 
-        getTargetFragment()
-                .onActivityResult(getTargetRequestCode(), resultCode, i);
     }
 }

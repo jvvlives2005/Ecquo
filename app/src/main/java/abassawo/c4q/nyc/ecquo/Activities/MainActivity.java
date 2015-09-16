@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.andtinder.model.CardModel;
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         taskList = sPlanner.get(getApplicationContext()).fetchAllTasks();
-        todayList = new ArrayList<Task>();
+        todayList = generateDummyData();
         initDB();
         ButterKnife.bind(this);
         setupNavDrawer(savedInstanceState);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userProfile = new ProfileDrawerItem().withName(EmailFetcher.getEmailId(this))
                     .withNameShown(true).withEmail(user.points)
                     .withIcon(getResources()
-                            .getDrawable(R.drawable.exercise_brain));
+                            .getDrawable(R.drawable.heart));
 
         final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo")
                 .withNameShown(true)
@@ -167,21 +168,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .getDrawable(R.drawable.joshelynicon));
 
                         //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
->>
+
+//                        new ProfileSettingDrawerItem().withName("Work").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
+//                        new ProfileSettingDrawerItem().withName("School").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
+                        new ProfileSettingDrawerItem().withName("Coalition for Queens").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text));
+        headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .addProfiles(abassProfile, hansProfile, joshProfile,
+                        //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
 //                        new ProfileSettingDrawerItem().withName("Work").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
 //                        new ProfileSettingDrawerItem().withName("School").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
                         new ProfileSettingDrawerItem().withName("Coalition for Queens").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)
-                                headerResult = new AccountHeaderBuilder()
-                                        .withActivity(this)
-                                        .addProfiles(abassProfile, hansProfile, joshProfile).withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                                            @Override
-                                            public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                                                return false;
-                                            }
+                        )
+                ).withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
 
                                         })
                                         .withSavedInstance(savedInstanceState)
-                                        .build());
+                                        .build();
 
         drawerModel = new DrawerBuilder().withActivity(this)
                 .withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light))
@@ -268,10 +275,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setupDayStacks(CardContainer decK) {
         Drawable defaultDrawable = getResources().getDrawable(R.drawable.c4qlogo);
-        final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
+        final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this); //ADAPTER FOR POPULATING DECK LIST.
 
         //TODO - Sort list before populating deck.
-        deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
+        deck.setOrientation(Orientations.Orientation.Disordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
 
 
         //fixme : sort the list by priority factors.
@@ -282,29 +289,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 todayList.add(iterTask);
             }
         }
-
         if (!todayList.isEmpty()) {
 
 
-
-            for (int i = 0; i < todayList.size(); i++) {
-                CardModel card = new CardModel();
-//                if(todayList.get(i).isCustomPhotoSet()){
-//                    Bitmap drawable = null;
-//                    try {
-//                        drawable = getThumbnail (Uri.parse(todayList.get(i).getUriStr()));
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                    card = new CardModel(todayList.get(i).getTitle(),
-//                            todayList.get(i).getLabel(),
-//                            drawable);
-//
-//                } else {
-            }
+//            for (int i = 0; i < todayList.size(); i++) {
+//                CardModel card = new CardModel();
+////                if(todayList.get(i).isCustomPhotoSet()){
+////                    Bitmap drawable = null;
+////                    try {
+////                        drawable = getThumbnail (Uri.parse(todayList.get(i).getUriStr()));
+////                    } catch (IOException e) {
+////                        e.printStackTrace();
+////                    }
+////                    card = new CardModel(todayList.get(i).getTitle(),
+////                            todayList.get(i).getLabel(),
+////                            drawable);
+////
+////                } else {
+//            }
 
         //TODO - Sort list before populating deck.
-        deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
+        deck.setOrientation(Orientations.Orientation.Disordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
 
 
         //fixme : sort the list by priority factors.
@@ -313,7 +318,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             CardModel card = new CardModel();
 
 
-                    card = new CardModel(todayList.get(i).getTitle(),
+                    card = new CardModel
+                            (todayList.get(i).getTitle(),
                             todayList.get(i).getLabel(),
                             defaultDrawable);
                // }
@@ -457,7 +463,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(new Intent(MainActivity.this, EditActivity.class), REQUEST_NEW_TASK); //testing animation
                 break;
             case R.id.fabGraph:
-                startActivity(new Intent(MainActivity.this, StatsActivity.class));
+                Toast.makeText(getApplicationContext(), "Personalized Results Coming Soon", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(MainActivity.this, StatsActivity.class));
                 break;
         }
 

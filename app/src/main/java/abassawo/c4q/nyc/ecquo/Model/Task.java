@@ -211,8 +211,6 @@ public class Task extends Note {
         todaysDate = mcurrentDate.getTime();
         this.title = title;
         mStartDate = todaysDate;
-
-        this.taskPhotoId = R.drawable.mountaintop;
         this.uriSource = "";
         this.customPhoto = false;
 

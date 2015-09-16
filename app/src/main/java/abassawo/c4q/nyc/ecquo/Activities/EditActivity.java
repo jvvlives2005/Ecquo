@@ -583,7 +583,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.saveFab:
-                taskList.add(mTask);
+                //taskList.add(mTask);
                 cupboard().withDatabase(db).put(mTask);
                 startActivity(new Intent(EditActivity.this, MainActivity.class));
                 break;

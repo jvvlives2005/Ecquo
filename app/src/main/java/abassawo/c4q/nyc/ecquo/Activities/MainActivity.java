@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         public void setupNavDrawer(Bundle savedInstanceState){
-            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo").withNameShown(true).withEmail("100 Points").withIcon(getResources().getDrawable(R.drawable.exercise_brain));
-            final IProfile hansProfile = new ProfileDrawerItem().withName("Hans");
-            final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn");
+            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo").withNameShown(true).withEmail("75 Points").withIcon(getResources().getDrawable(R.drawable.ecquo_launcher));
+            final IProfile hansProfile = new ProfileDrawerItem().withName("Hans").withNameShown(true).withEmail("94 Points").withIcon(getResources().getDrawable(R.drawable.ecquo_launcher));
+            final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn").withNameShown(true).withEmail("100 Points").withIcon(getResources().getDrawable(R.drawable.ecquo_launcher));
             headerResult = new AccountHeaderBuilder()
                     .withActivity(this)
                     .addProfiles(abassProfile, hansProfile, joshProfile,
@@ -131,9 +131,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             drawerModel = new DrawerBuilder().withActivity(this).withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light)).withToolbar(toolbar)
                     .withAccountHeader(headerResult).addDrawerItems(
-                            new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_task),
-                            new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_places),
-                            new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(R.id.nav_collaborators),
+                            new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ecquo_launcher)).withIdentifier(R.id.nav_new_task),
+                            new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.ecquo_launcher)).withIdentifier(R.id.nav_places),
+//                            new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(R.id.nav_collaborators),
                             new PrimaryDrawerItem().withName("All Tasks").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(R.id.nav_all_tasks))
                     .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                         @Override
@@ -165,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     public void setupDayStacks(CardContainer deck, boolean dummyData){
         final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
         if (dummyData){
@@ -184,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //TODO - Sort list before populating deck.
             deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
-
 
             //fixme : sort the list by priority factors.
             for (int i = 0; i < todayList.size(); i++) {
@@ -277,20 +274,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public List<Task> generateDummyData(){
         List<Task> dummyTasks = new ArrayList();
-        Task laundryTask = new Task("Laundry",getApplicationContext());
-        laundryTask.setLabel("Chores");
-        Task codingTask = new Task("Java Coding Exercises", getApplicationContext());
+        Task handwashTask = new Task("Hand Wash Some Clothes",getApplicationContext());
+        handwashTask.setLabel("Chores");
+        Task codingTask = new Task("Review Java Exercise", getApplicationContext());
         codingTask.setLabel("Coding");
-        Task callMom = new Task("Call Mom", getApplicationContext());
-        callMom.setLabel("Personal");
-        Task readChap2 = new Task("Finish Chapter 2", getApplicationContext());
-        readChap2.setLabel("School");
+        Task buyPhone = new Task("Buy HTC at MetroPCS", getApplicationContext());
+        buyPhone.setLabel("Personal");
+        Task harryPotter = new Task("Buy Harry Potter Books", getApplicationContext());
+        harryPotter.setLabel("Random");
         Task momi = new Task("GPS directions to MOMI", getApplicationContext());
         momi.setLabel("C4Q");
-        dummyTasks.add(laundryTask);
-        dummyTasks.add(callMom);
+        dummyTasks.add(handwashTask);
+        dummyTasks.add(buyPhone);
         dummyTasks.add(codingTask);
-        dummyTasks.add(readChap2);
+        dummyTasks.add(harryPotter);
         dummyTasks.add(new Task("Pick up Groceries", getApplicationContext()));
         dummyTasks.add(momi);
         return dummyTasks;

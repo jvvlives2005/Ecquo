@@ -2,11 +2,10 @@ package abassawo.c4q.nyc.ecquo.Activities;
 
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.design.widget.TabLayout;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -20,16 +19,16 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import abassawo.c4q.nyc.ecquo.Adapters.FragAdapter;
-import abassawo.c4q.nyc.ecquo.Fragments.PlaceListFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.TabbedMapFragment;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+//import abassawo.c4q.nyc.ecquo.Fragments.PlaceListFragment;
 
 public class MapViewActivity extends AppCompatActivity {
     private String TAG = "MapActiivity";

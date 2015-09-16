@@ -57,7 +57,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_action_add_to_queue"
+        android:src="@drawable/camera"
         android:visibility="visible"/>
 
         <ListView

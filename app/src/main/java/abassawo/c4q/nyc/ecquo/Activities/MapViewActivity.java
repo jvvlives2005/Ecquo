@@ -1,6 +1,7 @@
 package abassawo.c4q.nyc.ecquo.Activities;
 
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
@@ -56,6 +57,7 @@ import butterknife.ButterKnife;
 
 public class MapViewActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     protected GoogleApiClient mGoogleApiClient;
+    private ArrayList savedLocations;
     private FragAdapter adapter;
     private Geocoder geocoder;
     private LatLng searchedLocation;
@@ -64,6 +66,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
     TextView currLocationTV;
     @Bind(R.id.autocompleteTV)
     AutoCompleteTextView acTextView;
+    @Bind(R.id.places_listview) ListView listview;
     private static String TAG = "MapViewActivity";
     private PlaceAutoCompleteAdapter mAdapter;
     private LatLng searchLocation;
@@ -71,8 +74,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
     private TextView mPlaceDetailsAttribution;
     private static final LatLngBounds BOUNDS = new LatLngBounds(
             new LatLng(40.498425, -74.250219), new LatLng(40.792266, -73.776434));
-
-
 
 
     @Override
@@ -83,7 +84,10 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
                 .addApi(Places.GEO_DATA_API)
                 .build();
 
-
+        //savedLocations = sPlanner.get(getApplicationContext()).getSavedLocations();
+        if(savedLocations == null){
+            savedLocations = new ArrayList();
+        }
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
         geocoder = new Geocoder(getApplicationContext());
@@ -102,14 +106,13 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
                 if (actionId == EditorInfo.IME_ACTION_GO) {
                     searchLocation = getLatLngFromAddress(acTextView.getText().toString());
                     currLocationTV.setText(searchLocation.toString());
+                    savedLocations.add(searchLocation.toString());
+                    listview.setAdapter(new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, savedLocations));
                     handled = true;
                 }
                 return handled;
             }
         });
-
-
-        // tabLayout.setupWithViewPager(viewpager);
 
 
     }
@@ -119,7 +122,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
     private void setupViewPager(ViewPager viewPager) {
         adapter = new FragAdapter(getSupportFragmentManager());
         adapter.addFragment(new TabbedMapFragment(), "New Location");
-        //adapter.addFragment(new PlaceListFragment(), "Saved Locations"); 
+        //adapter.addFragment(new PlaceListFragment(), "Saved Locations");
         viewPager.setAdapter(adapter);
     }
 
@@ -206,7 +209,7 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 
 
     private void updateSearchQueryItems(){
-        //new FetchQueryTask().execute(); 
+        //new FetchQueryTask().execute();
     }
 
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -232,6 +235,14 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
 
             currLocationTV.setText(item.description);
+            //TESTING
+            Intent sendLocation = new Intent(MapViewActivity.this, EditActivity.class);
+            sendLocation.putExtra("LOCATION", item.description);
+            Log.d(TAG, item.description.toString());
+            startActivityForResult(sendLocation,EditActivity.REQUEST_LOCATION);
+            //savedLocations.add(item.description);
+
+
             Toast.makeText(getApplicationContext(), "Clicked: " + item.description,
                     Toast.LENGTH_SHORT).show();
             Log.i(TAG, "Called getPlaceById to get Place details for " + item.placeId);
@@ -288,8 +299,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 //                websiteUri));
         return Html.fromHtml(res.getString(R.string.place_details, name, id, address, phoneNumber,
                 websiteUri));
-
-
     }
 
 

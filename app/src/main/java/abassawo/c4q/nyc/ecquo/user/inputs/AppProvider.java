@@ -11,7 +11,7 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 public class AppProvider extends ContentProvider {
-    protected AppDatabase mOpenHelper;
+    protected AppDatabaseHelper mOpenHelper;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -40,13 +40,13 @@ public class AppProvider extends ContentProvider {
 
     private void deleteDatabase() {
         mOpenHelper.close();
-        AppDatabase.deleteDatabase(getContext());
-        mOpenHelper = new AppDatabase(getContext());
+        AppDatabaseHelper.deleteDatabase(getContext());
+        mOpenHelper = new AppDatabaseHelper(getContext());
     }
 
     @Override
     public boolean onCreate() {
-        mOpenHelper = new AppDatabase(getContext());
+        mOpenHelper = new AppDatabaseHelper(getContext());
         return true;
     }
 
@@ -80,26 +80,26 @@ public class AppProvider extends ContentProvider {
 
         switch(match) {
             case NOTES:
-                queryBuilder.setTables(AppDatabase.Tables.NOTES);
+                queryBuilder.setTables(AppDatabaseHelper.Tables.NOTES);
                 break;
             case NOTES_ID:
-                queryBuilder.setTables(AppDatabase.Tables.NOTES);
+                queryBuilder.setTables(AppDatabaseHelper.Tables.NOTES);
                 String note_id = NotesContract.Notes.getNoteId(uri);
                 queryBuilder.appendWhere(BaseColumns._ID + "=" + note_id);
                 break;
             case ARCHIVES:
-                queryBuilder.setTables(AppDatabase.Tables.ARCHIVES);
+                queryBuilder.setTables(AppDatabaseHelper.Tables.ARCHIVES);
                 break;
             case ARCHIVES_ID:
-                queryBuilder.setTables(AppDatabase.Tables.ARCHIVES);
+                queryBuilder.setTables(AppDatabaseHelper.Tables.ARCHIVES);
                 String archive_id = ArchivesContract.Archives.getArchiveId(uri);
                 queryBuilder.appendWhere(BaseColumns._ID + "=" + archive_id);
                 break;
             case TRASH:
-                queryBuilder.setTables(AppDatabase.Tables.TRASH);
+                queryBuilder.setTables(AppDatabaseHelper.Tables.TRASH);
                 break;
             case TRASH_ID:
-                queryBuilder.setTables(AppDatabase.Tables.TRASH);
+                queryBuilder.setTables(AppDatabaseHelper.Tables.TRASH);
                 String trash_id = TrashContract.Trash.getTrashId(uri);
                 queryBuilder.appendWhere(BaseColumns._ID + "=" + trash_id);
                 break;
@@ -116,15 +116,15 @@ public class AppProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case NOTES:
-                long noteRecordId = db.insertOrThrow(AppDatabase.Tables.NOTES, null, values);
+                long noteRecordId = db.insertOrThrow(AppDatabaseHelper.Tables.NOTES, null, values);
                 return NotesContract.Notes.buildNoteUri(String.valueOf(noteRecordId));
 
             case ARCHIVES:
-                long archiveRecordId = db.insertOrThrow(AppDatabase.Tables.ARCHIVES, null, values);
+                long archiveRecordId = db.insertOrThrow(AppDatabaseHelper.Tables.ARCHIVES, null, values);
                 return ArchivesContract.Archives.buildArchiveUri(String.valueOf(archiveRecordId));
 
             case TRASH:
-                long trashRecordId = db.insertOrThrow(AppDatabase.Tables.TRASH, null, values);
+                long trashRecordId = db.insertOrThrow(AppDatabaseHelper.Tables.TRASH, null, values);
                 return TrashContract.Trash.buildTrashUri(String.valueOf(trashRecordId));
 
             default:
@@ -140,31 +140,31 @@ public class AppProvider extends ContentProvider {
         String selectionCriteria = selection;
         switch (match) {
             case NOTES:
-                return db.update(AppDatabase.Tables.NOTES, values, selection, selectionArgs);
+                return db.update(AppDatabaseHelper.Tables.NOTES, values, selection, selectionArgs);
 
             case NOTES_ID:
                 String noteId = NotesContract.Notes.getNoteId(uri);
                 selectionCriteria = BaseColumns._ID + "=" + noteId
                         + (!TextUtils.isEmpty(selection) ? " AND ( " + selection + ")" : "");
-                return db.update(AppDatabase.Tables.NOTES, values, selectionCriteria, selectionArgs);
+                return db.update(AppDatabaseHelper.Tables.NOTES, values, selectionCriteria, selectionArgs);
 
             case ARCHIVES:
-                return db.update(AppDatabase.Tables.ARCHIVES, values, selection, selectionArgs);
+                return db.update(AppDatabaseHelper.Tables.ARCHIVES, values, selection, selectionArgs);
 
             case ARCHIVES_ID:
                 String archiveId = ArchivesContract.Archives.getArchiveId(uri);
                 selectionCriteria = BaseColumns._ID + "=" + archiveId
                         + (!TextUtils.isEmpty(selection) ? " AND ( " + selection + ")" : "");
-                return db.update(AppDatabase.Tables.ARCHIVES, values, selectionCriteria, selectionArgs);
+                return db.update(AppDatabaseHelper.Tables.ARCHIVES, values, selectionCriteria, selectionArgs);
 
             case TRASH:
-                return db.update(AppDatabase.Tables.TRASH, values, selection, selectionArgs);
+                return db.update(AppDatabaseHelper.Tables.TRASH, values, selection, selectionArgs);
 
             case TRASH_ID:
                 String trashId = TrashContract.Trash.getTrashId(uri);
                 selectionCriteria = BaseColumns._ID + "=" + trashId
                         + (!TextUtils.isEmpty(selection) ? " AND ( " + selection + ")" : "");
-                return db.update(AppDatabase.Tables.TRASH, values, selectionCriteria, selectionArgs);
+                return db.update(AppDatabaseHelper.Tables.TRASH, values, selectionCriteria, selectionArgs);
 
             default:
                 throw new IllegalArgumentException("Unknown Uri: " + uri);
@@ -187,19 +187,19 @@ public class AppProvider extends ContentProvider {
                 String noteId = NotesContract.Notes.getNoteId(uri);
                 String notesSelectionCriteria = BaseColumns._ID + "=" + noteId
                         + (!TextUtils.isEmpty(selection) ? " AND ( " + selection + ")" : "");
-                return db.delete(AppDatabase.Tables.NOTES, notesSelectionCriteria, selectionArgs);
+                return db.delete(AppDatabaseHelper.Tables.NOTES, notesSelectionCriteria, selectionArgs);
 
             case ARCHIVES_ID:
                 String archiveId = ArchivesContract.Archives.getArchiveId(uri);
                 String archiveSelectionCriteria = BaseColumns._ID + "=" + archiveId
                         + (!TextUtils.isEmpty(selection) ? " AND ( " + selection + ")" : "");
-                return db.delete(AppDatabase.Tables.ARCHIVES, archiveSelectionCriteria, selectionArgs);
+                return db.delete(AppDatabaseHelper.Tables.ARCHIVES, archiveSelectionCriteria, selectionArgs);
 
             case TRASH_ID:
                 String trashId = TrashContract.Trash.getTrashId(uri);
                 String trashSelectionCriteria = BaseColumns._ID + "=" + trashId
                         + (!TextUtils.isEmpty(selection) ? " AND ( " + selection + ")" : "");
-                return db.delete(AppDatabase.Tables.TRASH, trashSelectionCriteria, selectionArgs);
+                return db.delete(AppDatabaseHelper.Tables.TRASH, trashSelectionCriteria, selectionArgs);
 
             default:
                 throw new IllegalArgumentException("Unknown Uri: " + uri);

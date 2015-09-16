@@ -7,6 +7,8 @@ import android.content.Context;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -23,6 +25,7 @@ import android.support.v7.app.ActionBar;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -69,14 +72,14 @@ import java.util.Locale;
 //import abassawo.c4q.nyc.ecquo.Fragments.TimePickerFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.DatePickerFragment;
 import abassawo.c4q.nyc.ecquo.Fragments.TimePickerFragment;
+import abassawo.c4q.nyc.ecquo.Model.DBHelper;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.Model.Task;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
-
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 
 public class EditActivity extends AppCompatActivity implements View.OnClickListener,
@@ -94,6 +97,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton cameraButton;
     @Bind(R.id.note_imageView)
     ImageView imgPreview;
+    @Bind(R.id.saveFab)FloatingActionButton fabSave;
 
     @Bind(R.id.fab_reveal_layout)
     FABRevealLayout fabRevealLayout;
@@ -121,9 +125,16 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     public static final int REQUEST_TIME = 3;
     public static final int REQUEST_DATE = REQUEST_TIME + REQUEST_TIME;
     public static final int REQUEST_LOCATION = REQUEST_DATE + REQUEST_TIME;
+    public static final int REQUEST_LABEL = REQUEST_LOCATION + REQUEST_LOCATION;
 
     private BottomSheet locationSheet;
     private BottomSheet reminderSheet;
+
+    private SQLiteDatabase db;
+
+    private static String mTitle;
+    private static float mPriority;
+
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
@@ -143,6 +154,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        DBHelper dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+
+
+
 
 //        else if(savedInstanceState != null){
 //            mTask = savedInstanceState.getInt(Task.TASK_KEY_INDEX, "AA" )
@@ -154,31 +170,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         setupListeners();
     }
 
-//    public void showDatePicker(){
-//        DatePickerDialog mDatePicker;
-//        Calendar mcurrentDate = Calendar.getInstance();
-//        int mYear = mcurrentDate.get(Calendar.YEAR);
-//        int mMonth = mcurrentDate.get(Calendar.MONTH);
-//        int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-//        mDatePicker = new DatePickerDialog(getApplicationContext(), new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth, int selectedDay) {
-//                // TODO Auto-generated method stub
-//                    /* get date and time */
-//                selectedMonth = selectedMonth + 1;
-//                Calendar mDueDate = Calendar.getInstance();
-//                mDueDate.set(Calendar.YEAR, selectedYear);
-//                mDueDate.set(Calendar.MONTH, selectedMonth);
-//                mDueDate.set(Calendar.DAY_OF_MONTH, selectedDay);
-//
-//                mTask.setDueDate(mDueDate.getTime());
-//
-//
-//            }
-//        }, mYear, mMonth, mDay);
-//        mDatePicker.setTitle("Select Date");
-//        mDatePicker.show();
-//    }
+
 
     public void initState() {
         ctx = this;
@@ -194,13 +186,15 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void setupListeners() {
+        fabSave.setOnClickListener(this);
         priorityRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 hideKeyboard();
-                mTask.setPriority(rating);
-                Log.d(String.valueOf(rating), TAG);
-                Log.d(mTask.toString(), TAG);
+                mPriority = rating;
+                mTask.setPriority(mPriority);
+                Log.d(String.valueOf(mPriority), TAG);
+                Log.d(mTask.getPriority().toString(), TAG);
                 dateSheet.show();
                 //showDatePicker();
 
@@ -222,7 +216,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void afterTextChanged(Editable s) {
                 if (hasText(edittext)) {
-                    mTask = new Task(s.toString(), ctx);
+                    mTitle = s.toString();
+                    mTask = new Task(mTitle, ctx);
+
                 }
             }
         });
@@ -266,6 +262,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setupDateSheets() {
         mTask = new Task(edittext.getText().toString(), ctx);
+       // long id = cupboard().withDatabase(db).put(mTask);
 
         dateSheet = new BottomSheet.Builder(this).title("Due Date").sheet(R.menu.menu_date).listener(new DialogInterface.OnClickListener() {
             @Override
@@ -273,7 +270,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 switch (id) {
                     case R.id.today_item:
                         mTask.setDueToday();
-                        taskList.add(mTask);
+                       // taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
                         prepareBackTransition(fabRevealLayout);
                         reminderSheet.show();
@@ -281,7 +278,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.tomorrow:
                         mTask.setDueTomorrow(ctx); //setDueTomorrow fixme
-                        taskList.add(mTask);
+                        //taskList.add(mTask);
                         Log.d(mTask.toString(), "due date test");
                         prepareBackTransition(fabRevealLayout);
                         reminderSheet.show();
@@ -299,7 +296,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.nextweek:
                         mTask.setDueinOneWeek(ctx);
-                        Log.d(mTask.toString(), "due date test");
+                        Log.d(mTask.getDueDate().toString(), "due date test");
                         prepareBackTransition(fabRevealLayout);
                         reminderSheet.show();
                         //startActivity(new Intent(EditActivity.this, MainActivity.class));
@@ -400,6 +397,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 .crossFade()
                 .fitCenter()
                 .into(imgPreview);
+        //mTask.setUriStr(imageUri.toString());
+        mTask.setUriStr(selectedImageUri.toString());
+        mTask.setCustomPhoto(true);
     }
 
 
@@ -467,7 +467,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(ctx, MainActivity.class));
             finish();
         } else if (item.getItemId() == R.id.menu_item_label) {
-            startActivity(new Intent(ctx, LabelPicker.class));
+            Intent intent = new Intent(ctx,LabelPicker.class);
+            startActivityForResult(intent, REQUEST_LABEL);
+
 
         }
         return super.onOptionsItemSelected(item);
@@ -488,26 +490,40 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
     @Override
+    public void onSupportActionModeFinished(ActionMode mode) {
+        super.onSupportActionModeFinished(mode);
+    }
+
+
+
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+            //long id = cupboard().withDatabase(db).put(mTask);
             Uri selectedImage = null;
             if (requestCode == REQUEST_LOAD_IMAGE && data != null) {
                 selectedImage = data.getData();
                 if (selectedImage == null) {
                     //generic error
                 }
-            } else if (requestCode == REQUEST_IMAGE_CAPTURE) {
+            } else if (requestCode == REQUEST_IMAGE_CAPTURE) { //TESTING
                 // Do something with imagePath
                 selectedImage = cameraImageUri;
+                    //Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
             } else if (requestCode == REQUEST_LOCATION) {
-//                mTask.setLocation(data.getExtras().get("LOCATION"));
+                mTask.setLocation(data.getExtras().getString("LOCATION"));
+                //startActivity(new Intent(this, MainActivity.class));
             } else if (requestCode == REQUEST_DATE) {
                 Intent intent = getIntent();
                 mTask.setDueDate((Date) intent.getExtras().get((DatePickerFragment.EXTRA_DATE)));
                 Log.d(TAG, mTask.getDueDate().toString());
             }
-
+            if(requestCode == REQUEST_LABEL){
+                mTask.setLabel(data.getExtras().getString("LABELS"));
+                Log.d(TAG, mTask.getLabel());
+            }
 
             if (selectedImage != null) {
                 showSelectedImage(selectedImage);
@@ -559,12 +575,19 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.camButton:
+                hideKeyboard();
                 if (!bottomSheetLayout.isSheetShowing()) {
                     showGalleryPickerSheetView();
                 } else {
                     bottomSheetLayout.dismissSheet();
                 }
                 break;
+            case R.id.saveFab:
+                //taskList.add(mTask);
+                cupboard().withDatabase(db).put(mTask);
+                startActivity(new Intent(EditActivity.this, MainActivity.class));
+                break;
+
 //            case R.id.time_reminder_fab_button: //set these listeners on bottomsheet dialog
 //                fm.beginTransaction().add(timeDialog, "TIME").commit();
 //                break;
@@ -606,15 +629,28 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                 switch (id) {
                     case R.id.current_location:
                         if (mCurrentLocation != null) {
-                            mTask.setLocation(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()));
+                            LatLng location = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                            mTask.setLocation(location.toString());
                             Log.d(mCurrentLocation.getLatitude() + "," + mCurrentLocation.getLongitude(), "location");
+                        } else {
+                            Snackbar snack = Snackbar.make(findViewById(R.id.snackbar_space), "GPS Services are not turned", Snackbar.LENGTH_SHORT);
+                                    snack.show();
                         }
+                        cupboard().withDatabase(db).put(mTask);
+                        //taskList.add(mTask);
+                        startActivity(new Intent(EditActivity.this, MainActivity.class));
                         break;
                     case R.id.choose_location:
-                        startActivity(new Intent(EditActivity.this, MapViewActivity.class)); //fixme
+                        Intent locationIntent = new Intent(EditActivity.this, MapViewActivity.class);
+                              //  taskList.add(mTask); CALL THIS IN ON ACTIVITY RESULT
+                        startActivityForResult(intent, REQUEST_LOCATION); //fixme
                         break;
                     case R.id.no_location:
-                        mTask.setLocation(new LatLng(0, 0));
+                        LatLng latlng  = new LatLng(0, 0);
+                        mTask.setLocation(latlng.toString());
+                        startActivity(new Intent(EditActivity.this, MainActivity.class));
+                        taskList.add(mTask);
+                        cupboard().withDatabase(db).put(mTask); //updating db item
                     default:
                         startActivity(new Intent(EditActivity.this, MainActivity.class));
                 }
@@ -636,7 +672,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
                         //fm.beginTransaction().add(timeDialog, "TIME").commit();
                         break;
                     case R.id.no_timed_reminder:
-                        taskList.add(mTask);
+                        //taskList.add(mTask);
                         locationSheet.show();
                         break;
                 }
@@ -698,6 +734,11 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         if (tpd != null) tpd.setOnTimeSetListener(this);
         if (dpd != null) dpd.setOnDateSetListener(this);
+
+//        if( (mTitle != null) && (isEmpty(edittext))){
+//            edittext.setText(mTitle);
+//        }
+
 
     }
 

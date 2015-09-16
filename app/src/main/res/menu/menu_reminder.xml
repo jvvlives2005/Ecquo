@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/current_time_reminder" android:title="Current Time" android:icon="@drawable/ic_alarm_add_black"/>
-    <item android:id="@+id/custom_time" android:title="Select a Time" android:icon="@drawable/ic_discuss"/>
-    <item android:id="@+id/no_timed_reminder" android:title="No Reminder" android:icon="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"/>
+    <item android:id="@+id/current_time_reminder" android:title="Current Time" android:icon="@drawable/clockicon"/>
+    <item android:id="@+id/custom_time" android:title="Select a Time" android:icon="@drawable/clockicon"/>
+    <item android:id="@+id/no_timed_reminder" android:title="No Reminder" android:icon="@drawable/checkicon_mintgreen"/>
 
 
 </menu>

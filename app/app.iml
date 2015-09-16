@@ -90,7 +90,10 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.mikepenz/materialdrawer/4.0.5/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.mikepenz/materialize/0.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.truizlop.fabreveallayout/library/1.0.0/jars" />
+<<<<<<< HEAD
+=======
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.wdullaer/materialdatetimepicker/1.5.1/jars" />
+>>>>>>> b8e1d444677f7e51456f7adbb778f778bb23c1b7
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.wunderlist/sliding-layer/1.2.5/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/de.hdodenhof/circleimageview/1.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/se.emilsjolander/stickylistheaders/2.7.0/jars" />

@@ -1,10 +1,6 @@
 package abassawo.c4q.nyc.ecquo.Model;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.net.Uri;
-import android.text.format.DateUtils;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -174,6 +170,7 @@ public class Task extends Note {
 
     public boolean isCustomPhotoSet(){
         return customPhoto = true;
+
     }
 
 
@@ -214,9 +211,15 @@ public class Task extends Note {
         todaysDate = mcurrentDate.getTime();
         this.title = title;
         mStartDate = todaysDate;
+
         this.taskPhotoId = R.drawable.mountaintop;
         this.uriSource = "";
         this.customPhoto = false;
+
+        // mDueDate = new Date();
+        //this.taskPhotoId = R.drawable.abassicon;
+        //endDate = startDate + duration;
+
     }
 
 

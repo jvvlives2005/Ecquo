@@ -10,21 +10,10 @@
     android:layout_height="match_parent">
 
 
-
-
-
-
-
-
-
-
     <RelativeLayout
         android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-
-
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
@@ -36,10 +25,9 @@
                 android:id="@+id/autocompleteTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="#03A9F4"
+                android:textColor="@color/white"
                 android:hint="Search Location: "/>
-
-
-
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
@@ -59,21 +47,9 @@
                     android:layout_height="match_parent"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
             </android.support.design.widget.CollapsingToolbarLayout>
+
         </android.support.design.widget.AppBarLayout>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         <android.support.design.widget.FloatingActionButton
@@ -82,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:src="@drawable/ic_action_add_to_queue"
+            android:src="@drawable/add_green"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

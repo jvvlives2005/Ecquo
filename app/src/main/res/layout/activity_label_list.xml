@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:layout_collapseMode="pin"
-        android:homeAsUpIndicator="@drawable/ic_ecquo"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
         <RelativeLayout
@@ -40,6 +39,9 @@
 
 
         </android.support.v7.widget.Toolbar>
+
+
+
 
     <ListView
         android:background="@color/card_bg"

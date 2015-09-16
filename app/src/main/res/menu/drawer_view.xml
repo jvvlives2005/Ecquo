@@ -4,26 +4,26 @@
         <item
             android:id="@+id/nav_new_task"
 
-            android:icon="@drawable/ic_action_add_to_queue"
+            android:icon="@drawable/newtaskicon"
             android:title="New Goal" />
         <item
             android:id="@+id/nav_places"
-            android:icon="@drawable/ic_alarm_add_black"
+            android:icon="@drawable/locationicon_white"
             android:title="Places" />
         <item
-            android:id="@+id/nav_collaborators"
+            android:id="@+id/nav_all_tasks"
+            android:icon="@drawable/alltaskicon"
+            android:title="Calendar" />
+        <item
+            android:id="@+id/contact_us"
             android:icon="@drawable/ic_discuss"
             android:title="Collaborators" />
-        <item
-            android:id="@+id/nav_all_tasks"
-            android:icon="@android:drawable/ic_menu_my_calendar"
-            android:title="Calendar" />
     </group>
 
     <item android:title="Account">
         <menu>
             <item
-                android:icon="@drawable/ic_assignment_black_24dp"
+                android:icon="@drawable/ecquologo_icon"
                 android:title="Goals and Tasks" />
             <item
                 android:icon="@android:drawable/ic_menu_agenda"

@@ -25,7 +25,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             android:background="@color/colorPrimary"
-            android:homeAsUpIndicator="@drawable/ic_ecquo"
+            android:homeAsUpIndicator="@drawable/ecquologo_blue"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
             <include layout="@layout/include_empty_prompt"/>
@@ -40,8 +40,9 @@
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:padding="15dp"
                 android:gravity="center" />
+                <!--android:padding="15dp"-->
+
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/fabGraph"
@@ -51,8 +52,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:src="@drawable/graphicon"
-                android:textColor="@android:color/black"
+                android:src="@drawable/graphicon_green"
+                android:textColor="@android:color/white"
                 android:clickable="true"
                 android:onClick="onClick" />
 
@@ -66,7 +67,8 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="@dimen/activity_vertical_margin"
                 android:foregroundGravity="bottom|right"
-                android:src="@android:drawable/ic_input_add"              android:clickable="true"
+                android:src="@drawable/add_green"
+                android:clickable="true"
                 android:onClick="onClick"/>
 
         </RelativeLayout>

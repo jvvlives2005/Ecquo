@@ -2,9 +2,15 @@ package abassawo.c4q.nyc.ecquo.Model;
 
 import android.content.Context;
 import android.location.Location;
+import android.text.format.DateUtils;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,6 +23,20 @@ import abassawo.c4q.nyc.ecquo.R;
 public class Task extends Note {
     public static final String TASK_KEY_INDEX = "index";
     private String title;
+    private static final String JSON_ID = "id";
+    private static final String JSON_TITLE = "title";
+    private static final String JSON_SOLVED = "solved";
+    private static final String JSON_DATE = "date";
+    private static final String JSON_START_DATE = "startdate";
+    private static final String JSON_LABEL_TAG = "label";
+    public Long _id;//for cupboard
+
+    private boolean solved;
+    private boolean complete;
+
+    public Task(){
+
+    }
 
     public String getReminderFrequency() {
         return reminderFrequency;
@@ -32,17 +52,16 @@ public class Task extends Note {
         return label;
     }
 
-    public UUID getId() {
-        return id;
-    }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
-    private UUID id;
+
     private String label;
     private boolean dueToday;
+
+    public void setRemindMeToday(boolean remindMeToday) {
+        this.remindMeToday = remindMeToday;
+    }
+
     private boolean remindMeToday;
     private Date mDueDate;
     private int duration;
@@ -77,7 +96,7 @@ public class Task extends Note {
 
     private Float priority;
 
-    public LatLng getLocation() {
+    public String getLocation() {
         return location;
     }
 
@@ -85,29 +104,39 @@ public class Task extends Note {
         return priority;
     }
 
-    private LatLng location;
+    private String location; //will be converted to Latlng
 
 
     public boolean isDueToday(){
-        return this.mDueDate == this.todaysDate;
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(new Date());
+        if(mDueDate != null) {
+            c2.setTime(mDueDate);
+            boolean sameDay = c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR) &&
+                    c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
+            return sameDay;
+        } else {
+            return false;
+        }
+
     }
 
     public void setDueToday(){
-        this.setDueDate(this.todaysDate);
+        this.mDueDate = todaysDate;
     }
 
     public void setDueTomorrow(Context ctx){
-        this.setDueDate(sPlanner.get(ctx).getTomorrowsDate());
+        this.mDueDate = (sPlanner.get(ctx).getTomorrowsDate());
     }
 
-    public void setLocation(LatLng location){
+    public void setLocation(String location){
 
         this.location = location;
     }
 
-
     public void setDueinOneWeek(Context ctx){
-        this.setDueDate(sPlanner.get(ctx).getNextWeekDate());
+        this.mDueDate = sPlanner.get(ctx).getNextWeekDate();
     }
 
     public void setLabel(String label){
@@ -144,9 +173,6 @@ public class Task extends Note {
         if(this.isDueToday()){
             notifyToday = true;
         }
-//        else if (this.isReminderForToday){
-//
-//        }
         return notifyToday;
     }
 
@@ -165,14 +191,12 @@ public class Task extends Note {
 
 
     public Task(String title, Context ctx){
-        this.id = UUID.randomUUID();
+        Calendar mcurrentDate = Calendar.getInstance();
         this.label = "Personal";
-        todaysDate = sPlanner.get(ctx).getTodaysDate();
+        todaysDate = mcurrentDate.getTime();
         this.title = title;
         mStartDate = todaysDate;
-        // mDueDate = new Date();
         this.taskPhotoId = R.drawable.mountaintop;
-        //endDate = startDate + duration;
     }
 
 
@@ -183,19 +207,27 @@ public class Task extends Note {
     @Override
     public String toString(){
         return "Title " + this.title + "\n" +
-                "Priority" + this.getPriority() + "\n" +
+                "Priority " + this.getPriority() + "\n" +
                 "Due Date " + this.getDueDate() + "\n" +
-                "Location" + this.location + "\n" +
+                "Location " + this.location + "\n" +
                 "custom photo set? : " + this.isCustomPhotoSet() + "\n" +
                 "Part of today's list?" + this.isNotifyToday();
     }
 
     public boolean isReminderForToday(){
-        return this.isDueToday(); //fixme
+        return remindMeToday; //fixme
     }
 
 
-
+    public JSONObject toJSON() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put(JSON_TITLE, title);
+        json.put(JSON_SOLVED, solved);
+        json.put(JSON_DATE, mDueDate.getTime());
+        json.put(JSON_START_DATE, mStartDate.getTime());
+        json.put(JSON_LABEL_TAG, label);
+        return json;
+    }
 
 
 }

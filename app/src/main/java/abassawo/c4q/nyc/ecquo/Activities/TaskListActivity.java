@@ -22,7 +22,7 @@ public class TaskListActivity extends AppCompatActivity {
         setContentView(R.layout.task_list_activity);
         final ListView lv = (ListView) findViewById(R.id.master_task_list);
         List<Task> mTasks;
-        mTasks = sPlanner.get(getApplicationContext()).getTasks();
+        mTasks =  sPlanner.get(getApplicationContext()).fetchAllTasks();
         lv.setAdapter(new ArrayAdapter<Task>(getApplicationContext(), android.R.layout.simple_list_item_1, mTasks));
     }
 }

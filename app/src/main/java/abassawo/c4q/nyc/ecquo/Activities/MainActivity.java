@@ -1,9 +1,10 @@
 
 package abassawo.c4q.nyc.ecquo.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -47,12 +48,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import abassawo.c4q.nyc.ecquo.Model.DBHelper;
 import abassawo.c4q.nyc.ecquo.Model.sPlanner;
 import abassawo.c4q.nyc.ecquo.Model.Task;
-import abassawo.c4q.nyc.ecquo.Model.WakeUpService;
 import abassawo.c4q.nyc.ecquo.R;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import nl.qbusict.cupboard.QueryResultIterable;
+
+import static nl.qbusict.cupboard.CupboardFactory.cupboard;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AbsListView.OnScrollListener, AbsListView.OnItemClickListener, AdapterView.OnItemLongClickListener {
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.drawer_view)
     DrawerLayout mDrawerLayout;
     private FragmentManager fragMan;
+    private  SQLiteDatabase  db;
 
 
 
@@ -80,17 +85,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PROFILE_SETTING = 1;
     public static List<Task> taskList;
     public static List<Task> todayList;
+
     private ActionBarDrawerToggle mDrawerToggle;
     @Bind(R.id.deck1) CardContainer deck;
 
+    public void initDB(){
+        DBHelper dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        todayList = sPlanner.get(getApplicationContext()).getTodaysTasks();
-        WakeUpService.setServiceAlarm(this, true);
+        taskList = sPlanner.get(getApplicationContext()).fetchAllTasks();
+        todayList = new ArrayList<Task>();
+                //generateDummyData();
+
+        initDB();
+//        Task persistenceTask = new Task("Persistence Test", getApplicationContext());
+//        long id = cupboard().withDatabase(db).put(persistenceTask);
+
+        //if(db not empty) {
+           //fetchDBforTasksDueToday();//testing
+        //}
         ButterKnife.bind(this);
         setupNavDrawer(savedInstanceState);
 
@@ -174,40 +193,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    public void setupDayStacks(CardContainer decK){
+    public void setupDayStacks(CardContainer decK) {
         final SimpleCardStackAdapter adapter = new SimpleCardStackAdapter(this);
-        boolean dummyData = false;
-        if (dummyData){
-            todayList = generateDummyData();
-            for(Task x : taskList){
-                if(x.isDueToday()){
-                    todayList.add(x);
-                }
-            }
-
-        }
-
 
         //TODO - Sort list before populating deck.
-            deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
+        deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
 
 
-            //fixme : sort the list by priority factors.
+        //fixme : sort the list by priority factors.
+        for (int i = 0; i < taskList.size(); i++) {
+            Task iterTask = taskList.get(i);
+
+
+            if (iterTask.isNotifyToday()) {
+                todayList.add(iterTask);
+            }
+        }
+
+        if (!todayList.isEmpty()) {
             for (int i = 0; i < todayList.size(); i++) {
-                Task iterTask = todayList.get(i);
                 CardModel card = new CardModel();
 
 
-                //if (iterTask.isCustomPhotoSet()) {
-                    //card = new CardModel(iterTask.getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket));
-                //} else {
-                    //card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket)); //fixme
-
-                //}
-
                 card = new CardModel(
                         todayList.get(i).getTitle(),
-                        iterTask.getLabel(),
+                        todayList.get(i).getLabel(),
                         getResources().getDrawable(R.drawable.c4qlogo));
 
 
@@ -230,9 +240,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
 
+
+                //if (iterTask.isCustomPhotoSet()) {
+                //card = new CardModel(iterTask.getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket));
+                //} else {
+                //card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket)); //fixme
+
+                //}
+
                 adapter.add(card);
 
+
             }
+        }
 
         deck.setAdapter(adapter);
 
@@ -247,8 +267,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
     }
+
+
+   // }
 
 
 
@@ -263,9 +285,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Task task = (Task) deck.getItemAtPosition(position);
-                Intent detailintent = new Intent(getApplicationContext(), TaskDetailActivity.class);
-                detailintent.putExtra("TASK", task.getId()); //fixme
-                startActivity(detailintent);
+//                Intent detailintent = new Intent(getApplicationContext(), TaskDetailActivity.class);
+//                detailintent.putExtra("TASK", task.getId()); //fixme
+                //startActivity(detailintent);
                 Log.d(deck.getSelectedView().toString(), "task to string");
             }
         });
@@ -388,6 +410,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         return false;
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //sPlanner.get(getApplicationContext()).saveTasks();
+    }
+
+
 
 
 }

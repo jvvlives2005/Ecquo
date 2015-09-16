@@ -53,14 +53,6 @@
             android:name=".Activities.LabelPicker"
             android:label="LabelPicker" />
 
-        <service android:name=".Model.WakeUpService" />
-
-        <receiver android:name=".Model.StartupReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".Activities.TaskDetailActivity"
             android:label="@string/title_activity_task" >

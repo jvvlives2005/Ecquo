@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-public class AppDatabase extends SQLiteOpenHelper {
+public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "personalnotes.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -16,7 +16,7 @@ public class AppDatabase extends SQLiteOpenHelper {
         String TRASH = "trash";
     }
 
-    public AppDatabase(Context context) {
+    public AppDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

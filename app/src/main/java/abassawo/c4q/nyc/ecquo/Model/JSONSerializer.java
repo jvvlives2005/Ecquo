@@ -41,11 +41,11 @@ public class JSONSerializer {
         return writer.toString();
     }
 
-    public void saveGoals(ArrayList<Goal> goals)
+    public void saveTasks(ArrayList<Task> tasks)
             throws JSONException, IOException {
         // Build an array in JSON
         JSONArray array = new JSONArray();
-        for (Goal c : goals)
+        for (Task c : tasks)
             array.put(c.toJSON());
 
         // Write the file to disk

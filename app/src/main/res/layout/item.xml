@@ -5,41 +5,36 @@
     android:layout_width="250dp"
     android:layout_height="100dp">
 
-
-
     <TextView
-        android:background="#2c2eee"
         android:id="@+id/card_title"
-        android:textSize="40sp"
-        android:textColor="@android:color/black"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="#2c2eee"
+        android:textSize="40sp"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/subtitle"
-        android:textSize="40sp"
-        android:textColor="@android:color/white"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textColor="@android:color/white"/>
 
     <View
         android:id="@+id/item_swipe_left_indicator"
-        android:alpha="0"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_margin="10dp"/>
-
-
-    <View
-        android:id="@+id/item_swipe_right_indicator"
-        android:alpha="0"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_margin="10dp"
-        android:layout_gravity="right"/>
+        android:alpha="0"/>
 
+    <View
+        android:id="@+id/item_swipe_right_indicator"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="right"
+        android:alpha="0"/>
 
 </FrameLayout>

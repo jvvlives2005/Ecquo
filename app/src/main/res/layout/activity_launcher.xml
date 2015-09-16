@@ -11,7 +11,7 @@
         android:layout_width="309dp"
         android:layout_height="320dp"
         android:layout_gravity="center"
-        android:src="@drawable/ecquo_launcher2"
+        android:src="@drawable/ecquologo_white"
         />
 
     <TextView

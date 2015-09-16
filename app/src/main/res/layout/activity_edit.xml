@@ -7,7 +7,7 @@
     <android.support.v7.widget.Toolbar
         android:background="@color/colorPrimary"
         android:id="@+id/toolbar"
-        android:homeAsUpIndicator="@drawable/ic_ecquo"
+        android:homeAsUpIndicator="@drawable/ecquologo_icon"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
@@ -115,10 +115,10 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/star_on"
+            android:src="@drawable/staricon_green"
             android:id="@+id/fab_reveal_button"/>
 
 
@@ -185,8 +185,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
 
             <View
                 android:id="@+id/view1"

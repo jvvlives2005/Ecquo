@@ -125,12 +125,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 
 
 
-
-
-
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
@@ -151,8 +145,6 @@ public class MapViewActivity extends AppCompatActivity implements GoogleApiClien
 
 
     }
-
-
 
 
     public List<Address> getCoordListfromSearch(String address) throws IOException { //for more results that can be set to an adapter

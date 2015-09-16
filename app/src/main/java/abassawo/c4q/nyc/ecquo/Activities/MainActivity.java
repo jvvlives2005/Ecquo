@@ -1,7 +1,5 @@
-
 package abassawo.c4q.nyc.ecquo.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -104,59 +102,68 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
         emptyLayout.setAlpha(1);
 
-       // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
+        // alarmMan = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE); //run in background thread or servic.
     }
 
 
-        public void setupNavDrawer(Bundle savedInstanceState){
-            final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo")
-                    .withNameShown(true)
-                    .withEmail("100 Points")
-                    .withIcon(getResources()
-                            .getDrawable(R.drawable.exercise_brain));
-            final IProfile hansProfile = new ProfileDrawerItem().withName("Hans");
-            final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn");
-            headerResult = new AccountHeaderBuilder()
-                    .withActivity(this)
-                    .addProfiles(abassProfile, hansProfile, joshProfile,
-                            //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
+    public void setupNavDrawer(Bundle savedInstanceState){
+        final IProfile abassProfile = new ProfileDrawerItem().withName("Abass Bayo")
+                .withNameShown(true)
+                .withEmail("86 Points")
+                .withIcon(getResources()
+                        .getDrawable(R.drawable.abassicon));
+        final IProfile hansProfile = new ProfileDrawerItem().withName("Hans")
+                .withNameShown(true)
+                .withEmail("75 Points")
+                .withIcon(getResources()
+                        .getDrawable(R.drawable.hansicon));
+        final IProfile joshProfile = new ProfileDrawerItem().withName("Joshelyn")
+                .withNameShown(true)
+                .withEmail("96 Points")
+                .withIcon(getResources()
+                        .getDrawable(R.drawable.joshelynicon));
+        headerResult = new AccountHeaderBuilder()
+                .withActivity(this)
+                .addProfiles(abassProfile, hansProfile, joshProfile,
+                        //14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
 //                        new ProfileSettingDrawerItem().withName("Work").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
 //                        new ProfileSettingDrawerItem().withName("School").withDescription("Add new Goal").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)),
-                            new ProfileSettingDrawerItem().withName("Coalition for Queens").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)
-                            )
-                    ).withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                        @Override
-                        public boolean onProfileChanged(View view, IProfile profile, boolean current) {
-                            return false;
+                        new ProfileSettingDrawerItem().withName("Coalition for Queens").withIcon(new IconicsDrawable(this).actionBarSize().paddingDp(5).colorRes(R.color.material_drawer_primary_text)
+                        )
+                ).withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean current) {
+                        return false;
+                    }
+
+                })
+                .withSavedInstance(savedInstanceState)
+                .build();
+
+        drawerModel = new DrawerBuilder().withActivity(this)
+                .withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light))
+                .withToolbar(toolbar)
+                .withAccountHeader(headerResult).addDrawerItems(
+                        new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.newtaskicon)).withIdentifier(R.id.nav_new_task),
+                        new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.locationicon_white)).withIdentifier(R.id.nav_places),
+                        new PrimaryDrawerItem().withName("All Tasks").withIcon(getResources().getDrawable(R.drawable.alltaskicon)).withIdentifier(R.id.nav_all_tasks),
+                        new PrimaryDrawerItem().withName("Contact").withIcon(getResources().getDrawable(R.drawable.twitter_icon)).withIdentifier(R.id.contact_us)
+                )
+                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
+                    @Override
+                    public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
+
+                        switch (iDrawerItem.getIdentifier()) {
+                            case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, EditActivity.class));
+                                break;
+                            case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapViewActivity.class));
+                                break;
+                            case R.id.nav_all_tasks: startActivity(new Intent(MainActivity.this, TaskListActivity.class));
                         }
-
-                    })
-                    .withSavedInstance(savedInstanceState)
-                    .build();
-
-            drawerModel = new DrawerBuilder().withActivity(this)
-                    .withSliderBackgroundColor(getResources().getColor(R.color.primary_dark_material_light))
-                    .withToolbar(toolbar)
-                    .withAccountHeader(headerResult).addDrawerItems(
-                            new PrimaryDrawerItem().withName("New Task").withIcon(getResources().getDrawable(R.drawable.ic_action_add_to_queue)).withIdentifier(R.id.nav_new_task),
-                            new PrimaryDrawerItem().withName("Places").withIcon(getResources().getDrawable(R.drawable.ic_alarm_add_black)).withIdentifier(R.id.nav_places),
-                            new PrimaryDrawerItem().withName("Collaborators").withIcon(getResources().getDrawable(R.drawable.ic_discuss)).withIdentifier(R.id.nav_collaborators),
-                            new PrimaryDrawerItem().withName("All Tasks").withIcon(getResources().getDrawable(android.R.drawable.ic_menu_my_calendar)).withIdentifier(R.id.nav_all_tasks))
-                    .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                        @Override
-                        public boolean onItemClick(View view, int i, IDrawerItem iDrawerItem) {
-
-                            switch (iDrawerItem.getIdentifier()) {
-                                case R.id.nav_new_task: startActivity(new Intent(MainActivity.this, EditActivity.class));
-                                    break;
-                                case R.id.nav_places: startActivity(new Intent(MainActivity.this, MapViewActivity.class));
-                                    break;
-                                case R.id.nav_all_tasks: startActivity(new Intent(MainActivity.this, TaskListActivity.class));
-                            }
-                            return false;
-                        }
-                    }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
-        }             // Finally we set the drawer toggle sync State
+                        return false;
+                    }
+                }).withSavedInstance(savedInstanceState).withShowDrawerOnFirstLaunch(true).build();
+    }             // Finally we set the drawer toggle sync State
 
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -189,50 +196,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         //TODO - Sort list before populating deck.
-            deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
+        deck.setOrientation(Orientations.Orientation.Ordered); //ORIENTATION ORDER. PRIOR TO THIS, SORT THE LIST APPROPRIATELY
 
 
-            //fixme : sort the list by priority factors.
-            for (int i = 0; i < todayList.size(); i++) {
-                Task iterTask = todayList.get(i);
-                CardModel card = new CardModel();
+        //fixme : sort the list by priority factors.
+        for (int i = 0; i < todayList.size(); i++) {
+            Task iterTask = todayList.get(i);
+            CardModel card = new CardModel();
 
 
-                //if (iterTask.isCustomPhotoSet()) {
-                    //card = new CardModel(iterTask.getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket));
-                //} else {
-                    //card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket)); //fixme
+            //if (iterTask.isCustomPhotoSet()) {
+            //card = new CardModel(iterTask.getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket));
+            //} else {
+            //card = new CardModel(todayList.get(i).getTitle(),  iterTask.getLabel(), getResources().getDrawable(R.drawable.main_screen_rocket)); //fixme
 
-                //}
+            //}
 
-                card = new CardModel(
-                        todayList.get(i).getTitle(),
-                        iterTask.getLabel(),
-                        getResources().getDrawable(R.drawable.c4qlogo));
+            card = new CardModel(
+                    todayList.get(i).getTitle(),
+                    iterTask.getLabel(),
+                    getResources().getDrawable(R.drawable.c4qlogo));
 
 
-                card.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {
-                    final View coordinatorLayoutView = findViewById(R.id.main_content);
+            card.setOnCardDimissedListener(new CardModel.OnCardDimissedListener() {
+                final View coordinatorLayoutView = findViewById(R.id.main_content);
 
-                    @Override
-                    public void onLike() {  //this is swiping left. library is backwards.
-                        Snackbar
-                                .make(coordinatorLayoutView, "Task dismissed for later", Snackbar.LENGTH_SHORT)
-                                .show();
+                @Override
+                public void onLike() {  //this is swiping left. library is backwards.
+                    Snackbar
+                            .make(coordinatorLayoutView, "Task dismissed for later", Snackbar.LENGTH_SHORT)
+                            .show();
 
-                    }
+                }
 
-                    @Override
-                    public void onDislike() {  //this is whiping right. hence the positive note.
-                        Snackbar
-                                .make(coordinatorLayoutView, "Good Job, Keep up the good work", Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                });
+                @Override
+                public void onDislike() {  //this is whiping right. hence the positive note.
+                    Snackbar
+                            .make(coordinatorLayoutView, "Good Job, Keep up the good work", Snackbar.LENGTH_LONG)
+                            .show();
+                }
+            });
 
-                adapter.add(card);
+            adapter.add(card);
 
-            }
+        }
 
         deck.setAdapter(adapter);
 
@@ -286,24 +293,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public List<Task> generateDummyData(){
         List<Task> dummyTasks = new ArrayList();
-        Task laundryTask = new Task("Laundry",getApplicationContext());
-        laundryTask.setLabel("Chores");
-        Task codingTask = new Task("Java Coding Exercises", getApplicationContext());
+        Task handwashTask = new Task("Hand Wash Some Clothes",getApplicationContext());
+        handwashTask.setLabel("Chores");
+        Task codingTask = new Task("Review Java Exercise", getApplicationContext());
         codingTask.setLabel("Coding");
-        Task callMom = new Task("Call Mom", getApplicationContext());
-        callMom.setLabel("Personal");
-        Task readChap2 = new Task("Finish Chapter 2", getApplicationContext());
-        readChap2.setLabel("School");
+        Task buyPhone = new Task("Buy HTC at MetroPCS", getApplicationContext());
+        buyPhone.setLabel("Personal");
+        Task harryPotter = new Task("Buy Harry Potter Books", getApplicationContext());
+        harryPotter.setLabel("Random");
         Task momi = new Task("GPS directions to MOMI", getApplicationContext());
         momi.setLabel("C4Q");
-        dummyTasks.add(laundryTask);
-        dummyTasks.add(callMom);
+        dummyTasks.add(handwashTask);
+        dummyTasks.add(buyPhone);
         dummyTasks.add(codingTask);
-        dummyTasks.add(readChap2);
+        dummyTasks.add(harryPotter);
         dummyTasks.add(new Task("Pick up Groceries", getApplicationContext()));
         dummyTasks.add(momi);
         return dummyTasks;
     }
+
 
 
     @Override
